@@ -5,6 +5,7 @@
 ## 格式
 | 日期 | 赛道 | 赛季 | modelVersion | top5误差 | 全场误差 | top3时间误差 | 备注 |
 |------|------|------|-------------|---------|---------|------------|------|
+| 2026-04-18 | Bahrain | 2025 | schema-v1 | max=0 (all 0) | max=1 (HAD/ALO/STR/BOR ±1) | 0.0 s | 样本不足组合6个，见 fitMeta；DRS boost=-0.248s；dirtyAir penalty=0.000s（gap计算基于cumtime近似） |
 
 ## 验收标准
 - top5 名次误差 ≤ 2 位

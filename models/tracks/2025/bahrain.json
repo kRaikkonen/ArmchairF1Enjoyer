@@ -1,0 +1,380 @@
+{
+  "schemaVersion": "v1",
+  "season": 2025,
+  "event": "Bahrain",
+  "trackBasePace": 98.439,
+  "stintProgress": {
+    "slope": -0.028076136826714965,
+    "intercept": 99.26875045005379,
+    "rSquared": 0.20799857202354127,
+    "nSamples": 924
+  },
+  "tyreDeg": {
+    "Alpine|HARD": {
+      "intercept": 97.58199171394867,
+      "degLinear": 0.0958120004982873,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 46,
+      "insufficient": false
+    },
+    "Alpine|MEDIUM": {
+      "intercept": 98.16796119832387,
+      "degLinear": 0.10358826668049018,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 31,
+      "insufficient": false
+    },
+    "Alpine|SOFT": {
+      "intercept": 97.96993890977446,
+      "degLinear": 0.22702444509739259,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 15,
+      "insufficient": true
+    },
+    "Aston Martin|HARD": {
+      "intercept": 99.38802135104437,
+      "degLinear": 0.03605549832300651,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 42,
+      "insufficient": false
+    },
+    "Aston Martin|MEDIUM": {
+      "intercept": 99.27870214256943,
+      "degLinear": 0.06915857627767581,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 46,
+      "insufficient": false
+    },
+    "Aston Martin|SOFT": {
+      "intercept": 99.68348484848484,
+      "degLinear": 0.09172462167520011,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 10,
+      "insufficient": true
+    },
+    "Ferrari|HARD": {
+      "intercept": 96.76194482459299,
+      "degLinear": 0.1170305504315381,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 42,
+      "insufficient": false
+    },
+    "Ferrari|MEDIUM": {
+      "intercept": 98.14450470371688,
+      "degLinear": 0.08018992149044508,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 56,
+      "insufficient": false
+    },
+    "Haas F1 Team|HARD": {
+      "intercept": 98.42555666817653,
+      "degLinear": 0.058767024304647066,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 41,
+      "insufficient": false
+    },
+    "Haas F1 Team|MEDIUM": {
+      "intercept": 97.84303556520194,
+      "degLinear": 0.12333348976789214,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 17,
+      "insufficient": true
+    },
+    "Haas F1 Team|SOFT": {
+      "intercept": 99.07245166925401,
+      "degLinear": 0.04097350773393465,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 38,
+      "insufficient": false
+    },
+    "Kick Sauber|HARD": {
+      "intercept": 99.04141134737475,
+      "degLinear": 0.1042869211404406,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 17,
+      "insufficient": true
+    },
+    "Kick Sauber|MEDIUM": {
+      "intercept": 99.61298532931694,
+      "degLinear": 0.01965592859447488,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 77,
+      "insufficient": false
+    },
+    "Kick Sauber|SOFT": {
+      "intercept": 101.36816666666667,
+      "degLinear": -0.37442386317328413,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 3,
+      "insufficient": true
+    },
+    "McLaren|MEDIUM": {
+      "intercept": 97.66510124508977,
+      "degLinear": 0.03301628644504389,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 77,
+      "insufficient": false
+    },
+    "McLaren|SOFT": {
+      "intercept": 97.811736043095,
+      "degLinear": 0.1254140408423863,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 20,
+      "insufficient": false
+    },
+    "Mercedes|MEDIUM": {
+      "intercept": 98.69884457350437,
+      "degLinear": 0.024519079814091713,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 30,
+      "insufficient": false
+    },
+    "Mercedes|SOFT": {
+      "intercept": 97.82494054142512,
+      "degLinear": 0.10831657320154395,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 45,
+      "insufficient": false
+    },
+    "Racing Bulls|HARD": {
+      "intercept": 99.06101819965599,
+      "degLinear": 0.04098049913846243,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 39,
+      "insufficient": false
+    },
+    "Racing Bulls|MEDIUM": {
+      "intercept": 99.4840651381099,
+      "degLinear": 0.05064249028993904,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 30,
+      "insufficient": false
+    },
+    "Racing Bulls|SOFT": {
+      "intercept": 100.38381617230755,
+      "degLinear": -0.15613895855861973,
+      "cliffStart": 11,
+      "cliffSlope": 0.28887223824247715,
+      "nSamples": 25,
+      "insufficient": false
+    },
+    "Red Bull Racing|HARD": {
+      "intercept": 98.0226976320034,
+      "degLinear": 0.15029371924429763,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 14,
+      "insufficient": true
+    },
+    "Red Bull Racing|MEDIUM": {
+      "intercept": 98.30781817561177,
+      "degLinear": 0.05199017497814559,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 42,
+      "insufficient": false
+    },
+    "Red Bull Racing|SOFT": {
+      "intercept": 98.67192620197258,
+      "degLinear": 0.053393391686403946,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 36,
+      "insufficient": false
+    },
+    "Williams|HARD": {
+      "intercept": 97.96381394196335,
+      "degLinear": 0.16371051692464694,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 21,
+      "insufficient": false
+    },
+    "Williams|MEDIUM": {
+      "intercept": 98.32817277880729,
+      "degLinear": 0.08726528625455973,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 38,
+      "insufficient": false
+    },
+    "Williams|SOFT": {
+      "intercept": 98.66013131313132,
+      "degLinear": 0.16869138016923113,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 26,
+      "insufficient": false
+    }
+  },
+  "dirtyAir": {
+    "penaltySec": 0.0,
+    "gapThresholdSec": 1.5,
+    "nSamplesDirty": 338,
+    "nSamplesClean": 308,
+    "insufficient": false
+  },
+  "drsBoost": {
+    "boostSec": 0.0,
+    "gapThresholdSec": 1.0,
+    "nSamplesDrs": 319,
+    "nSamplesNoDrs": 66,
+    "insufficient": false
+  },
+  "driverOffsets": {
+    "ALB": {
+      "driverId": "ALB",
+      "team": "Williams",
+      "offsetSec": -0.17658847173579859,
+      "nSamples": 50
+    },
+    "ALO": {
+      "driverId": "ALO",
+      "team": "Aston Martin",
+      "offsetSec": -0.056816514853055104,
+      "nSamples": 49
+    },
+    "ANT": {
+      "driverId": "ANT",
+      "team": "Mercedes",
+      "offsetSec": 0.1214414139683195,
+      "nSamples": 45
+    },
+    "BEA": {
+      "driverId": "BEA",
+      "team": "Haas F1 Team",
+      "offsetSec": 0.15223066857778633,
+      "nSamples": 48
+    },
+    "BOR": {
+      "driverId": "BOR",
+      "team": "Kick Sauber",
+      "offsetSec": 0.2497297383703068,
+      "nSamples": 50
+    },
+    "DOO": {
+      "driverId": "DOO",
+      "team": "Alpine",
+      "offsetSec": 0.2741838836520749,
+      "nSamples": 44
+    },
+    "GAS": {
+      "driverId": "GAS",
+      "team": "Alpine",
+      "offsetSec": -0.25133522668104497,
+      "nSamples": 48
+    },
+    "HAD": {
+      "driverId": "HAD",
+      "team": "Racing Bulls",
+      "offsetSec": -0.19346631155381747,
+      "nSamples": 45
+    },
+    "HAM": {
+      "driverId": "HAM",
+      "team": "Ferrari",
+      "offsetSec": 0.15275324137161914,
+      "nSamples": 49
+    },
+    "HUL": {
+      "driverId": "HUL",
+      "team": "Kick Sauber",
+      "offsetSec": -0.265669934436519,
+      "nSamples": 47
+    },
+    "LAW": {
+      "driverId": "LAW",
+      "team": "Racing Bulls",
+      "offsetSec": 0.11771003255766627,
+      "nSamples": 49
+    },
+    "LEC": {
+      "driverId": "LEC",
+      "team": "Ferrari",
+      "offsetSec": -0.15275324137163074,
+      "nSamples": 49
+    },
+    "NOR": {
+      "driverId": "NOR",
+      "team": "McLaren",
+      "offsetSec": 0.2425572918942187,
+      "nSamples": 48
+    },
+    "OCO": {
+      "driverId": "OCO",
+      "team": "Haas F1 Team",
+      "offsetSec": -0.15223066857778575,
+      "nSamples": 48
+    },
+    "PIA": {
+      "driverId": "PIA",
+      "team": "McLaren",
+      "offsetSec": -0.23760714308004982,
+      "nSamples": 49
+    },
+    "RUS": {
+      "driverId": "RUS",
+      "team": "Mercedes",
+      "offsetSec": -0.18216212095255077,
+      "nSamples": 30
+    },
+    "SAI": {
+      "driverId": "SAI",
+      "team": "Williams",
+      "offsetSec": 0.2522692453368413,
+      "nSamples": 35
+    },
+    "STR": {
+      "driverId": "STR",
+      "team": "Aston Martin",
+      "offsetSec": 0.056816514853063514,
+      "nSamples": 49
+    },
+    "TSU": {
+      "driverId": "TSU",
+      "team": "Red Bull Racing",
+      "offsetSec": 0.2704404705556909,
+      "nSamples": 47
+    },
+    "VER": {
+      "driverId": "VER",
+      "team": "Red Bull Racing",
+      "offsetSec": -0.28246004702482264,
+      "nSamples": 45
+    }
+  },
+  "fitMeta": {
+    "nCleanLaps": 924,
+    "nTotalLaps": 1128,
+    "insufficientTyreGroups": [
+      "Alpine/SOFT(15)",
+      "Aston Martin/SOFT(10)",
+      "Haas F1 Team/MEDIUM(17)",
+      "Kick Sauber/HARD(17)",
+      "Kick Sauber/SOFT(3)",
+      "Red Bull Racing/HARD(14)"
+    ],
+    "dirtyAirInsufficient": false,
+    "drsBoostInsufficient": false
+  }
+}
