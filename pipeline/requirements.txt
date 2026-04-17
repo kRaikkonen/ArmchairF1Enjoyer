@@ -1,0 +1,7 @@
+fastf1==3.8.2
+numpy==2.2.6
+pandas==2.3.3
+pyarrow==23.0.1
+pytest==9.0.3
+scikit-learn==1.7.2
+ruff==0.15.11
