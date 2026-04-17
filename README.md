@@ -1,6 +1,9 @@
 
 # F1 Armchair Pitwall
 
+<img width="1177" height="912" alt="4f151d09c07eaa19e5d65c80c9067b0" src="https://github.com/user-attachments/assets/867df02a-eb92-4121-a847-4bdde56085ce" />
+
+
 一个基于 FastF1 真实数据拟合的 F1 策略推演玩具。
 选一场比赛、一个车手、一个 What-If（罚时、SC、改进站），看另一种结局。
 
