@@ -16,6 +16,7 @@ import { DriverSelectPage } from './components/DriverSelectPage';
 import { WhatIfPage }       from './components/WhatIfPage';
 import { SimulatePage }     from './components/SimulatePage';
 import { ResultPage }       from './components/ResultPage';
+import { MfdPage }          from './components/MfdPage';
 import { buildDriversFromModel } from './utils/buildDrivers';
 import { hasShareParams, parseUrlParams } from './utils/shareUrl';
 import type { TrackModel } from './engine/types';
@@ -80,6 +81,7 @@ export default function App() {
       {view === 'whatif'        && <WhatIfPage />}
       {view === 'simulate'      && <SimulatePage />}
       {view === 'result'        && <ResultPage />}
+      {view === 'mfd'           && <MfdPage />}
     </div>
   );
 }

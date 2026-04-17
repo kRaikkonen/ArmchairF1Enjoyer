@@ -248,8 +248,19 @@ export function ResultPage() {
         </>
       )}
 
+      {/* Phase 2 MFD entry point */}
+      <div className="mt-6">
+        <button
+          onClick={() => setView('mfd')}
+          className="w-full bg-f1-mid border border-f1-red text-f1-red font-bold py-3 rounded-lg
+                     hover:bg-f1-red hover:text-white transition-colors text-sm"
+        >
+          ▶ 进入策略推演台 →
+        </button>
+      </div>
+
       {/* Share button */}
-      <div className="mt-6 flex justify-center">
+      <div className="mt-3 flex justify-center">
         <button
           onClick={handleCopyLink}
           className={[

@@ -32,7 +32,7 @@ function seedFromUrl(): number {
 // Store shape
 // ---------------------------------------------------------------------------
 
-export type AppView = 'home' | 'driver-select' | 'whatif' | 'simulate' | 'result';
+export type AppView = 'home' | 'driver-select' | 'whatif' | 'simulate' | 'result' | 'mfd';
 
 export interface RaceStore {
   // --- UI state ---

@@ -2,12 +2,16 @@
 
 /* F1 Armchair Pitwall – global design tokens */
 @theme {
-  --color-f1-red: #e8002d;
-  --color-f1-dark: #15151e;
-  --color-f1-mid: #1e1e2e;
+  --color-f1-red:    #e8002d;
+  --color-f1-dark:   #15151e;
+  --color-f1-mid:    #1e1e2e;
   --color-f1-border: #2a2a3e;
-  --color-f1-text: #e5e5e5;
-  --color-f1-muted: #8888aa;
+  --color-f1-text:   #e5e5e5;
+  --color-f1-muted:  #8888aa;
+  /* MFD accent — controls, sliders, run button (UI constant, not a physics param) */
+  --color-f1-orange: #f97316;
+  /* MFD surface — slightly darker than f1-mid for nested panels */
+  --color-f1-surface: #12121a;
 }
 
 :root {
