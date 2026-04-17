@@ -24,5 +24,23 @@ else
   echo "  (no bahrain.json yet, skipping)"
 fi
 
+echo "==> [4/4] Frontend typecheck"
+if [ -d web/node_modules ]; then
+  cd web
+  pnpm typecheck
+  cd ..
+else
+  echo "  (web/node_modules not found — run 'pnpm install' in web/ first)"
+fi
+
+echo "==> [5/5] Engine unit tests"
+if [ -d web/node_modules ]; then
+  cd web
+  pnpm test
+  cd ..
+else
+  echo "  (web/node_modules not found — skipping)"
+fi
+
 echo ""
 echo "✅ verify.sh passed"

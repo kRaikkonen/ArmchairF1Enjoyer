@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+/* F1 Armchair Pitwall – global design tokens */
+@theme {
+  --color-f1-red: #e8002d;
+  --color-f1-dark: #15151e;
+  --color-f1-mid: #1e1e2e;
+  --color-f1-border: #2a2a3e;
+  --color-f1-text: #e5e5e5;
+  --color-f1-muted: #8888aa;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-f1-dark);
+  color: var(--color-f1-text);
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100svh;
+}

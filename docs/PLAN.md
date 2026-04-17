@@ -160,7 +160,7 @@ lapTime(driver, lap, context) =
 ## Phase 1：前端 MVP
 
 **目标时间：1-2 周（Phase 0 通过后开始）**
-**前提：前提：Bahrain 2025 回测通过（已完成）**
+**前提：至少 3 条赛道回测通过**
 
 ### 主流程（移动端优先）
 
@@ -204,7 +204,7 @@ Data courtesy of FastF1. Not affiliated with F1, FIA, or any team.
 
 | 层 | 选型 |
 |----|------|
-| Python 数据管道 | Python 3.10 / uv / fastf1 / pandas / numpy / scikit-learn / pytest |
+| Python 数据管道 | Python 3.11 / uv / fastf1 / pandas / numpy / scikit-learn / pytest |
 | 前端 + 引擎 | Vite + React 18 + TS strict / Zustand / Chart.js / Tailwind / seedrandom / i18next |
 | 部署 | Vercel（前端 + 模型 JSON 静态托管） |
 | 本地开发 | pnpm + Node 20+；Python 用 uv 或 venv |

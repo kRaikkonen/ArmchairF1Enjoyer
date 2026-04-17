@@ -13,13 +13,18 @@
 
 ## 当前阶段
 
-**Phase 0**：数据管道 + 引擎最小闭环。
-目标：`models/tracks/2025/bahrain.json` 产出并通过回测。
+**Phase 1**：前端 MVP。
+Phase 0 已完成（Bahrain 回测通过）。引擎层已实现。
 
-**Phase 0 完成前，禁止写任何前端业务代码。**
+进行中：UI scaffold → 首屏赛道卡片 → What-If 流程 → 推演结果页。
 
-阶段任务清单：`tasks/phase-0-bahrain.md`
-做完每一步后更新里面的 checkbox 并记录数字。
+## Skills（写代码前必须读对应 skill）
+
+| 触发条件 | Skill |
+|---------|-------|
+| 修改 `pipeline/src/` 或 `pipeline/tests/` | `.claude/skills/pipeline-conventions/SKILL.md` |
+| 修改 `web/src/engine/` | `.claude/skills/engine-purity-enforcement/SKILL.md` |
+| 修改 `web/src/components/` 或 `web/src/App.tsx` | `/mnt/skills/public/frontend-design/SKILL.md` |
 
 ## 每次交付前必跑
 
@@ -36,7 +41,7 @@ bash scripts/verify.sh
 2. 禁止 `Math.random()`。用 `seedrandom` 封装的 PRNG（`web/src/engine/rng.ts`）。
 3. 禁止 `Date.now()` / `performance.now()` 进入 engine 层。
 4. 拟合遇到样本不足/数据缺失，必须在日志中报告，禁止用默认值填充。
-5. Commit message 格式：`phase-0: <what changed>`
+5. Commit message 格式：`phase-1: <what changed>`（Phase 0 已完成）
 6. 每条赛道回测数字必须记录到 `docs/backtest-log.md`。
 
 ## 你可以自主决定

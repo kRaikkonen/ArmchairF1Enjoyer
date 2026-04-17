@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "web-dev",
+      "runtimeExecutable": "wsl.exe",
+      "runtimeArgs": ["-d", "Ubuntu-22.04", "--", "bash", "-c", "source ~/.nvm/nvm.sh && cd ~/projects/armchair-pitwall/web && npm run dev -- --host 0.0.0.0"],
+      "port": 5173
+    }
+  ]
+}
