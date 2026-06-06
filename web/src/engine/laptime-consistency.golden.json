@@ -1,0 +1,935 @@
+{
+  "_comment": "GENERATED \u2014 do not edit by hand. Python _predict_lap_time outputs for a sample of real Bahrain clean laps. Regenerate with pipeline/scripts/controlled_consistency_dump.py whenever bahrain.json is rebuilt. Consumed by web/src/engine/consistency.test.ts (PLAN \u00a78.3).",
+  "event": "Bahrain",
+  "season": 2025,
+  "cases": [
+    {
+      "driverId": "PIA",
+      "team": "McLaren",
+      "compound": "SOFT",
+      "stintLap": 2,
+      "lapsSinceStart": 2.0,
+      "expectedLapTimeSec": 97.76880470804629
+    },
+    {
+      "driverId": "PIA",
+      "team": "McLaren",
+      "compound": "SOFT",
+      "stintLap": 10,
+      "lapsSinceStart": 10.0,
+      "expectedLapTimeSec": 98.54750794017166
+    },
+    {
+      "driverId": "PIA",
+      "team": "McLaren",
+      "compound": "MEDIUM",
+      "stintLap": 6,
+      "lapsSinceStart": 20.0,
+      "expectedLapTimeSec": 97.06406908414569
+    },
+    {
+      "driverId": "PIA",
+      "team": "McLaren",
+      "compound": "MEDIUM",
+      "stintLap": 15,
+      "lapsSinceStart": 29.0,
+      "expectedLapTimeSec": 97.10853043071064
+    },
+    {
+      "driverId": "PIA",
+      "team": "McLaren",
+      "compound": "MEDIUM",
+      "stintLap": 9,
+      "lapsSinceStart": 41.0,
+      "expectedLapTimeSec": 96.5735190701198
+    },
+    {
+      "driverId": "PIA",
+      "team": "McLaren",
+      "compound": "MEDIUM",
+      "stintLap": 17,
+      "lapsSinceStart": 49.0,
+      "expectedLapTimeSec": 96.61304026706642
+    },
+    {
+      "driverId": "PIA",
+      "team": "McLaren",
+      "compound": "MEDIUM",
+      "stintLap": 25,
+      "lapsSinceStart": 57.0,
+      "expectedLapTimeSec": 96.65256146401306
+    },
+    {
+      "driverId": "RUS",
+      "team": "Mercedes",
+      "compound": "SOFT",
+      "stintLap": 9,
+      "lapsSinceStart": 9.0,
+      "expectedLapTimeSec": 98.36494234784602
+    },
+    {
+      "driverId": "RUS",
+      "team": "Mercedes",
+      "compound": "MEDIUM",
+      "stintLap": 6,
+      "lapsSinceStart": 19.0,
+      "expectedLapTimeSec": 98.13035033172878
+    },
+    {
+      "driverId": "RUS",
+      "team": "Mercedes",
+      "compound": "MEDIUM",
+      "stintLap": 14,
+      "lapsSinceStart": 27.0,
+      "expectedLapTimeSec": 98.10189387562781
+    },
+    {
+      "driverId": "NOR",
+      "team": "McLaren",
+      "compound": "SOFT",
+      "stintLap": 3,
+      "lapsSinceStart": 3.0,
+      "expectedLapTimeSec": 98.34630704703622
+    },
+    {
+      "driverId": "NOR",
+      "team": "McLaren",
+      "compound": "MEDIUM",
+      "stintLap": 3,
+      "lapsSinceStart": 13.0,
+      "expectedLapTimeSec": 97.64171761757181
+    },
+    {
+      "driverId": "NOR",
+      "team": "McLaren",
+      "compound": "MEDIUM",
+      "stintLap": 11,
+      "lapsSinceStart": 21.0,
+      "expectedLapTimeSec": 97.68123881451845
+    },
+    {
+      "driverId": "NOR",
+      "team": "McLaren",
+      "compound": "MEDIUM",
+      "stintLap": 19,
+      "lapsSinceStart": 29.0,
+      "expectedLapTimeSec": 97.72076001146509
+    },
+    {
+      "driverId": "NOR",
+      "team": "McLaren",
+      "compound": "MEDIUM",
+      "stintLap": 10,
+      "lapsSinceStart": 42.0,
+      "expectedLapTimeSec": 97.0586236547124
+    },
+    {
+      "driverId": "NOR",
+      "team": "McLaren",
+      "compound": "MEDIUM",
+      "stintLap": 19,
+      "lapsSinceStart": 51.0,
+      "expectedLapTimeSec": 97.10308500127736
+    },
+    {
+      "driverId": "LEC",
+      "team": "Ferrari",
+      "compound": "MEDIUM",
+      "stintLap": 3,
+      "lapsSinceStart": 3.0,
+      "expectedLapTimeSec": 98.14809281633643
+    },
+    {
+      "driverId": "LEC",
+      "team": "Ferrari",
+      "compound": "MEDIUM",
+      "stintLap": 11,
+      "lapsSinceStart": 11.0,
+      "expectedLapTimeSec": 98.56500309364628
+    },
+    {
+      "driverId": "LEC",
+      "team": "Ferrari",
+      "compound": "MEDIUM",
+      "stintLap": 4,
+      "lapsSinceStart": 21.0,
+      "expectedLapTimeSec": 97.72291227494601
+    },
+    {
+      "driverId": "LEC",
+      "team": "Ferrari",
+      "compound": "MEDIUM",
+      "stintLap": 12,
+      "lapsSinceStart": 29.0,
+      "expectedLapTimeSec": 98.13982255225585
+    },
+    {
+      "driverId": "LEC",
+      "team": "Ferrari",
+      "compound": "HARD",
+      "stintLap": 10,
+      "lapsSinceStart": 42.0,
+      "expectedLapTimeSec": 96.60029934081471
+    },
+    {
+      "driverId": "LEC",
+      "team": "Ferrari",
+      "compound": "HARD",
+      "stintLap": 18,
+      "lapsSinceStart": 50.0,
+      "expectedLapTimeSec": 97.3119346496533
+    },
+    {
+      "driverId": "HAM",
+      "team": "Ferrari",
+      "compound": "MEDIUM",
+      "stintLap": 2,
+      "lapsSinceStart": 2.0,
+      "expectedLapTimeSec": 98.40148551441595
+    },
+    {
+      "driverId": "HAM",
+      "team": "Ferrari",
+      "compound": "MEDIUM",
+      "stintLap": 10,
+      "lapsSinceStart": 10.0,
+      "expectedLapTimeSec": 98.81839579172579
+    },
+    {
+      "driverId": "HAM",
+      "team": "Ferrari",
+      "compound": "MEDIUM",
+      "stintLap": 3,
+      "lapsSinceStart": 20.0,
+      "expectedLapTimeSec": 97.97630497302552
+    },
+    {
+      "driverId": "HAM",
+      "team": "Ferrari",
+      "compound": "MEDIUM",
+      "stintLap": 11,
+      "lapsSinceStart": 28.0,
+      "expectedLapTimeSec": 98.39321525033537
+    },
+    {
+      "driverId": "HAM",
+      "team": "Ferrari",
+      "compound": "HARD",
+      "stintLap": 8,
+      "lapsSinceStart": 40.0,
+      "expectedLapTimeSec": 96.7278969963483
+    },
+    {
+      "driverId": "HAM",
+      "team": "Ferrari",
+      "compound": "HARD",
+      "stintLap": 17,
+      "lapsSinceStart": 49.0,
+      "expectedLapTimeSec": 97.52848671879171
+    },
+    {
+      "driverId": "HAM",
+      "team": "Ferrari",
+      "compound": "HARD",
+      "stintLap": 25,
+      "lapsSinceStart": 57.0,
+      "expectedLapTimeSec": 98.2401220276303
+    },
+    {
+      "driverId": "VER",
+      "team": "Red Bull Racing",
+      "compound": "SOFT",
+      "stintLap": 9,
+      "lapsSinceStart": 9.0,
+      "expectedLapTimeSec": 98.61732144868495
+    },
+    {
+      "driverId": "VER",
+      "team": "Red Bull Racing",
+      "compound": "HARD",
+      "stintLap": 9,
+      "lapsSinceStart": 19.0,
+      "expectedLapTimeSec": 98.55943445846967
+    },
+    {
+      "driverId": "VER",
+      "team": "Red Bull Racing",
+      "compound": "MEDIUM",
+      "stintLap": 3,
+      "lapsSinceStart": 29.0,
+      "expectedLapTimeSec": 97.36712068554664
+    },
+    {
+      "driverId": "VER",
+      "team": "Red Bull Racing",
+      "compound": "MEDIUM",
+      "stintLap": 15,
+      "lapsSinceStart": 41.0,
+      "expectedLapTimeSec": 97.65408914336382
+    },
+    {
+      "driverId": "VER",
+      "team": "Red Bull Racing",
+      "compound": "MEDIUM",
+      "stintLap": 25,
+      "lapsSinceStart": 51.0,
+      "expectedLapTimeSec": 97.89322952487812
+    },
+    {
+      "driverId": "GAS",
+      "team": "Alpine",
+      "compound": "SOFT",
+      "stintLap": 4,
+      "lapsSinceStart": 4.0,
+      "expectedLapTimeSec": 98.51439691617611
+    },
+    {
+      "driverId": "GAS",
+      "team": "Alpine",
+      "compound": "MEDIUM",
+      "stintLap": 4,
+      "lapsSinceStart": 14.0,
+      "expectedLapTimeSec": 97.93791312279076
+    },
+    {
+      "driverId": "GAS",
+      "team": "Alpine",
+      "compound": "MEDIUM",
+      "stintLap": 12,
+      "lapsSinceStart": 22.0,
+      "expectedLapTimeSec": 98.54201016162098
+    },
+    {
+      "driverId": "GAS",
+      "team": "Alpine",
+      "compound": "HARD",
+      "stintLap": 8,
+      "lapsSinceStart": 36.0,
+      "expectedLapTimeSec": 97.08641156549218
+    },
+    {
+      "driverId": "GAS",
+      "team": "Alpine",
+      "compound": "HARD",
+      "stintLap": 16,
+      "lapsSinceStart": 44.0,
+      "expectedLapTimeSec": 97.62829847486475
+    },
+    {
+      "driverId": "GAS",
+      "team": "Alpine",
+      "compound": "HARD",
+      "stintLap": 24,
+      "lapsSinceStart": 52.0,
+      "expectedLapTimeSec": 98.17018538423734
+    },
+    {
+      "driverId": "OCO",
+      "team": "Haas F1 Team",
+      "compound": "SOFT",
+      "stintLap": 4,
+      "lapsSinceStart": 4.0,
+      "expectedLapTimeSec": 98.9718104843051
+    },
+    {
+      "driverId": "OCO",
+      "team": "Haas F1 Team",
+      "compound": "MEDIUM",
+      "stintLap": 6,
+      "lapsSinceStart": 14.0,
+      "expectedLapTimeSec": 98.0377399196575
+    },
+    {
+      "driverId": "OCO",
+      "team": "Haas F1 Team",
+      "compound": "MEDIUM",
+      "stintLap": 14,
+      "lapsSinceStart": 22.0,
+      "expectedLapTimeSec": 98.79979874318693
+    },
+    {
+      "driverId": "OCO",
+      "team": "Haas F1 Team",
+      "compound": "HARD",
+      "stintLap": 9,
+      "lapsSinceStart": 36.0,
+      "expectedLapTimeSec": 97.79148829257882
+    },
+    {
+      "driverId": "OCO",
+      "team": "Haas F1 Team",
+      "compound": "HARD",
+      "stintLap": 17,
+      "lapsSinceStart": 44.0,
+      "expectedLapTimeSec": 98.03701539240228
+    },
+    {
+      "driverId": "OCO",
+      "team": "Haas F1 Team",
+      "compound": "HARD",
+      "stintLap": 25,
+      "lapsSinceStart": 52.0,
+      "expectedLapTimeSec": 98.28254249222574
+    },
+    {
+      "driverId": "TSU",
+      "team": "Red Bull Racing",
+      "compound": "SOFT",
+      "stintLap": 4,
+      "lapsSinceStart": 4.0,
+      "expectedLapTimeSec": 99.04363569196701
+    },
+    {
+      "driverId": "TSU",
+      "team": "Red Bull Racing",
+      "compound": "MEDIUM",
+      "stintLap": 4,
+      "lapsSinceStart": 15.0,
+      "expectedLapTimeSec": 98.3650772936793
+    },
+    {
+      "driverId": "TSU",
+      "team": "Red Bull Racing",
+      "compound": "MEDIUM",
+      "stintLap": 12,
+      "lapsSinceStart": 23.0,
+      "expectedLapTimeSec": 98.55638959889075
+    },
+    {
+      "driverId": "TSU",
+      "team": "Red Bull Racing",
+      "compound": "MEDIUM",
+      "stintLap": 20,
+      "lapsSinceStart": 31.0,
+      "expectedLapTimeSec": 98.7477019041022
+    },
+    {
+      "driverId": "TSU",
+      "team": "Red Bull Racing",
+      "compound": "SOFT",
+      "stintLap": 11,
+      "lapsSinceStart": 43.0,
+      "expectedLapTimeSec": 98.32242009752997
+    },
+    {
+      "driverId": "TSU",
+      "team": "Red Bull Racing",
+      "compound": "SOFT",
+      "stintLap": 21,
+      "lapsSinceStart": 53.0,
+      "expectedLapTimeSec": 98.57559264612686
+    },
+    {
+      "driverId": "BEA",
+      "team": "Haas F1 Team",
+      "compound": "SOFT",
+      "stintLap": 5,
+      "lapsSinceStart": 5.0,
+      "expectedLapTimeSec": 99.2891691923679
+    },
+    {
+      "driverId": "BEA",
+      "team": "Haas F1 Team",
+      "compound": "SOFT",
+      "stintLap": 13,
+      "lapsSinceStart": 13.0,
+      "expectedLapTimeSec": 99.39234815962564
+    },
+    {
+      "driverId": "BEA",
+      "team": "Haas F1 Team",
+      "compound": "HARD",
+      "stintLap": 9,
+      "lapsSinceStart": 23.0,
+      "expectedLapTimeSec": 98.46093940848168
+    },
+    {
+      "driverId": "BEA",
+      "team": "Haas F1 Team",
+      "compound": "HARD",
+      "stintLap": 17,
+      "lapsSinceStart": 31.0,
+      "expectedLapTimeSec": 98.70646650830516
+    },
+    {
+      "driverId": "BEA",
+      "team": "Haas F1 Team",
+      "compound": "SOFT",
+      "stintLap": 11,
+      "lapsSinceStart": 43.0,
+      "expectedLapTimeSec": 98.46811703935634
+    },
+    {
+      "driverId": "BEA",
+      "team": "Haas F1 Team",
+      "compound": "SOFT",
+      "stintLap": 19,
+      "lapsSinceStart": 51.0,
+      "expectedLapTimeSec": 98.57129600661409
+    },
+    {
+      "driverId": "ANT",
+      "team": "Mercedes",
+      "compound": "SOFT",
+      "stintLap": 5,
+      "lapsSinceStart": 5.0,
+      "expectedLapTimeSec": 98.34758413726757
+    },
+    {
+      "driverId": "ANT",
+      "team": "Mercedes",
+      "compound": "MEDIUM",
+      "stintLap": 5,
+      "lapsSinceStart": 17.0,
+      "expectedLapTimeSec": 98.465587060489
+    },
+    {
+      "driverId": "ANT",
+      "team": "Mercedes",
+      "compound": "MEDIUM",
+      "stintLap": 13,
+      "lapsSinceStart": 25.0,
+      "expectedLapTimeSec": 98.437130604388
+    },
+    {
+      "driverId": "ANT",
+      "team": "Mercedes",
+      "compound": "SOFT",
+      "stintLap": 8,
+      "lapsSinceStart": 40.0,
+      "expectedLapTimeSec": 97.68986906793718
+    },
+    {
+      "driverId": "ANT",
+      "team": "Mercedes",
+      "compound": "SOFT",
+      "stintLap": 16,
+      "lapsSinceStart": 48.0,
+      "expectedLapTimeSec": 98.33179255893583
+    },
+    {
+      "driverId": "ANT",
+      "team": "Mercedes",
+      "compound": "SOFT",
+      "stintLap": 24,
+      "lapsSinceStart": 56.0,
+      "expectedLapTimeSec": 98.97371604993445
+    },
+    {
+      "driverId": "ALB",
+      "team": "Williams",
+      "compound": "SOFT",
+      "stintLap": 8,
+      "lapsSinceStart": 8.0,
+      "expectedLapTimeSec": 99.60846478813563
+    },
+    {
+      "driverId": "ALB",
+      "team": "Williams",
+      "compound": "HARD",
+      "stintLap": 2,
+      "lapsSinceStart": 18.0,
+      "expectedLapTimeSec": 97.60927604119597
+    },
+    {
+      "driverId": "ALB",
+      "team": "Williams",
+      "compound": "HARD",
+      "stintLap": 10,
+      "lapsSinceStart": 26.0,
+      "expectedLapTimeSec": 98.69435108197943
+    },
+    {
+      "driverId": "ALB",
+      "team": "Williams",
+      "compound": "MEDIUM",
+      "stintLap": 6,
+      "lapsSinceStart": 38.0,
+      "expectedLapTimeSec": 97.60828282518368
+    },
+    {
+      "driverId": "ALB",
+      "team": "Williams",
+      "compound": "MEDIUM",
+      "stintLap": 14,
+      "lapsSinceStart": 46.0,
+      "expectedLapTimeSec": 98.08179602060643
+    },
+    {
+      "driverId": "ALB",
+      "team": "Williams",
+      "compound": "MEDIUM",
+      "stintLap": 22,
+      "lapsSinceStart": 54.0,
+      "expectedLapTimeSec": 98.55530921602919
+    },
+    {
+      "driverId": "HAD",
+      "team": "Racing Bulls",
+      "compound": "MEDIUM",
+      "stintLap": 4,
+      "lapsSinceStart": 10.0,
+      "expectedLapTimeSec": 99.21240741944868
+    },
+    {
+      "driverId": "HAD",
+      "team": "Racing Bulls",
+      "compound": "MEDIUM",
+      "stintLap": 13,
+      "lapsSinceStart": 19.0,
+      "expectedLapTimeSec": 99.4155046006177
+    },
+    {
+      "driverId": "HAD",
+      "team": "Racing Bulls",
+      "compound": "MEDIUM",
+      "stintLap": 21,
+      "lapsSinceStart": 27.0,
+      "expectedLapTimeSec": 99.5960354283235
+    },
+    {
+      "driverId": "HAD",
+      "team": "Racing Bulls",
+      "compound": "HARD",
+      "stintLap": 13,
+      "lapsSinceStart": 41.0,
+      "expectedLapTimeSec": 98.24917676700687
+    },
+    {
+      "driverId": "HAD",
+      "team": "Racing Bulls",
+      "compound": "HARD",
+      "stintLap": 21,
+      "lapsSinceStart": 49.0,
+      "expectedLapTimeSec": 98.35241166550084
+    },
+    {
+      "driverId": "HAD",
+      "team": "Racing Bulls",
+      "compound": "HARD",
+      "stintLap": 29,
+      "lapsSinceStart": 57.0,
+      "expectedLapTimeSec": 98.45564656399483
+    },
+    {
+      "driverId": "DOO",
+      "team": "Alpine",
+      "compound": "MEDIUM",
+      "stintLap": 3,
+      "lapsSinceStart": 12.0,
+      "expectedLapTimeSec": 98.41599624009683
+    },
+    {
+      "driverId": "DOO",
+      "team": "Alpine",
+      "compound": "MEDIUM",
+      "stintLap": 11,
+      "lapsSinceStart": 20.0,
+      "expectedLapTimeSec": 99.02009327892704
+    },
+    {
+      "driverId": "DOO",
+      "team": "Alpine",
+      "compound": "HARD",
+      "stintLap": 3,
+      "lapsSinceStart": 31.0,
+      "expectedLapTimeSec": 97.27325135746744
+    },
+    {
+      "driverId": "DOO",
+      "team": "Alpine",
+      "compound": "HARD",
+      "stintLap": 16,
+      "lapsSinceStart": 44.0,
+      "expectedLapTimeSec": 98.15381758519787
+    },
+    {
+      "driverId": "DOO",
+      "team": "Alpine",
+      "compound": "HARD",
+      "stintLap": 24,
+      "lapsSinceStart": 52.0,
+      "expectedLapTimeSec": 98.69570449457046
+    },
+    {
+      "driverId": "ALO",
+      "team": "Aston Martin",
+      "compound": "MEDIUM",
+      "stintLap": 5,
+      "lapsSinceStart": 5.0,
+      "expectedLapTimeSec": 99.42729782497118
+    },
+    {
+      "driverId": "ALO",
+      "team": "Aston Martin",
+      "compound": "MEDIUM",
+      "stintLap": 13,
+      "lapsSinceStart": 13.0,
+      "expectedLapTimeSec": 99.75595734057886
+    },
+    {
+      "driverId": "ALO",
+      "team": "Aston Martin",
+      "compound": "MEDIUM",
+      "stintLap": 7,
+      "lapsSinceStart": 23.0,
+      "expectedLapTimeSec": 99.06024451464566
+    },
+    {
+      "driverId": "ALO",
+      "team": "Aston Martin",
+      "compound": "MEDIUM",
+      "stintLap": 15,
+      "lapsSinceStart": 31.0,
+      "expectedLapTimeSec": 99.38890403025334
+    },
+    {
+      "driverId": "ALO",
+      "team": "Aston Martin",
+      "compound": "HARD",
+      "stintLap": 12,
+      "lapsSinceStart": 44.0,
+      "expectedLapTimeSec": 98.52852079569193
+    },
+    {
+      "driverId": "ALO",
+      "team": "Aston Martin",
+      "compound": "HARD",
+      "stintLap": 20,
+      "lapsSinceStart": 52.0,
+      "expectedLapTimeSec": 98.59235568766228
+    },
+    {
+      "driverId": "LAW",
+      "team": "Racing Bulls",
+      "compound": "MEDIUM",
+      "stintLap": 4,
+      "lapsSinceStart": 4.0,
+      "expectedLapTimeSec": 99.69204058452046
+    },
+    {
+      "driverId": "LAW",
+      "team": "Racing Bulls",
+      "compound": "MEDIUM",
+      "stintLap": 12,
+      "lapsSinceStart": 12.0,
+      "expectedLapTimeSec": 99.87257141222626
+    },
+    {
+      "driverId": "LAW",
+      "team": "Racing Bulls",
+      "compound": "HARD",
+      "stintLap": 9,
+      "lapsSinceStart": 23.0,
+      "expectedLapTimeSec": 98.90180157744537
+    },
+    {
+      "driverId": "LAW",
+      "team": "Racing Bulls",
+      "compound": "HARD",
+      "stintLap": 17,
+      "lapsSinceStart": 31.0,
+      "expectedLapTimeSec": 99.00503647593936
+    },
+    {
+      "driverId": "LAW",
+      "team": "Racing Bulls",
+      "compound": "SOFT",
+      "stintLap": 11,
+      "lapsSinceStart": 43.0,
+      "expectedLapTimeSec": 97.57672377717167
+    },
+    {
+      "driverId": "LAW",
+      "team": "Racing Bulls",
+      "compound": "SOFT",
+      "stintLap": 19,
+      "lapsSinceStart": 51.0,
+      "expectedLapTimeSec": 98.4139809200288
+    },
+    {
+      "driverId": "STR",
+      "team": "Aston Martin",
+      "compound": "SOFT",
+      "stintLap": 3,
+      "lapsSinceStart": 3.0,
+      "expectedLapTimeSec": 99.93124681788336
+    },
+    {
+      "driverId": "STR",
+      "team": "Aston Martin",
+      "compound": "SOFT",
+      "stintLap": 11,
+      "lapsSinceStart": 11.0,
+      "expectedLapTimeSec": 100.44043469667125
+    },
+    {
+      "driverId": "STR",
+      "team": "Aston Martin",
+      "compound": "MEDIUM",
+      "stintLap": 9,
+      "lapsSinceStart": 21.0,
+      "expectedLapTimeSec": 99.36834697056057
+    },
+    {
+      "driverId": "STR",
+      "team": "Aston Martin",
+      "compound": "MEDIUM",
+      "stintLap": 17,
+      "lapsSinceStart": 29.0,
+      "expectedLapTimeSec": 99.69700648616825
+    },
+    {
+      "driverId": "STR",
+      "team": "Aston Martin",
+      "compound": "HARD",
+      "stintLap": 9,
+      "lapsSinceStart": 41.0,
+      "expectedLapTimeSec": 98.61821574090919
+    },
+    {
+      "driverId": "STR",
+      "team": "Aston Martin",
+      "compound": "HARD",
+      "stintLap": 17,
+      "lapsSinceStart": 49.0,
+      "expectedLapTimeSec": 98.68205063287951
+    },
+    {
+      "driverId": "BOR",
+      "team": "Kick Sauber",
+      "compound": "MEDIUM",
+      "stintLap": 2,
+      "lapsSinceStart": 2.0,
+      "expectedLapTimeSec": 99.84587465122277
+    },
+    {
+      "driverId": "BOR",
+      "team": "Kick Sauber",
+      "compound": "MEDIUM",
+      "stintLap": 10,
+      "lapsSinceStart": 10.0,
+      "expectedLapTimeSec": 99.77851298536484
+    },
+    {
+      "driverId": "BOR",
+      "team": "Kick Sauber",
+      "compound": "HARD",
+      "stintLap": 7,
+      "lapsSinceStart": 20.0,
+      "expectedLapTimeSec": 99.45962679719383
+    },
+    {
+      "driverId": "BOR",
+      "team": "Kick Sauber",
+      "compound": "HARD",
+      "stintLap": 15,
+      "lapsSinceStart": 28.0,
+      "expectedLapTimeSec": 100.06931307170363
+    },
+    {
+      "driverId": "BOR",
+      "team": "Kick Sauber",
+      "compound": "MEDIUM",
+      "stintLap": 8,
+      "lapsSinceStart": 40.0,
+      "expectedLapTimeSec": 98.89691702337444
+    },
+    {
+      "driverId": "BOR",
+      "team": "Kick Sauber",
+      "compound": "MEDIUM",
+      "stintLap": 16,
+      "lapsSinceStart": 48.0,
+      "expectedLapTimeSec": 98.82955535751654
+    },
+    {
+      "driverId": "BOR",
+      "team": "Kick Sauber",
+      "compound": "MEDIUM",
+      "stintLap": 24,
+      "lapsSinceStart": 56.0,
+      "expectedLapTimeSec": 98.76219369165861
+    },
+    {
+      "driverId": "SAI",
+      "team": "Williams",
+      "compound": "SOFT",
+      "stintLap": 8,
+      "lapsSinceStart": 8.0,
+      "expectedLapTimeSec": 100.03732250520828
+    },
+    {
+      "driverId": "SAI",
+      "team": "Williams",
+      "compound": "MEDIUM",
+      "stintLap": 4,
+      "lapsSinceStart": 18.0,
+      "expectedLapTimeSec": 98.4241327062815
+    },
+    {
+      "driverId": "SAI",
+      "team": "Williams",
+      "compound": "MEDIUM",
+      "stintLap": 12,
+      "lapsSinceStart": 26.0,
+      "expectedLapTimeSec": 98.89764590170427
+    },
+    {
+      "driverId": "SAI",
+      "team": "Williams",
+      "compound": "HARD",
+      "stintLap": 7,
+      "lapsSinceStart": 39.0,
+      "expectedLapTimeSec": 98.26708746953084
+    },
+    {
+      "driverId": "HUL",
+      "team": "Kick Sauber",
+      "compound": "MEDIUM",
+      "stintLap": 2,
+      "lapsSinceStart": 7.0,
+      "expectedLapTimeSec": 99.19009429428237
+    },
+    {
+      "driverId": "HUL",
+      "team": "Kick Sauber",
+      "compound": "MEDIUM",
+      "stintLap": 10,
+      "lapsSinceStart": 15.0,
+      "expectedLapTimeSec": 99.12273262842444
+    },
+    {
+      "driverId": "HUL",
+      "team": "Kick Sauber",
+      "compound": "MEDIUM",
+      "stintLap": 18,
+      "lapsSinceStart": 23.0,
+      "expectedLapTimeSec": 99.05537096256653
+    },
+    {
+      "driverId": "HUL",
+      "team": "Kick Sauber",
+      "compound": "MEDIUM",
+      "stintLap": 11,
+      "lapsSinceStart": 38.0,
+      "expectedLapTimeSec": 98.49663741000448
+    },
+    {
+      "driverId": "HUL",
+      "team": "Kick Sauber",
+      "compound": "MEDIUM",
+      "stintLap": 19,
+      "lapsSinceStart": 46.0,
+      "expectedLapTimeSec": 98.42927574414657
+    },
+    {
+      "driverId": "HUL",
+      "team": "Kick Sauber",
+      "compound": "MEDIUM",
+      "stintLap": 27,
+      "lapsSinceStart": 54.0,
+      "expectedLapTimeSec": 98.36191407828863
+    }
+  ]
+}

@@ -45,6 +45,10 @@ logging.basicConfig(level=logging.WARNING)
 FIXTURE = ROOT / "pipeline" / "tests" / "fixtures" / "bahrain-2025-laps.parquet"
 MODEL_JSON = ROOT / "models" / "tracks" / "2025" / "bahrain.json"
 OUT = ROOT / "pipeline" / "scripts" / "controlled_consistency_dump.json"
+# Committed golden for the permanent §8.3 cross-language regression test
+# (web/src/engine/consistency.test.ts). Regenerate together with bahrain.json.
+GOLDEN = ROOT / "web" / "src" / "engine" / "laptime-consistency.golden.json"
+GOLDEN_SAMPLE_STRIDE = 8  # every Nth clean lap → compact but broad coverage
 
 
 def build_model(laps: pd.DataFrame, year: int, event: str) -> TrackModel:
@@ -115,6 +119,35 @@ def main() -> None:
     }
     OUT.write_text(json.dumps(payload), encoding="utf-8")
     print(f"[python] dumped {len(rows)} lap rows -> {OUT}")
+
+    # Compact, committed golden for the permanent §8.3 regression test: a
+    # deterministic sample of clean laps with Python's predicted lap time. The
+    # TS engine must reproduce each value from bahrain.json to <1e-9.
+    clean_rows = [r for r in rows if r["isClean"] and r["pyPredLapTime"] is not None]
+    sample = clean_rows[::GOLDEN_SAMPLE_STRIDE]
+    golden = {
+        "_comment": (
+            "GENERATED — do not edit by hand. Python _predict_lap_time outputs "
+            "for a sample of real Bahrain clean laps. Regenerate with "
+            "pipeline/scripts/controlled_consistency_dump.py whenever bahrain.json "
+            "is rebuilt. Consumed by web/src/engine/consistency.test.ts (PLAN §8.3)."
+        ),
+        "event": "Bahrain",
+        "season": 2025,
+        "cases": [
+            {
+                "driverId": r["driver"],
+                "team": r["team"],
+                "compound": r["compound"],
+                "stintLap": r["stintLap"],
+                "lapsSinceStart": r["lapsSinceStart"],
+                "expectedLapTimeSec": r["pyPredLapTime"],
+            }
+            for r in sample
+        ],
+    }
+    GOLDEN.write_text(json.dumps(golden, indent=2), encoding="utf-8")
+    print(f"[python] wrote {len(golden['cases'])} golden cases -> {GOLDEN}")
 
 
 if __name__ == "__main__":
