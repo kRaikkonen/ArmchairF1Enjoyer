@@ -24,7 +24,6 @@
  */
 
 import type { DriverState, TrackModel, Compound } from './types';
-import { PIT_STOP_TIME_SEC } from './events';
 
 // ---------------------------------------------------------------------------
 // Decision constants — schema / rule constants, not fitted parameters.
@@ -35,6 +34,18 @@ import { PIT_STOP_TIME_SEC } from './events';
  * Prevents the AI pitting on lap 1 due to numerical noise. Schema constant.
  */
 const MIN_STINT_BEFORE_PIT = 5;
+
+/**
+ * Earliest pit as a fraction of race distance. Caps the optimal-lap result so a
+ * big deg asymmetry can't push the only stop absurdly early (real Bahrain first
+ * stops land ~lap 12-18). Strategy schema constant, not a physics fit.
+ */
+const MIN_PIT_WINDOW_FRAC = 0.25;
+
+/** Floor for deg slope when computing the optimal lap, to avoid div-by-~0 and
+ * to treat a non-degrading (≤0 slope) tyre as "barely degrading" → pit late.
+ * Numerical guard, not a fitted parameter. */
+const DEG_EPS = 0.001;
 
 /**
  * With this many laps remaining the AI forces a mandatory pit if
@@ -108,28 +119,32 @@ export interface PitDecision {
 }
 
 /**
- * Decide whether a driver should pit this lap.
+ * Decide whether a driver should pit this lap (single mandatory stop).
  *
- * ### Derivation of pit-benefit formula
+ * ### Why not "pit as soon as it's worth it"
  *
- * Lap time at stintLap k: T(k) = intercept + degLinear × k + commonTerms
- * (commonTerms = spContrib + driverOffset + noise — identical whether we pit or not)
+ * The earlier rule pitted when `degLinear × stintLap × lapsRemaining > pitCost`.
+ * That is the benefit of pitting *vs never pitting*, and it turns positive very
+ * early (lapsRemaining is large at the start), so the whole field pitted around
+ * lap 5 and then ran a 50-lap stint into the tyre cliff — unrealistic, and it
+ * blew the gaps out to +100s+. The flaw: it ignores that the *fresh* tyre also
+ * degrades across the long remaining stint.
  *
- * Cost of staying out for L more laps, starting at stintLap s:
- *   ΣC_stay = Σ(k=s..s+L-1) degLinear×k
- *           = degLinear × (s×L + L×(L-1)/2)
+ * ### Optimal single-stop lap
  *
- * Cost of pitting (1 lap lost) + fresh tyres for L-1 more laps:
- *   ΣC_pit = PIT_STOP_TIME + Σ(k=1..L-1) degLinear×k
- *          = PIT_STOP_TIME + degLinear × (L-1)×L/2
+ * F1 mandates ≥1 stop (two compounds), so the question is *when* to take the one
+ * stop, i.e. which pit lap p minimises total tyre-time over N laps with linear
+ * deg degA (current compound) then degB (next compound):
  *
- * Net benefit of pitting = ΣC_stay − ΣC_pit
- *   = degLinear × s × L − PIT_STOP_TIME
+ *   total(p) = degA·Σ_{1..p} k + PIT + degB·Σ_{1..N-p} k
+ *   d/dp = degA·p − degB·(N−p) = 0  →  p* = degB·N / (degA + degB)
  *
- * → Pit if: degLinear × stintLap × lapsRemaining > PIT_STOP_TIME
+ * Equal deg → p*≈N/2; a faster-degrading start tyre → earlier; a worse target
+ * tyre → later. We pit when the race reaches p* (clamped to a realistic window),
+ * or immediately if the current tyre has gone past its cliff.
  *
- * @param driver       Current driver state
- * @param model        Track model (for tyre deg parameters)
+ * @param driver        Current driver state
+ * @param model         Track model (for tyre deg parameters)
  * @param lapsRemaining Laps left in the race (including current lap)
  */
 export function decidePit(
@@ -147,33 +162,34 @@ export function decidePit(
   // Real Bahrain strategies are predominantly 1-stop. Schema constant.
   if (driver.pitCount >= 1) return noChange;
 
-  // Hard rule: force pit if deadline approaching and never stopped
+  // Hard rule: force pit if deadline approaching and never stopped.
   if (lapsRemaining <= MANDATORY_PIT_LAP_BUFFER) {
-    return {
-      shouldPit: true,
-      targetCompound: choosePitCompound(driver, model, lapsRemaining),
-    };
+    return { shouldPit: true, targetCompound: choosePitCompound(driver, model, lapsRemaining) };
   }
 
-  // Fetch tyre deg parameters
-  const key = `${driver.team}|${driver.compound}`;
-  const entry = model.tyreDeg[key];
-  if (!entry) return noChange;
+  const entryA = model.tyreDeg[`${driver.team}|${driver.compound}`];
+  if (!entryA) return noChange; // can't reason about deg → wait for the deadline
 
-  // Apply pit-benefit formula (see derivation in JSDoc above)
-  // Extra cliff cost: if we're past the cliff, include extra deg per remaining lap
-  let effectiveDegLinear = entry.degLinear;
-  if (driver.stintLap > entry.cliffStart) {
-    effectiveDegLinear += entry.cliffSlope;
+  // Tyres past the cliff are falling off rapidly — take the stop now.
+  if (driver.stintLap > entryA.cliffStart) {
+    return { shouldPit: true, targetCompound: choosePitCompound(driver, model, lapsRemaining) };
   }
 
-  const pitBenefit = effectiveDegLinear * driver.stintLap * lapsRemaining - PIT_STOP_TIME_SEC;
+  // Optimal single-stop lap p* (see JSDoc). N reconstructed from progress.
+  const target = choosePitCompound(driver, model, lapsRemaining);
+  const entryB = model.tyreDeg[`${driver.team}|${target}`];
+  const degA = Math.max(entryA.degLinear, DEG_EPS);
+  const degB = Math.max(entryB?.degLinear ?? entryA.degLinear, DEG_EPS);
+  const totalLaps = lapsRemaining + driver.lapsSinceStart;
+  const pStarRaw = (degB * totalLaps) / (degA + degB);
+  const pStar = Math.min(
+    totalLaps - MANDATORY_PIT_LAP_BUFFER,
+    Math.max(Math.round(totalLaps * MIN_PIT_WINDOW_FRAC), Math.round(pStarRaw)),
+  );
 
-  if (pitBenefit > 0) {
-    return {
-      shouldPit: true,
-      targetCompound: choosePitCompound(driver, model, lapsRemaining),
-    };
+  // driver.lapsSinceStart laps are done; the lap about to run is +1.
+  if (driver.lapsSinceStart + 1 >= pStar) {
+    return { shouldPit: true, targetCompound: target };
   }
 
   return noChange;
