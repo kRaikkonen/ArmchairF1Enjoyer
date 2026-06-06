@@ -42,7 +42,7 @@ def test_sorted_by_position(results):
 def test_schema_keys(results):
     for r in results:
         assert set(r.keys()) == {
-            "position", "driverId", "team", "classifiedPosition", "status", "dnf",
+            "position", "driverId", "driverNumber", "team", "classifiedPosition", "status", "dnf",
         }
         assert r["dnf"] == (r["status"] != "finished")
 

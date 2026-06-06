@@ -51,6 +51,7 @@ export type FinishStatus = 'finished' | 'dnf' | 'dsq';
 export interface RaceResultEntry {
   position: number;        // FastF1 finishing-classification order
   driverId: string;
+  driverNumber: number;    // car number (e.g. VER = 1)
   team: string;
   classifiedPosition: string; // raw FastF1 code: "5", "R", "D"
   status: FinishStatus;
@@ -183,6 +184,7 @@ export interface LapSnapshot {
   stintLap: number;
   gapToLeaderSec: number;
   isInPit: boolean;
+  ersPool: number; // ERS battery (MJ) at end of lap
 }
 
 export interface SimulationResult {

@@ -50,14 +50,17 @@ gap < 1.0s 且车辆进入 DRS zone 时，给一个固定负值（圈速变快�
 - gap >= 1.5s：无惩罚
 不做赛道细分（高速弯 vs 低速弯），armchair 精度够用。
 
-### ERS 池子模型（简化）
-每车每圈有 ersBudgetPerLap（从 TrackModel 读，按车队微差）。
-三档：
-- attack：消耗 1.5x budget，给 -0.15s 增益
-- neutral：消耗 1.0x budget，无增益
-- save：消耗 0.5x budget，无增益，回收到后续圈
-池子不能为负（系统强制 clamp）。
-不模拟 MGU-H/K，不精确到 MJ。
+### ERS 电池模型（armchair，按 2025 真实规则）
+电池（Energy Store）容量 4 MJ；每圈最多回收 2 MJ；MGU-K 每圈最多部署 4 MJ。
+所以满功率部署比回收快，电池约 2 圈耗尽——**不可能整场激进**。
+
+每圈：电池 += 回收(2) − 部署，clamp 到 [0, 4]。部署目标按档位：
+- attack：满部署 4 MJ（电池足时 ≈ −0.4s，约 2 圈耗尽后退化到中性、无增益）
+- neutral：部署 2 MJ（= 回收，电池稳定），无增益
+- save：部署 1 MJ，回充电池，圈速 +0.1s（略慢）
+
+圈速 delta = −0.2s/MJ（高于中性部署）或 +0.1s/MJ（低于中性）。
+这些是规则推导的架构常数（非拟合，符合硬规则 1）。不模拟 MGU-H、不模拟单圈内部署曲线。
 
 ### driverOffset
 每个车手相对车队均值的圈速偏置（秒/圈）。
@@ -74,7 +77,7 @@ gap < 1.0s 且车辆进入 DRS zone 时，给一个固定负值（圈速变快�
 
 1. stintProgressCoef 无法分离燃油与赛道升级效应
 2. 脏气流模型不区分赛道几何（高速弯影响更大）
-3. ERS 模型是桶模型，不反映真实 MGU-K 电流特性
+3. ERS 是 MJ 电池模型（4MJ 容量 / 2MJ 回收/圈），但增益系数是启发式估计，非拟合
 4. 轮胎暖胎圈（out-lap）被清洗掉，undercut 物理是近似
 5. 不建模 DNF / reliability
 6. 不建模 pit crew 方差（pit loss 是均值，不是分布）

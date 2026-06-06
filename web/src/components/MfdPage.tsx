@@ -23,9 +23,13 @@ import { GapChart } from './mfd/GapChart';
 import type { GapSeries } from './mfd/GapChart';
 import { PositionChart } from './mfd/PositionChart';
 import type { PosSeries } from './mfd/PositionChart';
-import { TrackSvg } from './mfd/TrackSvg';
+import { TrackPositionView } from './mfd/TrackPositionView';
+import type { TrackDriver } from './mfd/TrackPositionView';
+import { EventFeed } from './mfd/EventFeed';
 import { StrategyPanel } from './mfd/StrategyPanel';
 import { realRaceEvents, realPitEvents } from '../utils/raceFactsEvents';
+import { defaultStrat, stratToEvents, raceEvtsToEvents, realRaceEvts } from './mfd/strategyTypes';
+import type { DriverStrat, RaceEvt, Pit, ErsChange } from './mfd/strategyTypes';
 import type { LapSnapshot } from '../engine/types';
 
 const BASELINE_TEMP_C = 32; // schema constant for the real-race baseline run
@@ -54,9 +58,12 @@ export function MfdPage() {
   const totalLaps = result?.lapHistory.length ?? trackModel?.totalLaps ?? 57;
   const [lap, setLap] = useState(totalLaps);
   const [playerId, setPlayerId] = useState(storedPlayer ?? 'VER');
-  const [resetNonce, setResetNonce] = useState(0);
-  const [isWhatIf, setIsWhatIf] = useState(false);
-  const [chartTab, setChartTab] = useState<'gap' | 'position'>('gap');
+  const [chartTab, setChartTab] = useState<'gap' | 'position' | 'track'>('gap');
+  // Scenario state lives HERE (not in the panel) so it persists and ACCUMULATES
+  // across driver switches: each edited driver keeps their strategy override,
+  // race events are global, and the feed shows them all.
+  const [driverStrats, setDriverStrats] = useState<Record<string, DriverStrat>>({});
+  const [raceEvts, setRaceEvts] = useState<RaceEvt[]>(() => realRaceEvts(facts?.safetyCars));
 
   // Keep the scrubber pinned to the final lap whenever a new result arrives.
   useEffect(() => { setLap(result?.lapHistory.length ?? totalLaps); }, [result, totalLaps]);
@@ -75,6 +82,13 @@ export function MfdPage() {
   const realStatusByDriver = useMemo(() => {
     const m: Record<string, 'finished' | 'dnf' | 'dsq'> = {};
     for (const r of trackModel?.results ?? []) m[r.driverId] = r.status;
+    return m;
+  }, [trackModel]);
+
+  // car number (FastF1) per driver — for the track map dots
+  const numberByDriver = useMemo(() => {
+    const m: Record<string, number> = {};
+    for (const r of trackModel?.results ?? []) m[r.driverId] = r.driverNumber;
     return m;
   }, [trackModel]);
 
@@ -143,6 +157,26 @@ export function MfdPage() {
 
   const maxPos = result?.finalOrder.length ?? 20;
 
+  // drivers placed on the circuit for the track-map view at the scrubbed lap
+  const trackDrivers: TrackDriver[] = useMemo(() => {
+    const snaps: LapSnapshot[] = result?.lapHistory[lap - 1] ?? [];
+    return snaps.map((s) => ({
+      id: s.driverId,
+      gapToLeaderSec: s.gapToLeaderSec,
+      color: s.driverId === playerId ? '#f97316' : teamColor(teamByDriver[s.driverId] ?? ''),
+      isPlayer: s.driverId === playerId,
+      carNumber: numberByDriver[s.driverId] ?? s.position,
+    }));
+  }, [result, lap, playerId, teamByDriver, numberByDriver]);
+
+  // controlled driver's ERS battery (MJ) at the scrubbed lap
+  const playerBatteryMJ = useMemo(() => {
+    const snaps: LapSnapshot[] = result?.lapHistory[lap - 1] ?? [];
+    return snaps.find((s) => s.driverId === playerId)?.ersPool;
+  }, [result, lap, playerId]);
+
+  const lapRefSec = trackModel?.trackBasePace && trackModel.trackBasePace > 0 ? trackModel.trackBasePace : 96;
+
   // max gap for the Y-axis (cover the field at the final lap, rounded, capped)
   const maxGapSec = useMemo(() => {
     if (!result) return 60;
@@ -171,20 +205,54 @@ export function MfdPage() {
 
   const player = standings.find((d) => d.driverId === playerId) ?? standings[0];
 
+  // ── Scenario (accumulates across driver switches) ──────────────────────────
+  const initialRaceEvts = useMemo(() => realRaceEvts(facts?.safetyCars), [facts]);
+
+  // the controlled driver's editable strategy (override if any, else their real)
+  const currentStrat: DriverStrat = driverStrats[playerId] ?? defaultStrat(facts?.strategies[playerId]);
+  const updateStrat = (patch: Partial<DriverStrat>) =>
+    setDriverStrats((prev) => ({ ...prev, [playerId]: { ...(prev[playerId] ?? defaultStrat(facts?.strategies[playerId])), ...patch } }));
+  const setPits = (pits: Pit[]) => updateStrat({ pits });
+  const setErsChanges = (ers: ErsChange[]) => updateStrat({ ers });
+
+  const overridden = Object.keys(driverStrats);
+  const raceEvtsModified = JSON.stringify(raceEvts) !== JSON.stringify(initialRaceEvts);
+  const isWhatIf = overridden.length > 0 || raceEvtsModified;
+
+  // Feed = the player's modifications: edited drivers' strategies + race events
+  // that aren't the baseline real safety car.
+  const feedEvents = useMemo(() => {
+    const extraRaceEvts = raceEvts.filter(
+      (e) => !initialRaceEvts.some((r) => r.kind === e.kind && r.lap === e.lap && r.duration === e.duration),
+    );
+    return [
+      ...overridden.flatMap((d) => stratToEvents(d, driverStrats[d], totalLaps)),
+      ...raceEvtsToEvents(extraRaceEvts, totalLaps),
+    ];
+  }, [driverStrats, raceEvts, initialRaceEvts, totalLaps]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  function buildScenarioEvents() {
+    const overrideSet = new Set(overridden);
+    return [
+      ...realPitEvents(facts).filter((e) => !(e.driverId && overrideSet.has(e.driverId))),
+      ...overridden.flatMap((d) => stratToEvents(d, driverStrats[d], totalLaps)),
+      ...raceEvtsToEvents(raceEvts, totalLaps),
+    ];
+  }
+
+  function handleRun() {
+    runScenario(buildScenarioEvents(), BASELINE_TEMP_C, false);
+  }
+
   function resetToBaseline() {
-    setResetNonce((n) => n + 1);
-    setIsWhatIf(false);
+    setDriverStrats({});
+    setRaceEvts(initialRaceEvts);
     runScenario(realRaceEvents(facts), BASELINE_TEMP_C, false);
   }
 
-  // Switching the controlled driver while a What-If is showing would leave a
-  // stale parallel-world result for the OLD driver next to a panel reset to the
-  // NEW driver's real strategy — confusing. Re-run the real-race baseline.
-  function handleSelectDriver(id: string) {
-    if (id === playerId) return;
-    setPlayerId(id);
-    if (isWhatIf) resetToBaseline();
-  }
+  // Switching the controlled driver just changes which car the panel edits — the
+  // accumulated scenario (and the result/feed) is untouched.
+  const handleSelectDriver = (id: string) => setPlayerId(id);
 
   if (!trackModel) {
     return (
@@ -228,6 +296,14 @@ export function MfdPage() {
             <span><span className="text-f1-muted text-[10px] mr-1">接管</span><b className="text-f1-orange">{player.driverId}</b></span>
             <span><span className="text-f1-muted text-[10px] mr-1">排位</span><b className="font-mono">P{player.position}</b></span>
             <span className="font-mono text-yellow-400">{player.gap}</span>
+            {playerBatteryMJ !== undefined && (
+              <span className="flex items-center gap-1" title="ERS 电池">
+                <span className="text-f1-muted text-[10px]">电池</span>
+                <span className="w-10 h-2 rounded-full bg-f1-border overflow-hidden inline-block align-middle">
+                  <span className="h-full block bg-green-400" style={{ width: `${Math.round((playerBatteryMJ / 4) * 100)}%` }} />
+                </span>
+              </span>
+            )}
           </div>
         )}
         <button
@@ -253,7 +329,7 @@ export function MfdPage() {
         {/* Center: chart with tab switcher (gap / track position) */}
         <main className="flex-1 flex flex-col min-w-0 overflow-hidden p-1">
           <div className="flex gap-1 px-2 pt-1 shrink-0">
-            {([['gap', '间距图'], ['position', '场上位置']] as const).map(([k, label]) => (
+            {([['gap', '间距图'], ['position', '名次变化'], ['track', '赛道位置']] as const).map(([k, label]) => (
               <button key={k} onClick={() => setChartTab(k)}
                 className={[
                   'px-3 py-1 rounded-t text-[11px] font-medium transition-colors',
@@ -264,51 +340,39 @@ export function MfdPage() {
             ))}
           </div>
           {chartTab === 'gap' ? (
-            <GapChart
-              trackName={eventName}
-              totalLaps={totalLaps}
-              currentLap={lap}
-              series={gapSeries}
-              maxGapSec={maxGapSec}
-              referenceLabel={winnerId}
-            />
+            <GapChart trackName={eventName} totalLaps={totalLaps} currentLap={lap}
+              series={gapSeries} maxGapSec={maxGapSec} referenceLabel={winnerId} />
+          ) : chartTab === 'position' ? (
+            <PositionChart trackName={eventName} totalLaps={totalLaps} currentLap={lap}
+              series={posSeries} maxPos={maxPos} />
           ) : (
-            <PositionChart
-              trackName={eventName}
-              totalLaps={totalLaps}
-              currentLap={lap}
-              series={posSeries}
-              maxPos={maxPos}
-            />
+            <TrackPositionView trackName={eventName} outline={trackModel.trackOutline}
+              drivers={trackDrivers} lapRefSec={lapRefSec} currentLap={lap} totalLaps={totalLaps} />
           )}
         </main>
 
-        {/* Right: real track map + strategy panel */}
+        {/* Event feed — the player's accumulated What-If modifications */}
+        <EventFeed events={feedEvents} isWhatIf={isWhatIf} />
+
+        {/* Right: strategy panel (track map is now the 赛道位置 tab) */}
         <aside className="w-[290px] shrink-0 flex flex-col border-l border-f1-border bg-f1-surface overflow-y-auto">
-          <div className="p-3 border-b border-f1-border">
-            <TrackSvg
-              trackName={`${eventName} 赛道`}
-              outline={trackModel.trackOutline}
-              lengthKm={trackModel.circuitLengthKm}
-              totalLaps={totalLaps}
-            />
-          </div>
           <StrategyPanel
-            key={`${playerId}-${resetNonce}`}
             playerId={playerId}
             totalLaps={totalLaps}
             startCompound={storeDrivers.find((d) => d.driverId === playerId)?.compound ?? 'MEDIUM'}
             driverIds={driverIds}
-            realPits={facts?.strategies[playerId]}
-            realSafetyCars={facts?.safetyCars}
+            pits={currentStrat.pits}
+            setPits={setPits}
+            ersChanges={currentStrat.ers}
+            setErsChanges={setErsChanges}
+            raceEvts={raceEvts}
+            setRaceEvts={setRaceEvts}
             isRunning={isRunning}
-            // Keep every other driver on their real strategy; only the
-            // controlled driver runs the player's edited plan.
-            onRun={(ev) => { setIsWhatIf(true); runScenario([...realPitEvents(facts, playerId), ...ev], BASELINE_TEMP_C, false); }}
+            onRun={handleRun}
             onReset={resetToBaseline}
           />
           <div className="px-3 py-2 text-[9px] text-f1-border leading-relaxed border-t border-f1-border">
-            seed {seed} · 默认复现真实比赛（各车真实进站策略 + 真实安全车）。改接管车手 = 平行世界；其余车保持真实策略不博弈（已知局限）。
+            seed {seed} · 默认复现真实比赛。可分别改多名车手的策略并叠加，修改累积显示在「本场修改」。其余车保持真实策略不博弈（已知局限）。
           </div>
         </aside>
       </div>

@@ -61,7 +61,7 @@ export function PositionChart({ trackName, totalLaps, currentLap, series, maxPos
   return (
     <div className="flex flex-col flex-1 min-w-0 overflow-hidden p-2">
       <div className="text-[10px] text-f1-muted uppercase tracking-widest mb-1">
-        场上位置 — TRACK POSITION
+        名次变化 — POSITIONS
         <span className="ml-2 text-[9px] text-f1-border">{trackName}</span>
       </div>
 

@@ -23,22 +23,32 @@ import type { TrackModel, Compound, ErsMode } from './types';
 import type { Rng } from './rng';
 
 // ---------------------------------------------------------------------------
-// ERS schema constants
-// These are model architecture choices (bucket model), not empirical fits.
-// They cannot be derived from FastF1 lap data alone.
+// ERS battery model (armchair, grounded in the real 2025 rules)
+//
+// Real F1: the Energy Store holds ~4 MJ; the MGU-K can DEPLOY up to 4 MJ/lap but
+// only HARVEST ~2 MJ/lap. So deploying at full power every lap drains the
+// battery in ~2 laps, after which you can only deploy what you harvest — you
+// physically cannot "attack" the whole race. We model that directly:
+//
+//   battery (MJ) ∈ [0, 4];  each lap: +harvest − deploy, clamped.
+//   mode → target deploy:  attack = full 4, neutral = 2 (= harvest, steady),
+//                          save = 1 (recovers the battery).
+//   lap-time delta is proportional to deploy ABOVE neutral (gain) or BELOW it
+//   (small loss while saving).
+//
+// These are schema constants (rule-derived architecture), not lap-data fits.
 // ---------------------------------------------------------------------------
 
-/** Energy recharged per lap (arbitrary units). Architecture constant. */
-const ERS_BUDGET_PER_LAP = 1.0;
-
-/** Maximum pool size in budget units. Architecture constant. */
-const ERS_MAX_POOL = 4.0;
-
-/** Lap-time gain (s) from full-attack ERS deploy. From physics-model.md spec. */
-const ERS_ATTACK_BENEFIT_SEC = 0.15; // spec: -0.15 s
-
-/** Spend multipliers per mode. Architecture constants from physics-model.md. */
-const ERS_SPEND = { attack: 1.5, neutral: 1.0, save: 0.5 } as const;
+/** Energy Store capacity (MJ). Real 2025 limit. */
+const ERS_BATTERY_MAX_MJ = 4.0;
+/** Max recovery per lap (MJ). Real 2025 limit. */
+const ERS_HARVEST_PER_LAP_MJ = 2.0;
+/** Target deploy per lap per mode (MJ). attack = full 4 MJ; neutral = harvest. */
+const ERS_DEPLOY_MJ = { attack: 4.0, neutral: 2.0, save: 1.0 } as const;
+/** Lap-time gain (s) per MJ deployed ABOVE the neutral (steady) rate. */
+const ERS_BENEFIT_SEC_PER_MJ = 0.2; // full attack from a charged battery ≈ −0.4 s
+/** Lap-time loss (s) per MJ deployed BELOW neutral while saving/recovering. */
+const ERS_SAVE_PENALTY_SEC_PER_MJ = 0.1;
 
 // ---------------------------------------------------------------------------
 // Weather/noise schema constants
@@ -86,11 +96,22 @@ export interface ErsResult {
 }
 
 export function stepErs(state: ErsState, mode: ErsMode): ErsResult {
-  const recharged = Math.min(state.pool + ERS_BUDGET_PER_LAP, ERS_MAX_POOL);
-  const spend = ERS_SPEND[mode] * ERS_BUDGET_PER_LAP;
-  const canAttack = mode === 'attack' && recharged >= ERS_SPEND.attack * ERS_BUDGET_PER_LAP;
-  const deltaSec = canAttack ? -ERS_ATTACK_BENEFIT_SEC : 0;
-  const newPool = Math.max(recharged - spend, 0);
+  // Energy available this lap = battery + this lap's harvest; you can't deploy
+  // more than that. Attack from a full battery deploys 4 MJ; once it runs dry
+  // you can only deploy what you harvest (= the neutral rate), so the benefit
+  // disappears until you recover.
+  const want = ERS_DEPLOY_MJ[mode];
+  const available = state.pool + ERS_HARVEST_PER_LAP_MJ;
+  const deployed = Math.min(want, available);
+  const newPool = Math.max(0, Math.min(ERS_BATTERY_MAX_MJ, available - deployed));
+
+  const aboveNeutral = deployed - ERS_DEPLOY_MJ.neutral;
+  const deltaSec =
+    aboveNeutral > 0
+      ? -ERS_BENEFIT_SEC_PER_MJ * aboveNeutral
+      : aboveNeutral < 0
+        ? ERS_SAVE_PENALTY_SEC_PER_MJ * -aboveNeutral
+        : 0; // exactly neutral → no delta (avoid -0)
   return { newPool, deltaSec };
 }
 

@@ -121,6 +121,7 @@ function buildSnapshot(driver: DriverState, lap: number, lapTimeSec: number, isI
     stintLap: driver.stintLap,
     gapToLeaderSec: driver.gapToLeaderSec,
     isInPit,
+    ersPool: driver.ersPool,
   };
 }
 

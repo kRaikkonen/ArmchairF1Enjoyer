@@ -63,6 +63,7 @@ def extract_results(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
             {
                 "position": int(float(r["Position"])),
                 "driverId": str(r["Abbreviation"]),
+                "driverNumber": int(float(r["DriverNumber"])),
                 "team": str(r["TeamName"]),
                 "classifiedPosition": classified_position,
                 "status": status,

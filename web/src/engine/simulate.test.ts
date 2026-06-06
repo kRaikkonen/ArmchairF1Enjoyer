@@ -261,8 +261,9 @@ describe('simulate', () => {
     // Also directly test stepErs with attack mode when pool is empty
     const depleted = stepErs({ pool: 0 }, 'attack');
     expect(depleted.newPool).toBeGreaterThanOrEqual(0);
-    // Pool was 0, recharges 1 per lap → 1; spend 1.5 for attack but only 1 available
-    // canAttack requires recharged >= 1.5; 1 < 1.5 → no attack benefit
+    // Empty battery + attack: available = 0 + harvest(2 MJ) = 2; deployed =
+    // min(want 4, 2) = 2 = the neutral rate, so aboveNeutral = 0 → no benefit.
+    // (You can only deploy what you harvest when the battery is flat.)
     expect(depleted.deltaSec).toBe(0);
 
     // Test that repeated attack mode can't drain below zero
