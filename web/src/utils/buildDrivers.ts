@@ -18,7 +18,16 @@ const GRID_GAP_SEC = 0.3;
 
 export function buildDriversFromModel(model: TrackModel): DriverState[] {
   const startCompounds = model.raceFacts?.startCompounds ?? {};
-  return Object.values(model.driverOffsets).map((entry, i) => ({
+  // Exclude drivers who did NOT finish — retired (DNF) or disqualified (DSQ).
+  // The engine doesn't model failures/penalties, so if they raced they would
+  // linger in the order and even gain places under the Safety Car bunching
+  // (README debt #7 / §8.6). Only classified finishers race in the What-If.
+  const excluded = new Set(
+    (model.results ?? []).filter((r) => r.status !== 'finished').map((r) => r.driverId),
+  );
+  return Object.values(model.driverOffsets)
+    .filter((entry) => !excluded.has(entry.driverId))
+    .map((entry, i) => ({
     driverId:          entry.driverId,
     team:              entry.team,
     gridPosition:      i + 1,
