@@ -19,6 +19,10 @@ interface StrategyPanelProps {
   totalLaps: number;
   /** Grid start compound for the controlled driver (from buildDriversFromModel). */
   startCompound: Compound;
+  /** Controlled driver's REAL pit stops (defaults the stint list to reality). */
+  realPits?: { lap: number; compound: Compound }[];
+  /** Real safety car (defaults the SC toggle to the real race). */
+  realSc?: { lap: number; duration: number } | null;
   isRunning: boolean;
   onRun: (events: EventEffect[], trackTempC: number, weatherIsWet: boolean) => void;
   onReset: () => void;
@@ -35,18 +39,21 @@ const ERS_MODES: { v: ErsMode; label: string }[] = [
 ];
 const COMPOUND_LABEL: Record<string, string> = { SOFT: '软', MEDIUM: '中', HARD: '硬', INTER: '中性', WET: '湿' };
 
-export function StrategyPanel({ playerId, totalLaps, startCompound, isRunning, onRun, onReset }: StrategyPanelProps) {
+export function StrategyPanel({ playerId, totalLaps, startCompound, realPits, realSc, isRunning, onRun, onReset }: StrategyPanelProps) {
   const [startErs, setStartErs] = useState<ErsMode>('neutral');
-  const [pits, setPits] = useState<Pit[]>([
-    { lap: Math.max(2, Math.round(totalLaps / 2.6)), compound: 'HARD', ersMode: 'neutral' },
-  ]);
+  // Default the stint list to the driver's REAL strategy (the player tweaks it).
+  const [pits, setPits] = useState<Pit[]>(() =>
+    realPits && realPits.length
+      ? realPits.map((p) => ({ lap: p.lap, compound: p.compound, ersMode: 'neutral' as ErsMode }))
+      : [{ lap: Math.max(2, Math.round(totalLaps / 2.6)), compound: 'HARD', ersMode: 'neutral' }],
+  );
   const [trackTemp, setTrackTemp] = useState(31);
 
   const [penOn, setPenOn]   = useState(false);
   const [penSec, setPenSec] = useState(5);
-  const [scOn, setScOn]     = useState(false);
-  const [scLap, setScLap]   = useState(Math.round(totalLaps / 3));
-  const [scDur, setScDur]   = useState(3);
+  const [scOn, setScOn]     = useState(!!realSc);
+  const [scLap, setScLap]   = useState(realSc?.lap ?? Math.round(totalLaps / 3));
+  const [scDur, setScDur]   = useState(realSc?.duration ?? 3);
   const [vscOn, setVscOn]   = useState(false);
   const [vscLap, setVscLap] = useState(Math.round(totalLaps / 2.5));
   const [rainOn, setRainOn] = useState(false);

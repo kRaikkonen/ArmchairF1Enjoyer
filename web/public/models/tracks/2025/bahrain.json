@@ -536,5 +536,245 @@
       "y": 589.0
     },
     "source": "FastF1 2025 Bahrain fastest-lap telemetry"
+  },
+  "raceFacts": {
+    "startCompounds": {
+      "ALB": "SOFT",
+      "ALO": "MEDIUM",
+      "ANT": "SOFT",
+      "BEA": "SOFT",
+      "BOR": "MEDIUM",
+      "DOO": "SOFT",
+      "GAS": "SOFT",
+      "HAD": "SOFT",
+      "HAM": "MEDIUM",
+      "HUL": "SOFT",
+      "LAW": "MEDIUM",
+      "LEC": "MEDIUM",
+      "NOR": "SOFT",
+      "OCO": "SOFT",
+      "PIA": "SOFT",
+      "RUS": "SOFT",
+      "SAI": "SOFT",
+      "STR": "SOFT",
+      "TSU": "SOFT",
+      "VER": "SOFT"
+    },
+    "strategies": {
+      "ALB": [
+        {
+          "lap": 17,
+          "compound": "HARD"
+        },
+        {
+          "lap": 33,
+          "compound": "MEDIUM"
+        }
+      ],
+      "ALO": [
+        {
+          "lap": 17,
+          "compound": "MEDIUM"
+        },
+        {
+          "lap": 33,
+          "compound": "HARD"
+        }
+      ],
+      "ANT": [
+        {
+          "lap": 13,
+          "compound": "MEDIUM"
+        },
+        {
+          "lap": 28,
+          "compound": "SOFT"
+        },
+        {
+          "lap": 33,
+          "compound": "SOFT"
+        }
+      ],
+      "BEA": [
+        {
+          "lap": 15,
+          "compound": "HARD"
+        },
+        {
+          "lap": 33,
+          "compound": "SOFT"
+        }
+      ],
+      "BOR": [
+        {
+          "lap": 14,
+          "compound": "HARD"
+        },
+        {
+          "lap": 33,
+          "compound": "MEDIUM"
+        }
+      ],
+      "DOO": [
+        {
+          "lap": 10,
+          "compound": "MEDIUM"
+        },
+        {
+          "lap": 29,
+          "compound": "HARD"
+        }
+      ],
+      "GAS": [
+        {
+          "lap": 11,
+          "compound": "MEDIUM"
+        },
+        {
+          "lap": 29,
+          "compound": "HARD"
+        }
+      ],
+      "HAD": [
+        {
+          "lap": 7,
+          "compound": "MEDIUM"
+        },
+        {
+          "lap": 29,
+          "compound": "HARD"
+        }
+      ],
+      "HAM": [
+        {
+          "lap": 18,
+          "compound": "MEDIUM"
+        },
+        {
+          "lap": 33,
+          "compound": "HARD"
+        }
+      ],
+      "HUL": [
+        {
+          "lap": 6,
+          "compound": "MEDIUM"
+        },
+        {
+          "lap": 28,
+          "compound": "MEDIUM"
+        }
+      ],
+      "LAW": [
+        {
+          "lap": 15,
+          "compound": "HARD"
+        },
+        {
+          "lap": 33,
+          "compound": "SOFT"
+        }
+      ],
+      "LEC": [
+        {
+          "lap": 18,
+          "compound": "MEDIUM"
+        },
+        {
+          "lap": 33,
+          "compound": "HARD"
+        }
+      ],
+      "NOR": [
+        {
+          "lap": 11,
+          "compound": "MEDIUM"
+        },
+        {
+          "lap": 33,
+          "compound": "MEDIUM"
+        }
+      ],
+      "OCO": [
+        {
+          "lap": 9,
+          "compound": "MEDIUM"
+        },
+        {
+          "lap": 28,
+          "compound": "HARD"
+        }
+      ],
+      "PIA": [
+        {
+          "lap": 15,
+          "compound": "MEDIUM"
+        },
+        {
+          "lap": 33,
+          "compound": "MEDIUM"
+        }
+      ],
+      "RUS": [
+        {
+          "lap": 14,
+          "compound": "MEDIUM"
+        },
+        {
+          "lap": 33,
+          "compound": "SOFT"
+        }
+      ],
+      "SAI": [
+        {
+          "lap": 15,
+          "compound": "MEDIUM"
+        },
+        {
+          "lap": 33,
+          "compound": "HARD"
+        },
+        {
+          "lap": 45,
+          "compound": "SOFT"
+        }
+      ],
+      "STR": [
+        {
+          "lap": 13,
+          "compound": "MEDIUM"
+        },
+        {
+          "lap": 33,
+          "compound": "HARD"
+        }
+      ],
+      "TSU": [
+        {
+          "lap": 12,
+          "compound": "MEDIUM"
+        },
+        {
+          "lap": 33,
+          "compound": "SOFT"
+        }
+      ],
+      "VER": [
+        {
+          "lap": 11,
+          "compound": "HARD"
+        },
+        {
+          "lap": 27,
+          "compound": "MEDIUM"
+        }
+      ]
+    },
+    "safetyCars": [
+      {
+        "lap": 32,
+        "duration": 4
+      }
+    ]
   }
 }

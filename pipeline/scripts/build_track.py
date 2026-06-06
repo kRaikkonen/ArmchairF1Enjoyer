@@ -84,6 +84,9 @@ def build(event_slug: str, year: int) -> None:
             "startFinish": o["startFinish"], "source": o.get("source"),
         }
 
+    facts_path = ROOT / "pipeline" / "scripts" / f"facts-{event_slug.lower()}.json"
+    race_facts = json.loads(facts_path.read_text(encoding="utf-8")) if facts_path.exists() else None
+
     # Official race results, derived straight from FastF1 (single source of
     # truth, PLAN §8.1). This replaces the old hand-typed results block.
     results = extract_results(session.results.to_dict("records"))
@@ -125,6 +128,7 @@ def build(event_slug: str, year: int) -> None:
         total_laps=total_laps,
         circuit_length_km=circuit_length_km,
         track_outline=track_outline,
+        race_facts=race_facts,
     )
 
     # 4. Backtest — derive classified finishers from session results

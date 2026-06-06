@@ -23,7 +23,10 @@ import { GapChart } from './mfd/GapChart';
 import type { GapSeries } from './mfd/GapChart';
 import { TrackSvg } from './mfd/TrackSvg';
 import { StrategyPanel } from './mfd/StrategyPanel';
+import { realRaceEvents, realPitEvents } from '../utils/raceFactsEvents';
 import type { LapSnapshot } from '../engine/types';
+
+const BASELINE_TEMP_C = 32; // schema constant for the real-race baseline run
 
 export function MfdPage() {
   const setView       = useRaceStore((s) => s.setView);
@@ -32,19 +35,25 @@ export function MfdPage() {
   const isRunning     = useRaceStore((s) => s.isRunning);
   const runSimulation = useRaceStore((s) => s.runSimulation);
   const runScenario   = useRaceStore((s) => s.runScenario);
-  const events        = useRaceStore((s) => s.events);
   const storeDrivers  = useRaceStore((s) => s.drivers);
   const storedPlayer  = useRaceStore((s) => s.selectedPlayerId);
   const seed          = useRaceStore((s) => s.seed);
 
-  // Ensure a simulation exists when landing here directly.
+  const facts = trackModel?.raceFacts;
+
+  // Land on the REAL race: every driver's real strategy + the real safety cars.
+  // Falls back to the AI baseline if no race facts are available.
   useEffect(() => {
-    if (trackModel && !result && !isRunning) runSimulation();
-  }, [trackModel, result, isRunning, runSimulation]);
+    if (!trackModel || result || isRunning) return;
+    if (facts) runScenario(realRaceEvents(facts), BASELINE_TEMP_C, false);
+    else runSimulation();
+  }, [trackModel, result, isRunning, facts, runScenario, runSimulation]);
 
   const totalLaps = result?.lapHistory.length ?? trackModel?.totalLaps ?? 57;
   const [lap, setLap] = useState(totalLaps);
   const [playerId, setPlayerId] = useState(storedPlayer ?? 'VER');
+  const [resetNonce, setResetNonce] = useState(0);
+  const [isWhatIf, setIsWhatIf] = useState(false);
 
   // Keep the scrubber pinned to the final lap whenever a new result arrives.
   useEffect(() => { setLap(result?.lapHistory.length ?? totalLaps); }, [result, totalLaps]);
@@ -114,6 +123,12 @@ export function MfdPage() {
 
   const player = standings.find((d) => d.driverId === playerId) ?? standings[0];
 
+  function resetToBaseline() {
+    setResetNonce((n) => n + 1);
+    setIsWhatIf(false);
+    runScenario(realRaceEvents(facts), BASELINE_TEMP_C, false);
+  }
+
   if (!trackModel) {
     return (
       <div className="h-screen flex flex-col items-center justify-center gap-3 bg-f1-dark text-f1-text">
@@ -133,10 +148,10 @@ export function MfdPage() {
         <span className="text-f1-muted text-xs whitespace-nowrap">
           {eventName} · {trackModel.season} · {trackModel.circuitLengthKm?.toFixed(3)}km · {totalLaps}L
         </span>
-        {events.length > 0 ? (
-          <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-f1-orange text-white">What-If 推演</span>
+        {isWhatIf ? (
+          <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-f1-orange text-white">What-If 平行世界</span>
         ) : (
-          <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-green-600 text-white">基准 · 真实策略</span>
+          <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-green-600 text-white">真实复现 · 基准</span>
         )}
 
         {/* global lap scrubber */}
@@ -159,11 +174,11 @@ export function MfdPage() {
           </div>
         )}
         <button
-          onClick={() => runScenario([], 32, false)}
+          onClick={resetToBaseline}
           disabled={isRunning}
           className="px-3 py-1.5 rounded border border-f1-border text-f1-muted text-xs font-bold hover:text-f1-text hover:border-f1-muted transition disabled:opacity-50 whitespace-nowrap"
         >
-          重置基准
+          重置真实
         </button>
       </header>
 
@@ -194,15 +209,20 @@ export function MfdPage() {
             />
           </div>
           <StrategyPanel
+            key={`${playerId}-${resetNonce}`}
             playerId={playerId}
             totalLaps={totalLaps}
             startCompound={storeDrivers.find((d) => d.driverId === playerId)?.compound ?? 'MEDIUM'}
+            realPits={facts?.strategies[playerId]}
+            realSc={facts?.safetyCars[0] ?? null}
             isRunning={isRunning}
-            onRun={(ev, temp, wet) => runScenario(ev, temp, wet)}
-            onReset={() => runScenario([], 32, false)}
+            // Keep every other driver on their real strategy; only the
+            // controlled driver runs the player's edited plan.
+            onRun={(ev, temp, wet) => { setIsWhatIf(true); runScenario([...realPitEvents(facts, playerId), ...ev], temp, wet); }}
+            onReset={resetToBaseline}
           />
           <div className="px-3 py-2 text-[9px] text-f1-border leading-relaxed border-t border-f1-border">
-            seed {seed} · 单 seed 确定性推演。只有接管车手的策略会改变；其余 19 车仍跑各自 AI 策略（对手不博弈，已知局限）。
+            seed {seed} · 默认复现真实比赛（各车真实进站策略 + 真实安全车）。改接管车手 = 平行世界；其余车保持真实策略不博弈（已知局限）。
           </div>
         </aside>
       </div>

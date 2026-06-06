@@ -36,6 +36,7 @@ logging.basicConfig(level=logging.WARNING)
 FIXTURE = ROOT / "pipeline" / "tests" / "fixtures" / "bahrain-2025-laps.parquet"
 META = ROOT / "pipeline" / "tests" / "fixtures" / "bahrain-2025-meta.json"
 OUTLINE = ROOT / "pipeline" / "scripts" / "outline-bahrain.json"
+FACTS = ROOT / "pipeline" / "scripts" / "facts-bahrain.json"
 OUT = ROOT / "models" / "tracks" / "2025" / "bahrain.json"
 
 
@@ -61,6 +62,13 @@ def main() -> None:
         print(f"[honest] attached track outline ({outline['nPoints']} pts, {model.circuit_length_km} km)")
     else:
         print("[honest] WARNING: no outline file; trackOutline omitted")
+
+    if FACTS.exists():
+        model.race_facts = json.loads(FACTS.read_text(encoding="utf-8"))
+        print(f"[honest] attached race facts ({len(model.race_facts['strategies'])} drivers, "
+              f"SC {model.race_facts['safetyCars']})")
+    else:
+        print("[honest] WARNING: no facts file; raceFacts omitted")
 
     report = backtest(model, laps, classified_drivers=classified)
     print("[honest] Python backtest (real strategy, controlled replay):")

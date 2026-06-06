@@ -38,6 +38,9 @@ class TrackModel:
     total_laps: int = 0
     circuit_length_km: float | None = None
     track_outline: dict | None = None
+    # Real race facts (FastF1-derived): per-driver start compound + pit strategy
+    # and safety-car periods. Lets the UI open on the real race. extract_race_facts.py.
+    race_facts: dict | None = None
 
 
 @dataclass

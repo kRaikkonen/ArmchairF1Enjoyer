@@ -80,6 +80,17 @@ export interface TrackModel {
   circuitLengthKm?: number | null;
   /** Real circuit outline from FastF1 telemetry, for the MFD track map. */
   trackOutline?: TrackOutline | null;
+  /** Real race facts (FastF1-derived): strategies + safety cars. */
+  raceFacts?: RaceFacts | null;
+}
+
+export interface RaceFacts {
+  /** driverId → grid start compound. */
+  startCompounds: Record<string, Compound>;
+  /** driverId → real pit stops (lap + out-compound), in order. */
+  strategies: Record<string, { lap: number; compound: Compound }[]>;
+  /** Real safety-car periods. */
+  safetyCars: { lap: number; duration: number }[];
 }
 
 export interface TrackOutline {

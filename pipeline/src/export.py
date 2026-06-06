@@ -87,6 +87,8 @@ def export_track(model: TrackModel, path: str | Path) -> None:
         "totalLaps": model.total_laps,
         "circuitLengthKm": model.circuit_length_km,
         "trackOutline": model.track_outline,
+        # Real race facts (start compounds, strategies, safety cars).
+        "raceFacts": model.race_facts,
     }
 
     with open(path, "w", encoding="utf-8") as f:
