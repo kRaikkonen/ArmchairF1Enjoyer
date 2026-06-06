@@ -21,6 +21,9 @@ web/.vite/
 # 模型 cache（大文件）
 *.parquet.bak
 
+# 诊断生成物（可由 controlled_consistency_dump.py 重新生成）
+pipeline/scripts/controlled_consistency_dump.json
+
 # IDE
 .vscode/
 .idea/
