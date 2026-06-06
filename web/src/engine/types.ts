@@ -46,10 +46,16 @@ export interface DriverOffsetEntry {
   nSamples: number;
 }
 
+export type FinishStatus = 'finished' | 'dnf' | 'dsq';
+
 export interface RaceResultEntry {
-  position: number;
+  position: number;        // FastF1 finishing-classification order
   driverId: string;
   team: string;
+  classifiedPosition: string; // raw FastF1 code: "5", "R", "D"
+  status: FinishStatus;
+  /** status !== 'finished'. Kept so the comparison view can split finishers
+   * from non-finishers; use `status` to tell DNF apart from DSQ. */
   dnf: boolean;
 }
 

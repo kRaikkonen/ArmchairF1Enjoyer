@@ -30,6 +30,9 @@ class TrackModel:
     drs_boost: DrsBoostModel
     driver_offsets: dict            # driver_id -> DriverOffsetEntry
     fit_meta: dict = field(default_factory=dict)
+    # Official race results, derived from FastF1 (single source of truth,
+    # PLAN §8.1). Each entry is a canonical RaceResultEntry dict from results.py.
+    results: list = field(default_factory=list)
 
 
 @dataclass

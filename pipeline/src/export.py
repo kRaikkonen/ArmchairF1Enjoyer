@@ -79,6 +79,10 @@ def export_track(model: TrackModel, path: str | Path) -> None:
         },
         "driverOffsets": driver_offsets_export,
         "fitMeta": model.fit_meta,
+        # Official race results, derived from FastF1 (single source of truth,
+        # PLAN §8.1). Built in build_track.py via results.extract_results and
+        # carried on the model unchanged. Never hand-edit this in the JSON.
+        "results": model.results,
     }
 
     with open(path, "w", encoding="utf-8") as f:

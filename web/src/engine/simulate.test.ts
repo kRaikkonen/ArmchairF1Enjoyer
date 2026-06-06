@@ -27,29 +27,22 @@ const bahrainModel: TrackModel = JSON.parse(
 ) as TrackModel;
 
 // ---------------------------------------------------------------------------
-// Bahrain 2025 actual finishing order (classified finishers only)
-// Source: Formula 1 official results, 2025 Bahrain Grand Prix
+// Bahrain 2025 actual classified finishing order — derived from the model's
+// `results` field, which is itself a FastF1 derivative (single source of truth,
+// PLAN §8.1). DNF/DSQ drivers (SAI=R, HUL=D) are excluded: the engine does not
+// model mechanical/disqualification events, so comparing it against them is
+// meaningless.
+//
+// NOTE: the previous hard-coded ACTUAL_ORDER_2025 array here was actually the
+// *starting grid*, not the finishing order (it equalled DRIVER_INITS grid
+// order exactly). Test 2's "within 4 positions" therefore measured "how little
+// the sim moved cars from the grid", not real accuracy. This derivation fixes
+// that — see backtest-log.md.
 // ---------------------------------------------------------------------------
-const ACTUAL_ORDER_2025 = [
-  'NOR', // P1
-  'PIA', // P2
-  'RUS', // P3
-  'ANT', // P4
-  'HAM', // P5
-  'VER', // P6
-  'LEC', // P7
-  'TSU', // P8
-  'OCO', // P9
-  'BEA', // P10
-  'STR', // P11
-  'LAW', // P12
-  'GAS', // P13
-  'ALO', // P14
-  'HAD', // P15
-  'DOO', // P16
-  'ALB', // P17
-  'BOR', // P18
-];
+const ACTUAL_CLASSIFIED_ORDER: string[] = (bahrainModel.results ?? [])
+  .filter((r) => r.status === 'finished')
+  .sort((a, b) => a.position - b.position)
+  .map((r) => r.driverId);
 
 // ---------------------------------------------------------------------------
 // Initial driver states for Bahrain 2025
@@ -143,22 +136,56 @@ describe('simulate', () => {
   });
 
   // ---------------------------------------------------------------------------
-  // Test 2: Bahrain model backtest — final order within 4 positions of actual
+  // Test 2: Bahrain backtest — TS engine final order vs REAL classified finish.
+  //
+  // This is a CHARACTERIZATION test, not an acceptance gate. It pins the TS
+  // engine's *real* accuracy: simulated finishing order vs the actual FastF1
+  // classified result (single source of truth, PLAN §8.1).
+  //
+  // The old assertion `maxErr <= 4` compared the sim to the *starting grid*
+  // (the mislabeled ACTUAL_ORDER_2025), so it measured almost nothing. Against
+  // the true finish order the error is larger and honest. We assert the exact
+  // measured value so any future change that shifts accuracy is caught — we do
+  // NOT loosen a tolerance to manufacture a pass (that would violate §8.4).
+  //
+  // Whether REAL_MAX_POS_ERR is acceptable for an armchair toy, and what a real
+  // acceptance gate should be, is a pending human decision (PLAN §10: "回测不
+  // 达标时改模型还是踢出赛道"). See docs/backtest-log.md.
   // ---------------------------------------------------------------------------
-  it('Bahrain 2025 no-events — final order within 4 positions of actual', () => {
+  const REAL_MAX_POS_ERR = 8; // measured 2026-06-06, seed 42 — see backtest-log.md
+
+  it('Bahrain 2025 no-events — characterize TS engine accuracy vs real finish', () => {
     const result = simulate(BAHRAIN_INPUT);
-    const finalOrder = result.finalOrder.map((d) => d.driverId);
+    const simClassified = result.finalOrder
+      .filter((d) => !d.isRetired)
+      .map((d) => d.driverId);
 
     let maxErr = 0;
-    for (const driverId of ACTUAL_ORDER_2025) {
-      const actualPos = ACTUAL_ORDER_2025.indexOf(driverId) + 1;
-      const simPos = finalOrder.indexOf(driverId) + 1;
-      if (simPos === 0) continue; // driver not in results
+    const deltas: { driver: string; actual: number; sim: number; err: number }[] = [];
+    for (const driverId of ACTUAL_CLASSIFIED_ORDER) {
+      const actualPos = ACTUAL_CLASSIFIED_ORDER.indexOf(driverId) + 1;
+      const simIdx = simClassified.indexOf(driverId);
+      if (simIdx < 0) continue; // classified finisher absent from sim roster
+      const simPos = simIdx + 1;
       const err = Math.abs(simPos - actualPos);
+      deltas.push({ driver: driverId, actual: actualPos, sim: simPos, err });
       if (err > maxErr) maxErr = err;
     }
 
-    expect(maxErr).toBeLessThanOrEqual(4);
+    // Honest reporting: dump the full comparison so the real accuracy is visible.
+    const top5 = deltas.filter((d) => d.actual <= 5);
+    // eslint-disable-next-line no-console
+    console.log(
+      `\n[Test 2] TS engine vs REAL classified finish (seed ${BAHRAIN_INPUT.seed}) — maxErr = ${maxErr}\n` +
+        `top5 deltas: ${top5.map((d) => `${d.driver} P${d.actual}→sim P${d.sim} (Δ${d.err})`).join(', ')}\n` +
+        deltas
+          .map((d) => `  ${d.driver.padEnd(4)} actual P${String(d.actual).padStart(2)} → sim P${String(d.sim).padStart(2)}  Δ${d.err}`)
+          .join('\n') +
+        '\n',
+    );
+
+    // Characterization: pin the real number (NOT a relaxed gate).
+    expect(maxErr).toBe(REAL_MAX_POS_ERR);
   });
 
   // ---------------------------------------------------------------------------

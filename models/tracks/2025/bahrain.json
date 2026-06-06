@@ -378,25 +378,165 @@
     "drsBoostInsufficient": false
   },
   "results": [
-    { "position": 1,  "driverId": "PIA", "team": "McLaren",       "dnf": false },
-    { "position": 2,  "driverId": "RUS", "team": "Mercedes",      "dnf": false },
-    { "position": 3,  "driverId": "NOR", "team": "McLaren",       "dnf": false },
-    { "position": 4,  "driverId": "LEC", "team": "Ferrari",       "dnf": false },
-    { "position": 5,  "driverId": "VER", "team": "Red Bull",      "dnf": false },
-    { "position": 6,  "driverId": "HAD", "team": "Racing Bulls",  "dnf": false },
-    { "position": 7,  "driverId": "ANT", "team": "Mercedes",      "dnf": false },
-    { "position": 8,  "driverId": "HUL", "team": "Kick Sauber",   "dnf": false },
-    { "position": 9,  "driverId": "STR", "team": "Aston Martin",  "dnf": false },
-    { "position": 10, "driverId": "TSU", "team": "Red Bull",      "dnf": false },
-    { "position": 11, "driverId": "SAI", "team": "Williams",      "dnf": false },
-    { "position": 12, "driverId": "ALO", "team": "Aston Martin",  "dnf": false },
-    { "position": 13, "driverId": "OCO", "team": "Haas",          "dnf": false },
-    { "position": 14, "driverId": "BEA", "team": "Haas",          "dnf": false },
-    { "position": 15, "driverId": "ALB", "team": "Williams",      "dnf": false },
-    { "position": 16, "driverId": "DOO", "team": "Alpine",        "dnf": false },
-    { "position": 17, "driverId": "GAS", "team": "Alpine",        "dnf": false },
-    { "position": 18, "driverId": "BOR", "team": "Kick Sauber",   "dnf": false },
-    { "position": 19, "driverId": "HAM", "team": "Ferrari",       "dnf": true  },
-    { "position": 20, "driverId": "COL", "team": "Alpine",        "dnf": true  }
+    {
+      "position": 1,
+      "driverId": "PIA",
+      "team": "McLaren",
+      "classifiedPosition": "1",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 2,
+      "driverId": "RUS",
+      "team": "Mercedes",
+      "classifiedPosition": "2",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 3,
+      "driverId": "NOR",
+      "team": "McLaren",
+      "classifiedPosition": "3",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 4,
+      "driverId": "LEC",
+      "team": "Ferrari",
+      "classifiedPosition": "4",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 5,
+      "driverId": "HAM",
+      "team": "Ferrari",
+      "classifiedPosition": "5",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 6,
+      "driverId": "VER",
+      "team": "Red Bull Racing",
+      "classifiedPosition": "6",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 7,
+      "driverId": "GAS",
+      "team": "Alpine",
+      "classifiedPosition": "7",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 8,
+      "driverId": "OCO",
+      "team": "Haas F1 Team",
+      "classifiedPosition": "8",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 9,
+      "driverId": "TSU",
+      "team": "Red Bull Racing",
+      "classifiedPosition": "9",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 10,
+      "driverId": "BEA",
+      "team": "Haas F1 Team",
+      "classifiedPosition": "10",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 11,
+      "driverId": "ANT",
+      "team": "Mercedes",
+      "classifiedPosition": "11",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 12,
+      "driverId": "ALB",
+      "team": "Williams",
+      "classifiedPosition": "12",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 13,
+      "driverId": "HAD",
+      "team": "Racing Bulls",
+      "classifiedPosition": "13",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 14,
+      "driverId": "DOO",
+      "team": "Alpine",
+      "classifiedPosition": "14",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 15,
+      "driverId": "ALO",
+      "team": "Aston Martin",
+      "classifiedPosition": "15",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 16,
+      "driverId": "LAW",
+      "team": "Racing Bulls",
+      "classifiedPosition": "16",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 17,
+      "driverId": "STR",
+      "team": "Aston Martin",
+      "classifiedPosition": "17",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 18,
+      "driverId": "BOR",
+      "team": "Kick Sauber",
+      "classifiedPosition": "18",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 19,
+      "driverId": "SAI",
+      "team": "Williams",
+      "classifiedPosition": "R",
+      "status": "dnf",
+      "dnf": true
+    },
+    {
+      "position": 20,
+      "driverId": "HUL",
+      "team": "Kick Sauber",
+      "classifiedPosition": "D",
+      "status": "dsq",
+      "dnf": true
+    }
   ]
 }

@@ -29,6 +29,7 @@ from src.fit import (
     fit_stint_progress,
     fit_tyre_deg,
 )
+from src.results import extract_results
 
 logging.basicConfig(
     level=logging.INFO,
@@ -69,6 +70,17 @@ def build(event_slug: str, year: int) -> None:
     track_base_pace = float(laps.loc[laps["IsClean"], "LapTimeSec"].median())
     logger.info("Track base pace (median clean lap): %.3f s", track_base_pace)
 
+    # Official race results, derived straight from FastF1 (single source of
+    # truth, PLAN §8.1). This replaces the old hand-typed results block.
+    results = extract_results(session.results.to_dict("records"))
+    logger.info(
+        "Race results from FastF1: %d entries (%d classified, %d DNF, %d DSQ)",
+        len(results),
+        sum(1 for r in results if r["status"] == "finished"),
+        sum(1 for r in results if r["status"] == "dnf"),
+        sum(1 for r in results if r["status"] == "dsq"),
+    )
+
     insufficient_groups = [
         f"{t}/{c}({e.n_samples})"
         for (t, c), e in tyre_deg.items()
@@ -95,6 +107,7 @@ def build(event_slug: str, year: int) -> None:
             "dirtyAirInsufficient": dirty_air.insufficient,
             "drsBoostInsufficient": drs_boost.insufficient,
         },
+        results=results,
     )
 
     # 4. Backtest — derive classified finishers from session results
