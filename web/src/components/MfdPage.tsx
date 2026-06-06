@@ -218,7 +218,7 @@ export function MfdPage() {
             isRunning={isRunning}
             // Keep every other driver on their real strategy; only the
             // controlled driver runs the player's edited plan.
-            onRun={(ev, temp, wet) => { setIsWhatIf(true); runScenario([...realPitEvents(facts, playerId), ...ev], temp, wet); }}
+            onRun={(ev) => { setIsWhatIf(true); runScenario([...realPitEvents(facts, playerId), ...ev], BASELINE_TEMP_C, false); }}
             onReset={resetToBaseline}
           />
           <div className="px-3 py-2 text-[9px] text-f1-border leading-relaxed border-t border-f1-border">

@@ -24,7 +24,7 @@ interface StrategyPanelProps {
   /** Real safety car (defaults the SC toggle to the real race). */
   realSc?: { lap: number; duration: number } | null;
   isRunning: boolean;
-  onRun: (events: EventEffect[], trackTempC: number, weatherIsWet: boolean) => void;
+  onRun: (events: EventEffect[]) => void;
   onReset: () => void;
 }
 
@@ -33,6 +33,7 @@ interface Pit { lap: number; compound: Compound; ersMode: ErsMode; }
 const MAX_PITS = 3;
 const COMPOUNDS: { v: Compound; label: string }[] = [
   { v: 'SOFT', label: '软' }, { v: 'MEDIUM', label: '中' }, { v: 'HARD', label: '硬' },
+  { v: 'INTER', label: '中性(雨)' }, { v: 'WET', label: '湿胎(雨)' },
 ];
 const ERS_MODES: { v: ErsMode; label: string }[] = [
   { v: 'neutral', label: '标准' }, { v: 'attack', label: '激进' }, { v: 'save', label: '节能' },
@@ -47,7 +48,6 @@ export function StrategyPanel({ playerId, totalLaps, startCompound, realPits, re
       ? realPits.map((p) => ({ lap: p.lap, compound: p.compound, ersMode: 'neutral' as ErsMode }))
       : [{ lap: Math.max(2, Math.round(totalLaps / 2.6)), compound: 'HARD', ersMode: 'neutral' }],
   );
-  const [trackTemp, setTrackTemp] = useState(31);
 
   const [penOn, setPenOn]   = useState(false);
   const [penSec, setPenSec] = useState(5);
@@ -87,7 +87,7 @@ export function StrategyPanel({ playerId, totalLaps, startCompound, realPits, re
     if (scOn)  ev.push({ type: 'safety_car', lap: scLap, duration: scDur });
     if (vscOn) ev.push({ type: 'vsc', lap: vscLap });
     if (rainOn) ev.push({ type: 'rain', lap: rainLap, isWet: true });
-    onRun(ev, trackTemp, false);
+    onRun(ev);
   }
 
   return (
@@ -142,15 +142,6 @@ export function StrategyPanel({ playerId, totalLaps, startCompound, realPits, re
         <EventRow on={rainOn} onToggle={() => setRainOn(!rainOn)} label="雨天 从">
           <NumBox value={rainLap} min={1} max={totalLaps} onChange={setRainLap} prefix="L" />
         </EventRow>
-      </div>
-
-      {/* Track temp */}
-      <div>
-        <div className="flex justify-between text-[10px] text-f1-muted mb-1">
-          <span>路面温度</span><span className="font-mono text-f1-muted">{trackTemp}°C</span>
-        </div>
-        <input type="range" min={15} max={55} value={trackTemp}
-          onChange={(e) => setTrackTemp(Number(e.target.value))} className="w-full accent-f1-orange h-1.5" />
       </div>
 
       <div className="flex gap-2">

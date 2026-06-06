@@ -45,8 +45,14 @@ const ERS_SPEND = { attack: 1.5, neutral: 1.0, save: 0.5 } as const;
 // Not fitted because we only have one (dry) race in Phase 0.
 // ---------------------------------------------------------------------------
 
-/** Lap-time penalty (s) when racing in the wet. Placeholder; not yet fitted. */
-const WET_PENALTY_SEC = 15.0;
+// Wet-weather penalties — armchair PLACEHOLDERS, not fitted (Phase 0 has only a
+// dry race). Differential by tyre so rain is strategically meaningful: a car on
+// slicks in the wet is far slower than one on intermediates, so to go fast in
+// the rain you must pit for inters. Schema constants with this justification.
+/** Slick tyre (S/M/H) in the wet — big loss until you pit for wets. */
+const WET_SLICK_PENALTY_SEC = 15.0;
+/** Intermediate/Wet tyre in the wet — small loss (the right tool). */
+const WET_INTER_PENALTY_SEC = 4.0;
 
 /**
  * Lap-time sensitivity to track temperature above a reference.
@@ -177,9 +183,11 @@ export function computeLapTime(
   const ersResult = stepErs(input.ersState, input.ersMode);
   const ersDelta = ersResult.deltaSec;
 
-  // 7. Weather delta
+  // 7. Weather delta. Rain is differential by tyre (slicks ≫ inters); track
+  //    temperature has no fitted effect (single dry race), so it is left at 0.
   const tempDelta = (input.trackTempC - REFERENCE_TEMP_C) * TEMP_SENSITIVITY_SEC_PER_C;
-  const wetDelta = input.isWet ? WET_PENALTY_SEC : 0;
+  const onWetTyre = input.compound === 'INTER' || input.compound === 'WET';
+  const wetDelta = input.isWet ? (onWetTyre ? WET_INTER_PENALTY_SEC : WET_SLICK_PENALTY_SEC) : 0;
   const weatherDelta = tempDelta + wetDelta;
 
   // 8. Seeded noise: uniform in [-amplitude, +amplitude]
