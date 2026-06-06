@@ -152,7 +152,12 @@ describe('simulate', () => {
   // acceptance gate should be, is a pending human decision (PLAN §10: "回测不
   // 达标时改模型还是踢出赛道"). See docs/backtest-log.md.
   // ---------------------------------------------------------------------------
-  const REAL_MAX_POS_ERR = 8; // measured 2026-06-06, seed 42 — see backtest-log.md
+  // Re-measured 2026-06-06 after replacing the mean-residual driver offsets with
+  // honest medians (§8.4): worst-case unchanged at 8 (forward-sim never relied
+  // on the §8.4 identity), though the per-driver mix shifted — GAS (P7→P15) and
+  // ANT (P11→P3) now tie at Δ8. The honest controlled replay (real strategy) is
+  // maxErr 5; the extra 3 here is greedy-AI strategy divergence. See backtest-log.md.
+  const REAL_MAX_POS_ERR = 8; // seed 42, honest median offsets
 
   it('Bahrain 2025 no-events — characterize TS engine accuracy vs real finish', () => {
     const result = simulate(BAHRAIN_INPUT);

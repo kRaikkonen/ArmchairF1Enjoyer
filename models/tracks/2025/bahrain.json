@@ -245,138 +245,125 @@
     "ALB": {
       "driverId": "ALB",
       "team": "Williams",
-      "offsetSec": -0.17658847173579859,
+      "offsetSec": -0.24326565576177472,
       "nSamples": 50
     },
     "ALO": {
       "driverId": "ALO",
       "team": "Aston Martin",
-      "offsetSec": -0.056816514853055104,
+      "offsetSec": -0.06177385543190894,
       "nSamples": 49
     },
     "ANT": {
       "driverId": "ANT",
       "team": "Mercedes",
-      "offsetSec": 0.1214414139683195,
+      "offsetSec": 0.09696580040869662,
       "nSamples": 45
     },
     "BEA": {
       "driverId": "BEA",
       "team": "Haas F1 Team",
-      "offsetSec": 0.15223066857778633,
+      "offsetSec": 0.2980548100078195,
       "nSamples": 48
     },
     "BOR": {
       "driverId": "BOR",
       "team": "Kick Sauber",
-      "offsetSec": 0.2497297383703068,
+      "offsetSec": 0.13533396438929657,
       "nSamples": 50
     },
     "DOO": {
       "driverId": "DOO",
       "team": "Alpine",
-      "offsetSec": 0.2741838836520749,
+      "offsetSec": 0.16204790951322678,
       "nSamples": 44
     },
     "GAS": {
       "driverId": "GAS",
       "team": "Alpine",
-      "offsetSec": -0.25133522668104497,
+      "offsetSec": -0.3541287593985274,
       "nSamples": 48
     },
     "HAD": {
       "driverId": "HAD",
       "team": "Racing Bulls",
-      "offsetSec": -0.19346631155381747,
+      "offsetSec": -0.23466997256120692,
       "nSamples": 45
     },
     "HAM": {
       "driverId": "HAM",
       "team": "Ferrari",
-      "offsetSec": 0.15275324137161914,
+      "offsetSec": 0.11512988031836358,
       "nSamples": 49
     },
     "HUL": {
       "driverId": "HUL",
       "team": "Kick Sauber",
-      "offsetSec": -0.265669934436519,
+      "offsetSec": -0.1660833957899257,
       "nSamples": 47
     },
     "LAW": {
       "driverId": "LAW",
       "team": "Racing Bulls",
-      "offsetSec": 0.11771003255766627,
+      "offsetSec": 0.1372358015004238,
       "nSamples": 49
     },
     "LEC": {
       "driverId": "LEC",
       "team": "Ferrari",
-      "offsetSec": -0.15275324137163074,
+      "offsetSec": -0.20073227304433772,
       "nSamples": 49
     },
     "NOR": {
       "driverId": "NOR",
       "team": "McLaren",
-      "offsetSec": 0.2425572918942187,
+      "offsetSec": 0.2792157838187279,
       "nSamples": 48
     },
     "OCO": {
       "driverId": "OCO",
       "team": "Haas F1 Team",
-      "offsetSec": -0.15223066857778575,
+      "offsetSec": -0.19121323529411427,
       "nSamples": 48
     },
     "PIA": {
       "driverId": "PIA",
       "team": "McLaren",
-      "offsetSec": -0.23760714308004982,
+      "offsetSec": -0.23611508325170405,
       "nSamples": 49
     },
     "RUS": {
       "driverId": "RUS",
       "team": "Mercedes",
-      "offsetSec": -0.18216212095255077,
+      "offsetSec": -0.1771245913523245,
       "nSamples": 30
     },
     "SAI": {
       "driverId": "SAI",
       "team": "Williams",
-      "offsetSec": 0.2522692453368413,
+      "offsetSec": 0.13675824019966853,
       "nSamples": 35
     },
     "STR": {
       "driverId": "STR",
       "team": "Aston Martin",
-      "offsetSec": 0.056816514853063514,
+      "offsetSec": -0.013118258452692544,
       "nSamples": 49
     },
     "TSU": {
       "driverId": "TSU",
       "team": "Red Bull Racing",
-      "offsetSec": 0.2704404705556909,
+      "offsetSec": 0.23643928830803418,
       "nSamples": 47
     },
     "VER": {
       "driverId": "VER",
       "team": "Red Bull Racing",
-      "offsetSec": -0.28246004702482264,
+      "offsetSec": -0.272877966551647,
       "nSamples": 45
     }
   },
-  "fitMeta": {
-    "nCleanLaps": 924,
-    "nTotalLaps": 1128,
-    "insufficientTyreGroups": [
-      "Alpine/SOFT(15)",
-      "Aston Martin/SOFT(10)",
-      "Haas F1 Team/MEDIUM(17)",
-      "Kick Sauber/HARD(17)",
-      "Kick Sauber/SOFT(3)",
-      "Red Bull Racing/HARD(14)"
-    ],
-    "dirtyAirInsufficient": false,
-    "drsBoostInsufficient": false
-  },
+  "fitMeta": {},
   "results": [
     {
       "position": 1,

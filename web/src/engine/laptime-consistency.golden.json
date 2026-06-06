@@ -9,7 +9,7 @@
       "compound": "SOFT",
       "stintLap": 2,
       "lapsSinceStart": 2.0,
-      "expectedLapTimeSec": 97.76880470804629
+      "expectedLapTimeSec": 97.77029676787464
     },
     {
       "driverId": "PIA",
@@ -17,7 +17,7 @@
       "compound": "SOFT",
       "stintLap": 10,
       "lapsSinceStart": 10.0,
-      "expectedLapTimeSec": 98.54750794017166
+      "expectedLapTimeSec": 98.549
     },
     {
       "driverId": "PIA",
@@ -25,7 +25,7 @@
       "compound": "MEDIUM",
       "stintLap": 6,
       "lapsSinceStart": 20.0,
-      "expectedLapTimeSec": 97.06406908414569
+      "expectedLapTimeSec": 97.06556114397404
     },
     {
       "driverId": "PIA",
@@ -33,7 +33,7 @@
       "compound": "MEDIUM",
       "stintLap": 15,
       "lapsSinceStart": 29.0,
-      "expectedLapTimeSec": 97.10853043071064
+      "expectedLapTimeSec": 97.110022490539
     },
     {
       "driverId": "PIA",
@@ -41,7 +41,7 @@
       "compound": "MEDIUM",
       "stintLap": 9,
       "lapsSinceStart": 41.0,
-      "expectedLapTimeSec": 96.5735190701198
+      "expectedLapTimeSec": 96.57501112994815
     },
     {
       "driverId": "PIA",
@@ -49,7 +49,7 @@
       "compound": "MEDIUM",
       "stintLap": 17,
       "lapsSinceStart": 49.0,
-      "expectedLapTimeSec": 96.61304026706642
+      "expectedLapTimeSec": 96.61453232689477
     },
     {
       "driverId": "PIA",
@@ -57,7 +57,7 @@
       "compound": "MEDIUM",
       "stintLap": 25,
       "lapsSinceStart": 57.0,
-      "expectedLapTimeSec": 96.65256146401306
+      "expectedLapTimeSec": 96.65405352384141
     },
     {
       "driverId": "RUS",
@@ -65,7 +65,7 @@
       "compound": "SOFT",
       "stintLap": 9,
       "lapsSinceStart": 9.0,
-      "expectedLapTimeSec": 98.36494234784602
+      "expectedLapTimeSec": 98.36997987744626
     },
     {
       "driverId": "RUS",
@@ -73,7 +73,7 @@
       "compound": "MEDIUM",
       "stintLap": 6,
       "lapsSinceStart": 19.0,
-      "expectedLapTimeSec": 98.13035033172878
+      "expectedLapTimeSec": 98.13538786132901
     },
     {
       "driverId": "RUS",
@@ -81,7 +81,7 @@
       "compound": "MEDIUM",
       "stintLap": 14,
       "lapsSinceStart": 27.0,
-      "expectedLapTimeSec": 98.10189387562781
+      "expectedLapTimeSec": 98.10693140522804
     },
     {
       "driverId": "NOR",
@@ -89,7 +89,7 @@
       "compound": "SOFT",
       "stintLap": 3,
       "lapsSinceStart": 3.0,
-      "expectedLapTimeSec": 98.34630704703622
+      "expectedLapTimeSec": 98.38296553896073
     },
     {
       "driverId": "NOR",
@@ -97,7 +97,7 @@
       "compound": "MEDIUM",
       "stintLap": 3,
       "lapsSinceStart": 13.0,
-      "expectedLapTimeSec": 97.64171761757181
+      "expectedLapTimeSec": 97.67837610949633
     },
     {
       "driverId": "NOR",
@@ -105,7 +105,7 @@
       "compound": "MEDIUM",
       "stintLap": 11,
       "lapsSinceStart": 21.0,
-      "expectedLapTimeSec": 97.68123881451845
+      "expectedLapTimeSec": 97.71789730644296
     },
     {
       "driverId": "NOR",
@@ -113,7 +113,7 @@
       "compound": "MEDIUM",
       "stintLap": 19,
       "lapsSinceStart": 29.0,
-      "expectedLapTimeSec": 97.72076001146509
+      "expectedLapTimeSec": 97.7574185033896
     },
     {
       "driverId": "NOR",
@@ -121,7 +121,7 @@
       "compound": "MEDIUM",
       "stintLap": 10,
       "lapsSinceStart": 42.0,
-      "expectedLapTimeSec": 97.0586236547124
+      "expectedLapTimeSec": 97.09528214663692
     },
     {
       "driverId": "NOR",
@@ -129,7 +129,7 @@
       "compound": "MEDIUM",
       "stintLap": 19,
       "lapsSinceStart": 51.0,
-      "expectedLapTimeSec": 97.10308500127736
+      "expectedLapTimeSec": 97.13974349320188
     },
     {
       "driverId": "LEC",
@@ -137,7 +137,7 @@
       "compound": "MEDIUM",
       "stintLap": 3,
       "lapsSinceStart": 3.0,
-      "expectedLapTimeSec": 98.14809281633643
+      "expectedLapTimeSec": 98.10011378466372
     },
     {
       "driverId": "LEC",
@@ -145,7 +145,7 @@
       "compound": "MEDIUM",
       "stintLap": 11,
       "lapsSinceStart": 11.0,
-      "expectedLapTimeSec": 98.56500309364628
+      "expectedLapTimeSec": 98.51702406197357
     },
     {
       "driverId": "LEC",
@@ -153,7 +153,7 @@
       "compound": "MEDIUM",
       "stintLap": 4,
       "lapsSinceStart": 21.0,
-      "expectedLapTimeSec": 97.72291227494601
+      "expectedLapTimeSec": 97.6749332432733
     },
     {
       "driverId": "LEC",
@@ -161,7 +161,7 @@
       "compound": "MEDIUM",
       "stintLap": 12,
       "lapsSinceStart": 29.0,
-      "expectedLapTimeSec": 98.13982255225585
+      "expectedLapTimeSec": 98.09184352058314
     },
     {
       "driverId": "LEC",
@@ -169,7 +169,7 @@
       "compound": "HARD",
       "stintLap": 10,
       "lapsSinceStart": 42.0,
-      "expectedLapTimeSec": 96.60029934081471
+      "expectedLapTimeSec": 96.552320309142
     },
     {
       "driverId": "LEC",
@@ -177,7 +177,7 @@
       "compound": "HARD",
       "stintLap": 18,
       "lapsSinceStart": 50.0,
-      "expectedLapTimeSec": 97.3119346496533
+      "expectedLapTimeSec": 97.26395561798059
     },
     {
       "driverId": "HAM",
@@ -185,7 +185,7 @@
       "compound": "MEDIUM",
       "stintLap": 2,
       "lapsSinceStart": 2.0,
-      "expectedLapTimeSec": 98.40148551441595
+      "expectedLapTimeSec": 98.3638621533627
     },
     {
       "driverId": "HAM",
@@ -193,7 +193,7 @@
       "compound": "MEDIUM",
       "stintLap": 10,
       "lapsSinceStart": 10.0,
-      "expectedLapTimeSec": 98.81839579172579
+      "expectedLapTimeSec": 98.78077243067254
     },
     {
       "driverId": "HAM",
@@ -201,7 +201,7 @@
       "compound": "MEDIUM",
       "stintLap": 3,
       "lapsSinceStart": 20.0,
-      "expectedLapTimeSec": 97.97630497302552
+      "expectedLapTimeSec": 97.93868161197227
     },
     {
       "driverId": "HAM",
@@ -209,7 +209,7 @@
       "compound": "MEDIUM",
       "stintLap": 11,
       "lapsSinceStart": 28.0,
-      "expectedLapTimeSec": 98.39321525033537
+      "expectedLapTimeSec": 98.35559188928212
     },
     {
       "driverId": "HAM",
@@ -217,7 +217,7 @@
       "compound": "HARD",
       "stintLap": 8,
       "lapsSinceStart": 40.0,
-      "expectedLapTimeSec": 96.7278969963483
+      "expectedLapTimeSec": 96.69027363529506
     },
     {
       "driverId": "HAM",
@@ -225,7 +225,7 @@
       "compound": "HARD",
       "stintLap": 17,
       "lapsSinceStart": 49.0,
-      "expectedLapTimeSec": 97.52848671879171
+      "expectedLapTimeSec": 97.49086335773846
     },
     {
       "driverId": "HAM",
@@ -233,7 +233,7 @@
       "compound": "HARD",
       "stintLap": 25,
       "lapsSinceStart": 57.0,
-      "expectedLapTimeSec": 98.2401220276303
+      "expectedLapTimeSec": 98.20249866657706
     },
     {
       "driverId": "VER",
@@ -241,7 +241,7 @@
       "compound": "SOFT",
       "stintLap": 9,
       "lapsSinceStart": 9.0,
-      "expectedLapTimeSec": 98.61732144868495
+      "expectedLapTimeSec": 98.62690352915813
     },
     {
       "driverId": "VER",
@@ -249,7 +249,7 @@
       "compound": "HARD",
       "stintLap": 9,
       "lapsSinceStart": 19.0,
-      "expectedLapTimeSec": 98.55943445846967
+      "expectedLapTimeSec": 98.56901653894285
     },
     {
       "driverId": "VER",
@@ -257,7 +257,7 @@
       "compound": "MEDIUM",
       "stintLap": 3,
       "lapsSinceStart": 29.0,
-      "expectedLapTimeSec": 97.36712068554664
+      "expectedLapTimeSec": 97.37670276601982
     },
     {
       "driverId": "VER",
@@ -265,7 +265,7 @@
       "compound": "MEDIUM",
       "stintLap": 15,
       "lapsSinceStart": 41.0,
-      "expectedLapTimeSec": 97.65408914336382
+      "expectedLapTimeSec": 97.663671223837
     },
     {
       "driverId": "VER",
@@ -273,7 +273,7 @@
       "compound": "MEDIUM",
       "stintLap": 25,
       "lapsSinceStart": 51.0,
-      "expectedLapTimeSec": 97.89322952487812
+      "expectedLapTimeSec": 97.9028116053513
     },
     {
       "driverId": "GAS",
@@ -281,7 +281,7 @@
       "compound": "SOFT",
       "stintLap": 4,
       "lapsSinceStart": 4.0,
-      "expectedLapTimeSec": 98.51439691617611
+      "expectedLapTimeSec": 98.41160338345864
     },
     {
       "driverId": "GAS",
@@ -289,7 +289,7 @@
       "compound": "MEDIUM",
       "stintLap": 4,
       "lapsSinceStart": 14.0,
-      "expectedLapTimeSec": 97.93791312279076
+      "expectedLapTimeSec": 97.83511959007328
     },
     {
       "driverId": "GAS",
@@ -297,7 +297,7 @@
       "compound": "MEDIUM",
       "stintLap": 12,
       "lapsSinceStart": 22.0,
-      "expectedLapTimeSec": 98.54201016162098
+      "expectedLapTimeSec": 98.4392166289035
     },
     {
       "driverId": "GAS",
@@ -305,7 +305,7 @@
       "compound": "HARD",
       "stintLap": 8,
       "lapsSinceStart": 36.0,
-      "expectedLapTimeSec": 97.08641156549218
+      "expectedLapTimeSec": 96.9836180327747
     },
     {
       "driverId": "GAS",
@@ -313,7 +313,7 @@
       "compound": "HARD",
       "stintLap": 16,
       "lapsSinceStart": 44.0,
-      "expectedLapTimeSec": 97.62829847486475
+      "expectedLapTimeSec": 97.52550494214728
     },
     {
       "driverId": "GAS",
@@ -321,7 +321,7 @@
       "compound": "HARD",
       "stintLap": 24,
       "lapsSinceStart": 52.0,
-      "expectedLapTimeSec": 98.17018538423734
+      "expectedLapTimeSec": 98.06739185151986
     },
     {
       "driverId": "OCO",
@@ -329,7 +329,7 @@
       "compound": "SOFT",
       "stintLap": 4,
       "lapsSinceStart": 4.0,
-      "expectedLapTimeSec": 98.9718104843051
+      "expectedLapTimeSec": 98.93282791758877
     },
     {
       "driverId": "OCO",
@@ -337,7 +337,7 @@
       "compound": "MEDIUM",
       "stintLap": 6,
       "lapsSinceStart": 14.0,
-      "expectedLapTimeSec": 98.0377399196575
+      "expectedLapTimeSec": 97.99875735294117
     },
     {
       "driverId": "OCO",
@@ -345,7 +345,7 @@
       "compound": "MEDIUM",
       "stintLap": 14,
       "lapsSinceStart": 22.0,
-      "expectedLapTimeSec": 98.79979874318693
+      "expectedLapTimeSec": 98.7608161764706
     },
     {
       "driverId": "OCO",
@@ -353,7 +353,7 @@
       "compound": "HARD",
       "stintLap": 9,
       "lapsSinceStart": 36.0,
-      "expectedLapTimeSec": 97.79148829257882
+      "expectedLapTimeSec": 97.75250572586249
     },
     {
       "driverId": "OCO",
@@ -361,7 +361,7 @@
       "compound": "HARD",
       "stintLap": 17,
       "lapsSinceStart": 44.0,
-      "expectedLapTimeSec": 98.03701539240228
+      "expectedLapTimeSec": 97.99803282568595
     },
     {
       "driverId": "OCO",
@@ -369,7 +369,7 @@
       "compound": "HARD",
       "stintLap": 25,
       "lapsSinceStart": 52.0,
-      "expectedLapTimeSec": 98.28254249222574
+      "expectedLapTimeSec": 98.24355992550942
     },
     {
       "driverId": "TSU",
@@ -377,7 +377,7 @@
       "compound": "SOFT",
       "stintLap": 4,
       "lapsSinceStart": 4.0,
-      "expectedLapTimeSec": 99.04363569196701
+      "expectedLapTimeSec": 99.00963450971936
     },
     {
       "driverId": "TSU",
@@ -385,7 +385,7 @@
       "compound": "MEDIUM",
       "stintLap": 4,
       "lapsSinceStart": 15.0,
-      "expectedLapTimeSec": 98.3650772936793
+      "expectedLapTimeSec": 98.33107611143166
     },
     {
       "driverId": "TSU",
@@ -393,7 +393,7 @@
       "compound": "MEDIUM",
       "stintLap": 12,
       "lapsSinceStart": 23.0,
-      "expectedLapTimeSec": 98.55638959889075
+      "expectedLapTimeSec": 98.5223884166431
     },
     {
       "driverId": "TSU",
@@ -401,7 +401,7 @@
       "compound": "MEDIUM",
       "stintLap": 20,
       "lapsSinceStart": 31.0,
-      "expectedLapTimeSec": 98.7477019041022
+      "expectedLapTimeSec": 98.71370072185455
     },
     {
       "driverId": "TSU",
@@ -409,7 +409,7 @@
       "compound": "SOFT",
       "stintLap": 11,
       "lapsSinceStart": 43.0,
-      "expectedLapTimeSec": 98.32242009752997
+      "expectedLapTimeSec": 98.28841891528232
     },
     {
       "driverId": "TSU",
@@ -417,7 +417,7 @@
       "compound": "SOFT",
       "stintLap": 21,
       "lapsSinceStart": 53.0,
-      "expectedLapTimeSec": 98.57559264612686
+      "expectedLapTimeSec": 98.54159146387921
     },
     {
       "driverId": "BEA",
@@ -425,7 +425,7 @@
       "compound": "SOFT",
       "stintLap": 5,
       "lapsSinceStart": 5.0,
-      "expectedLapTimeSec": 99.2891691923679
+      "expectedLapTimeSec": 99.43499333379793
     },
     {
       "driverId": "BEA",
@@ -433,7 +433,7 @@
       "compound": "SOFT",
       "stintLap": 13,
       "lapsSinceStart": 13.0,
-      "expectedLapTimeSec": 99.39234815962564
+      "expectedLapTimeSec": 99.53817230105568
     },
     {
       "driverId": "BEA",
@@ -441,7 +441,7 @@
       "compound": "HARD",
       "stintLap": 9,
       "lapsSinceStart": 23.0,
-      "expectedLapTimeSec": 98.46093940848168
+      "expectedLapTimeSec": 98.6067635499117
     },
     {
       "driverId": "BEA",
@@ -449,7 +449,7 @@
       "compound": "HARD",
       "stintLap": 17,
       "lapsSinceStart": 31.0,
-      "expectedLapTimeSec": 98.70646650830516
+      "expectedLapTimeSec": 98.85229064973518
     },
     {
       "driverId": "BEA",
@@ -457,7 +457,7 @@
       "compound": "SOFT",
       "stintLap": 11,
       "lapsSinceStart": 43.0,
-      "expectedLapTimeSec": 98.46811703935634
+      "expectedLapTimeSec": 98.61394118078638
     },
     {
       "driverId": "BEA",
@@ -465,7 +465,7 @@
       "compound": "SOFT",
       "stintLap": 19,
       "lapsSinceStart": 51.0,
-      "expectedLapTimeSec": 98.57129600661409
+      "expectedLapTimeSec": 98.71712014804413
     },
     {
       "driverId": "ANT",
@@ -473,7 +473,7 @@
       "compound": "SOFT",
       "stintLap": 5,
       "lapsSinceStart": 5.0,
-      "expectedLapTimeSec": 98.34758413726757
+      "expectedLapTimeSec": 98.32310852370796
     },
     {
       "driverId": "ANT",
@@ -481,7 +481,7 @@
       "compound": "MEDIUM",
       "stintLap": 5,
       "lapsSinceStart": 17.0,
-      "expectedLapTimeSec": 98.465587060489
+      "expectedLapTimeSec": 98.44111144692938
     },
     {
       "driverId": "ANT",
@@ -489,7 +489,7 @@
       "compound": "MEDIUM",
       "stintLap": 13,
       "lapsSinceStart": 25.0,
-      "expectedLapTimeSec": 98.437130604388
+      "expectedLapTimeSec": 98.41265499082839
     },
     {
       "driverId": "ANT",
@@ -497,7 +497,7 @@
       "compound": "SOFT",
       "stintLap": 8,
       "lapsSinceStart": 40.0,
-      "expectedLapTimeSec": 97.68986906793718
+      "expectedLapTimeSec": 97.66539345437756
     },
     {
       "driverId": "ANT",
@@ -505,7 +505,7 @@
       "compound": "SOFT",
       "stintLap": 16,
       "lapsSinceStart": 48.0,
-      "expectedLapTimeSec": 98.33179255893583
+      "expectedLapTimeSec": 98.30731694537621
     },
     {
       "driverId": "ANT",
@@ -513,7 +513,7 @@
       "compound": "SOFT",
       "stintLap": 24,
       "lapsSinceStart": 56.0,
-      "expectedLapTimeSec": 98.97371604993445
+      "expectedLapTimeSec": 98.94924043637484
     },
     {
       "driverId": "ALB",
@@ -521,7 +521,7 @@
       "compound": "SOFT",
       "stintLap": 8,
       "lapsSinceStart": 8.0,
-      "expectedLapTimeSec": 99.60846478813563
+      "expectedLapTimeSec": 99.54178760410966
     },
     {
       "driverId": "ALB",
@@ -529,7 +529,7 @@
       "compound": "HARD",
       "stintLap": 2,
       "lapsSinceStart": 18.0,
-      "expectedLapTimeSec": 97.60927604119597
+      "expectedLapTimeSec": 97.54259885716999
     },
     {
       "driverId": "ALB",
@@ -537,7 +537,7 @@
       "compound": "HARD",
       "stintLap": 10,
       "lapsSinceStart": 26.0,
-      "expectedLapTimeSec": 98.69435108197943
+      "expectedLapTimeSec": 98.62767389795346
     },
     {
       "driverId": "ALB",
@@ -545,7 +545,7 @@
       "compound": "MEDIUM",
       "stintLap": 6,
       "lapsSinceStart": 38.0,
-      "expectedLapTimeSec": 97.60828282518368
+      "expectedLapTimeSec": 97.5416056411577
     },
     {
       "driverId": "ALB",
@@ -553,7 +553,7 @@
       "compound": "MEDIUM",
       "stintLap": 14,
       "lapsSinceStart": 46.0,
-      "expectedLapTimeSec": 98.08179602060643
+      "expectedLapTimeSec": 98.01511883658046
     },
     {
       "driverId": "ALB",
@@ -561,7 +561,7 @@
       "compound": "MEDIUM",
       "stintLap": 22,
       "lapsSinceStart": 54.0,
-      "expectedLapTimeSec": 98.55530921602919
+      "expectedLapTimeSec": 98.48863203200321
     },
     {
       "driverId": "HAD",
@@ -569,7 +569,7 @@
       "compound": "MEDIUM",
       "stintLap": 4,
       "lapsSinceStart": 10.0,
-      "expectedLapTimeSec": 99.21240741944868
+      "expectedLapTimeSec": 99.1712037584413
     },
     {
       "driverId": "HAD",
@@ -577,7 +577,7 @@
       "compound": "MEDIUM",
       "stintLap": 13,
       "lapsSinceStart": 19.0,
-      "expectedLapTimeSec": 99.4155046006177
+      "expectedLapTimeSec": 99.37430093961031
     },
     {
       "driverId": "HAD",
@@ -585,7 +585,7 @@
       "compound": "MEDIUM",
       "stintLap": 21,
       "lapsSinceStart": 27.0,
-      "expectedLapTimeSec": 99.5960354283235
+      "expectedLapTimeSec": 99.55483176731612
     },
     {
       "driverId": "HAD",
@@ -593,7 +593,7 @@
       "compound": "HARD",
       "stintLap": 13,
       "lapsSinceStart": 41.0,
-      "expectedLapTimeSec": 98.24917676700687
+      "expectedLapTimeSec": 98.20797310599949
     },
     {
       "driverId": "HAD",
@@ -601,7 +601,7 @@
       "compound": "HARD",
       "stintLap": 21,
       "lapsSinceStart": 49.0,
-      "expectedLapTimeSec": 98.35241166550084
+      "expectedLapTimeSec": 98.31120800449345
     },
     {
       "driverId": "HAD",
@@ -609,7 +609,7 @@
       "compound": "HARD",
       "stintLap": 29,
       "lapsSinceStart": 57.0,
-      "expectedLapTimeSec": 98.45564656399483
+      "expectedLapTimeSec": 98.41444290298745
     },
     {
       "driverId": "DOO",
@@ -617,7 +617,7 @@
       "compound": "MEDIUM",
       "stintLap": 3,
       "lapsSinceStart": 12.0,
-      "expectedLapTimeSec": 98.41599624009683
+      "expectedLapTimeSec": 98.30386026595798
     },
     {
       "driverId": "DOO",
@@ -625,7 +625,7 @@
       "compound": "MEDIUM",
       "stintLap": 11,
       "lapsSinceStart": 20.0,
-      "expectedLapTimeSec": 99.02009327892704
+      "expectedLapTimeSec": 98.9079573047882
     },
     {
       "driverId": "DOO",
@@ -633,7 +633,7 @@
       "compound": "HARD",
       "stintLap": 3,
       "lapsSinceStart": 31.0,
-      "expectedLapTimeSec": 97.27325135746744
+      "expectedLapTimeSec": 97.16111538332859
     },
     {
       "driverId": "DOO",
@@ -641,7 +641,7 @@
       "compound": "HARD",
       "stintLap": 16,
       "lapsSinceStart": 44.0,
-      "expectedLapTimeSec": 98.15381758519787
+      "expectedLapTimeSec": 98.04168161105903
     },
     {
       "driverId": "DOO",
@@ -649,7 +649,7 @@
       "compound": "HARD",
       "stintLap": 24,
       "lapsSinceStart": 52.0,
-      "expectedLapTimeSec": 98.69570449457046
+      "expectedLapTimeSec": 98.58356852043161
     },
     {
       "driverId": "ALO",
@@ -657,7 +657,7 @@
       "compound": "MEDIUM",
       "stintLap": 5,
       "lapsSinceStart": 5.0,
-      "expectedLapTimeSec": 99.42729782497118
+      "expectedLapTimeSec": 99.42234048439232
     },
     {
       "driverId": "ALO",
@@ -665,7 +665,7 @@
       "compound": "MEDIUM",
       "stintLap": 13,
       "lapsSinceStart": 13.0,
-      "expectedLapTimeSec": 99.75595734057886
+      "expectedLapTimeSec": 99.751
     },
     {
       "driverId": "ALO",
@@ -673,7 +673,7 @@
       "compound": "MEDIUM",
       "stintLap": 7,
       "lapsSinceStart": 23.0,
-      "expectedLapTimeSec": 99.06024451464566
+      "expectedLapTimeSec": 99.0552871740668
     },
     {
       "driverId": "ALO",
@@ -681,7 +681,7 @@
       "compound": "MEDIUM",
       "stintLap": 15,
       "lapsSinceStart": 31.0,
-      "expectedLapTimeSec": 99.38890403025334
+      "expectedLapTimeSec": 99.38394668967449
     },
     {
       "driverId": "ALO",
@@ -689,7 +689,7 @@
       "compound": "HARD",
       "stintLap": 12,
       "lapsSinceStart": 44.0,
-      "expectedLapTimeSec": 98.52852079569193
+      "expectedLapTimeSec": 98.52356345511308
     },
     {
       "driverId": "ALO",
@@ -697,7 +697,7 @@
       "compound": "HARD",
       "stintLap": 20,
       "lapsSinceStart": 52.0,
-      "expectedLapTimeSec": 98.59235568766228
+      "expectedLapTimeSec": 98.58739834708342
     },
     {
       "driverId": "LAW",
@@ -705,7 +705,7 @@
       "compound": "MEDIUM",
       "stintLap": 4,
       "lapsSinceStart": 4.0,
-      "expectedLapTimeSec": 99.69204058452046
+      "expectedLapTimeSec": 99.71156635346321
     },
     {
       "driverId": "LAW",
@@ -713,7 +713,7 @@
       "compound": "MEDIUM",
       "stintLap": 12,
       "lapsSinceStart": 12.0,
-      "expectedLapTimeSec": 99.87257141222626
+      "expectedLapTimeSec": 99.89209718116902
     },
     {
       "driverId": "LAW",
@@ -721,7 +721,7 @@
       "compound": "HARD",
       "stintLap": 9,
       "lapsSinceStart": 23.0,
-      "expectedLapTimeSec": 98.90180157744537
+      "expectedLapTimeSec": 98.92132734638813
     },
     {
       "driverId": "LAW",
@@ -729,7 +729,7 @@
       "compound": "HARD",
       "stintLap": 17,
       "lapsSinceStart": 31.0,
-      "expectedLapTimeSec": 99.00503647593936
+      "expectedLapTimeSec": 99.02456224488212
     },
     {
       "driverId": "LAW",
@@ -737,7 +737,7 @@
       "compound": "SOFT",
       "stintLap": 11,
       "lapsSinceStart": 43.0,
-      "expectedLapTimeSec": 97.57672377717167
+      "expectedLapTimeSec": 97.59624954611442
     },
     {
       "driverId": "LAW",
@@ -745,7 +745,7 @@
       "compound": "SOFT",
       "stintLap": 19,
       "lapsSinceStart": 51.0,
-      "expectedLapTimeSec": 98.4139809200288
+      "expectedLapTimeSec": 98.43350668897156
     },
     {
       "driverId": "STR",
@@ -753,7 +753,7 @@
       "compound": "SOFT",
       "stintLap": 3,
       "lapsSinceStart": 3.0,
-      "expectedLapTimeSec": 99.93124681788336
+      "expectedLapTimeSec": 99.8613120445776
     },
     {
       "driverId": "STR",
@@ -761,7 +761,7 @@
       "compound": "SOFT",
       "stintLap": 11,
       "lapsSinceStart": 11.0,
-      "expectedLapTimeSec": 100.44043469667125
+      "expectedLapTimeSec": 100.37049992336549
     },
     {
       "driverId": "STR",
@@ -769,7 +769,7 @@
       "compound": "MEDIUM",
       "stintLap": 9,
       "lapsSinceStart": 21.0,
-      "expectedLapTimeSec": 99.36834697056057
+      "expectedLapTimeSec": 99.2984121972548
     },
     {
       "driverId": "STR",
@@ -777,7 +777,7 @@
       "compound": "MEDIUM",
       "stintLap": 17,
       "lapsSinceStart": 29.0,
-      "expectedLapTimeSec": 99.69700648616825
+      "expectedLapTimeSec": 99.62707171286249
     },
     {
       "driverId": "STR",
@@ -785,7 +785,7 @@
       "compound": "HARD",
       "stintLap": 9,
       "lapsSinceStart": 41.0,
-      "expectedLapTimeSec": 98.61821574090919
+      "expectedLapTimeSec": 98.54828096760343
     },
     {
       "driverId": "STR",
@@ -793,7 +793,7 @@
       "compound": "HARD",
       "stintLap": 17,
       "lapsSinceStart": 49.0,
-      "expectedLapTimeSec": 98.68205063287951
+      "expectedLapTimeSec": 98.61211585957375
     },
     {
       "driverId": "BOR",
@@ -801,7 +801,7 @@
       "compound": "MEDIUM",
       "stintLap": 2,
       "lapsSinceStart": 2.0,
-      "expectedLapTimeSec": 99.84587465122277
+      "expectedLapTimeSec": 99.73147887724176
     },
     {
       "driverId": "BOR",
@@ -809,7 +809,7 @@
       "compound": "MEDIUM",
       "stintLap": 10,
       "lapsSinceStart": 10.0,
-      "expectedLapTimeSec": 99.77851298536484
+      "expectedLapTimeSec": 99.66411721138383
     },
     {
       "driverId": "BOR",
@@ -817,7 +817,7 @@
       "compound": "HARD",
       "stintLap": 7,
       "lapsSinceStart": 20.0,
-      "expectedLapTimeSec": 99.45962679719383
+      "expectedLapTimeSec": 99.34523102321282
     },
     {
       "driverId": "BOR",
@@ -825,7 +825,7 @@
       "compound": "HARD",
       "stintLap": 15,
       "lapsSinceStart": 28.0,
-      "expectedLapTimeSec": 100.06931307170363
+      "expectedLapTimeSec": 99.95491729772263
     },
     {
       "driverId": "BOR",
@@ -833,7 +833,7 @@
       "compound": "MEDIUM",
       "stintLap": 8,
       "lapsSinceStart": 40.0,
-      "expectedLapTimeSec": 98.89691702337444
+      "expectedLapTimeSec": 98.78252124939343
     },
     {
       "driverId": "BOR",
@@ -841,7 +841,7 @@
       "compound": "MEDIUM",
       "stintLap": 16,
       "lapsSinceStart": 48.0,
-      "expectedLapTimeSec": 98.82955535751654
+      "expectedLapTimeSec": 98.71515958353552
     },
     {
       "driverId": "BOR",
@@ -849,7 +849,7 @@
       "compound": "MEDIUM",
       "stintLap": 24,
       "lapsSinceStart": 56.0,
-      "expectedLapTimeSec": 98.76219369165861
+      "expectedLapTimeSec": 98.6477979176776
     },
     {
       "driverId": "SAI",
@@ -857,7 +857,7 @@
       "compound": "SOFT",
       "stintLap": 8,
       "lapsSinceStart": 8.0,
-      "expectedLapTimeSec": 100.03732250520828
+      "expectedLapTimeSec": 99.9218115000711
     },
     {
       "driverId": "SAI",
@@ -865,7 +865,7 @@
       "compound": "MEDIUM",
       "stintLap": 4,
       "lapsSinceStart": 18.0,
-      "expectedLapTimeSec": 98.4241327062815
+      "expectedLapTimeSec": 98.30862170114432
     },
     {
       "driverId": "SAI",
@@ -873,7 +873,7 @@
       "compound": "MEDIUM",
       "stintLap": 12,
       "lapsSinceStart": 26.0,
-      "expectedLapTimeSec": 98.89764590170427
+      "expectedLapTimeSec": 98.78213489656709
     },
     {
       "driverId": "SAI",
@@ -881,7 +881,7 @@
       "compound": "HARD",
       "stintLap": 7,
       "lapsSinceStart": 39.0,
-      "expectedLapTimeSec": 98.26708746953084
+      "expectedLapTimeSec": 98.15157646439366
     },
     {
       "driverId": "HUL",
@@ -889,7 +889,7 @@
       "compound": "MEDIUM",
       "stintLap": 2,
       "lapsSinceStart": 7.0,
-      "expectedLapTimeSec": 99.19009429428237
+      "expectedLapTimeSec": 99.28968083292897
     },
     {
       "driverId": "HUL",
@@ -897,7 +897,7 @@
       "compound": "MEDIUM",
       "stintLap": 10,
       "lapsSinceStart": 15.0,
-      "expectedLapTimeSec": 99.12273262842444
+      "expectedLapTimeSec": 99.22231916707103
     },
     {
       "driverId": "HUL",
@@ -905,7 +905,7 @@
       "compound": "MEDIUM",
       "stintLap": 18,
       "lapsSinceStart": 23.0,
-      "expectedLapTimeSec": 99.05537096256653
+      "expectedLapTimeSec": 99.15495750121312
     },
     {
       "driverId": "HUL",
@@ -913,7 +913,7 @@
       "compound": "MEDIUM",
       "stintLap": 11,
       "lapsSinceStart": 38.0,
-      "expectedLapTimeSec": 98.49663741000448
+      "expectedLapTimeSec": 98.59622394865107
     },
     {
       "driverId": "HUL",
@@ -921,7 +921,7 @@
       "compound": "MEDIUM",
       "stintLap": 19,
       "lapsSinceStart": 46.0,
-      "expectedLapTimeSec": 98.42927574414657
+      "expectedLapTimeSec": 98.52886228279316
     },
     {
       "driverId": "HUL",
@@ -929,7 +929,7 @@
       "compound": "MEDIUM",
       "stintLap": 27,
       "lapsSinceStart": 54.0,
-      "expectedLapTimeSec": 98.36191407828863
+      "expectedLapTimeSec": 98.46150061693523
     }
   ]
 }

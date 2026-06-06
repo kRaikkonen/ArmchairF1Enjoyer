@@ -419,9 +419,13 @@ def fit_driver_offsets(laps: pd.DataFrame) -> dict:
                 driver, team, n, MIN_SAMPLES_DRIVER,
             )
 
-        # Mean (not median) so sum of residuals = 0, guaranteeing predicted
-        # total time = actual total time for clean laps on the training race.
-        offset = float(valid["Residual"].mean()) if n > 0 else 0.0
+        # Honest median of per-clean-lap residuals (PLAN §8.4). Median, NOT
+        # mean: a mean forces Σresiduals = 0, which makes predicted total time
+        # identically equal actual total time — an algebraic identity that
+        # fakes a perfect backtest and does not survive a different (e.g.
+        # AI-chosen) strategy. The median is a robust per-lap pace estimate that
+        # does not back-solve the total, so the backtest measures real accuracy.
+        offset = float(valid["Residual"].median()) if n > 0 else 0.0
 
         result[driver] = DriverOffsetEntry(
             driver_id=driver,

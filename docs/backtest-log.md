@@ -47,3 +47,44 @@ FastF1 `session.results` 直接派生（完赛顺序 / ClassifiedPosition / DNF�
 诚实结论：**top3 准、中下游误差大（最坏 8 位）**。这个数字远超旧验收标准（全场 ≤4），
 但它是真实的。是否对 armchair 定位够用 / 改模型还是降低期望 = 待人类决策（PLAN §10）。
 characterization 测试已把 maxErr=8 钉死（`simulate.test.ts` Test 2），防止未来悄悄漂移。
+
+---
+
+## 2026-06-06 · 引擎一致性诊断 + 去拐杖实验
+
+### 1. §8.3 引擎一致性 —— 排除分叉，已加永久回归测试
+受控诊断（`scripts/engine-consistency.ts`）：用 Python backtest 的同一回放结构
+（真实策略，干圈换拟合预测），但干圈改用 **TS** `computeLapTime` 核心算。受控模式不改
+任何引擎逻辑——常量 RNG `()=>0.5` 让噪声归零，`inDrsZone=false`/`gap=Infinity`/
+`ersMode=neutral` 让 computeLapTime 退化成 Python 的 `sp+tyre+driverOffset`。
+
+- **逐干圈 |TS − Python| = 0.000e+0（924 圈精确为零）** → 两套引擎核心 bit 级一致。
+- 已把这个断言提升为默认套件里的永久测试 `web/src/engine/consistency.test.ts`
+  （golden 由 `controlled_consistency_dump.py` 从 Python 生成），verify.sh 强制。
+- 结论：maxErr=8 **不是** §8.3 引擎不一致，是 forward-sim 产品逻辑（贪心 AI 策略发散）。
+
+### 2. 去拐杖：`fit_driver_offsets` mean → median（§8.4）
+旧实现用 `.mean()` 残差，强制 Σ=0 → 预测总时间恒等于真实 → 回测"全场 ≤1 / top3 时间 0.0s"
+是代数恒等，无验证价值。改成 **median(actual − predicted)** 后，诚实数字浮现：
+
+| 指标 | 旧（mean，拐杖） | 新（median，诚实） |
+|------|----------------|--------------------|
+| Python 回测 top5 max | 0 | 1 |
+| Python 回测 全场 max | 1 | **5** |
+| Python 回测 top3 时间 max | 0.0 s（恒等） | **1.76 s**（真实） |
+
+> ⚠️ 诚实模型**不达现行验收门禁**（全场 5 > 4）。门禁该放宽还是该改模型 = 人类决策
+> （PLAN §10）。本次用 `regen_bahrain_honest.py` 绕过门禁导出诚实模型供测量，门禁本身
+> 未改动，数字如实上报。
+
+### 3. 三个 maxErr 并列（诚实 median 模型，vs FastF1 真实完赛）
+
+| 场景 | maxErr | 说明 |
+|------|--------|------|
+| (a) 诚实重演（真实策略，受控回放） | **5** | 模型真实精度，top3 时间误差 0.07–1.76s |
+| (b) 诚实 forward-sim（贪心 AI，seed 42，无 What-If） | **8** | 比 (a) 多 3 位 = AI 策略发散代价 |
+| (c) forward-sim + What-If（LEC 进站改到第 15 圈 HARD，seed 42） | **8** | 拉策略杆后量级不变，模型未崩 |
+
+(b) 最坏来自 GAS（P7→P15）、ANT（P11→P3）并列 Δ8。(c) 是反事实，"vs 真实完赛"非纯精度，
+重点是量级稳定（没爆）。`simulate.test.ts` characterization 仍为 8（去拐杖后最坏值未变，
+因为 forward-sim 本就没吃到 §8.4 恒等的好处），已更新注释记录。
