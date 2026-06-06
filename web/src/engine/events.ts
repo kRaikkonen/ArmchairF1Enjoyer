@@ -30,7 +30,7 @@ export const PIT_STOP_TIME_SEC = PIT_STATIONARY_SEC + PIT_LANE_DELTA_SEC;
 // ---------------------------------------------------------------------------
 
 /** Default SC duration in laps if event.duration is not specified. */
-const DEFAULT_SC_DURATION_LAPS = 3;
+export const DEFAULT_SC_DURATION_LAPS = 3;
 
 /** Default VSC duration in laps if event.duration is not specified. */
 const DEFAULT_VSC_DURATION_LAPS = 2;

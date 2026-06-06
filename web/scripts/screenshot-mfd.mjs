@@ -24,6 +24,18 @@ if (process.env.FLOW === 'home') {
 }
 
 // Optionally scrub the global lap slider (first range input, in the HUD).
+if (process.env.SC) {
+  // Inject a Safety Car (lap 20, 4 laps) and re-simulate to show field bunching.
+  await page.getByRole('button', { name: /安全车 SC/ }).click();
+  await page.waitForTimeout(150);
+  const boxes = page.locator('aside input[type=number]');
+  // SC row inputs come after the pit-lap number box(es); set lap=20 by filling
+  // the SC lap box via its position is fragile, so just run with defaults.
+  await page.getByRole('button', { name: /重新推演/ }).click();
+  await page.waitForTimeout(900);
+  void boxes;
+}
+
 if (process.env.MULTISTOP) {
   // Build a 2-stop strategy and re-simulate.
   await page.getByRole('button', { name: /增加进站/ }).click();

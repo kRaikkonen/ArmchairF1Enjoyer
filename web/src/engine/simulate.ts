@@ -24,9 +24,40 @@ import type {
   LapSnapshot,
 } from './types';
 import { computeLapTime } from './lapTime';
-import { applyEventsForLap, applyPit } from './events';
+import { applyEventsForLap, applyPit, DEFAULT_SC_DURATION_LAPS } from './events';
 import { decidePit } from './ai';
 import { createRng, deriveSeed } from './rng';
+
+// ---------------------------------------------------------------------------
+// Safety-car field dynamics — race-control schema constants, not physics fits.
+// ---------------------------------------------------------------------------
+
+/**
+ * Bunched spacing between consecutive cars when the field lines up behind the
+ * Safety Car (s). At the restart we collapse all gaps to this value, modelling
+ * the field closing right up — a car that was 20 s back is now nose-to-tail.
+ * Schema constant (race-control behaviour), not a fitted parameter.
+ */
+const SC_BUNCH_GAP_SEC = 1.0;
+
+/**
+ * Pit-loss multiplier while the Safety Car is out. The pit-lane delta costs far
+ * less relative to a field running at SC pace, so stopping under SC is "cheap".
+ * Schema constant, not a fitted parameter.
+ */
+const SC_PIT_LOSS_FACTOR = 0.5;
+
+/**
+ * Re-space the field behind the Safety Car: keep current order (by total time)
+ * but set every gap to SC_BUNCH_GAP_SEC. Retired cars stay at the back.
+ */
+function bunchFieldBehindSC(drivers: DriverState[]): DriverState[] {
+  const active = drivers.filter((d) => !d.isRetired).sort((a, b) => a.totalTimeSec - b.totalTimeSec);
+  const retired = drivers.filter((d) => d.isRetired);
+  const leaderTime = active[0]?.totalTimeSec ?? 0;
+  const bunched = active.map((d, i) => ({ ...d, totalTimeSec: leaderTime + i * SC_BUNCH_GAP_SEC }));
+  return [...bunched, ...retired];
+}
 
 // ---------------------------------------------------------------------------
 // DRS zone heuristic
@@ -122,6 +153,15 @@ export function simulate(input: SimulationInput): SimulationResult {
       .map((e) => e.driverId as string),
   );
 
+  // Laps on which the field bunches up behind the SC (the last lap of each SC
+  // period — the restart). Computed from the SC events' duration.
+  const scRestartLaps = new Set<number>();
+  for (const e of events) {
+    if (e.type === 'safety_car') {
+      scRestartLaps.add(e.lap + (e.duration ?? DEFAULT_SC_DURATION_LAPS) - 1);
+    }
+  }
+
   for (let lap = 1; lap <= totalLaps; lap++) {
     raceState = { ...raceState, lap };
 
@@ -196,9 +236,13 @@ export function simulate(input: SimulationInput): SimulationResult {
         rng,
       );
 
+      // Pitting under the Safety Car is cheap (field is slow → pit-lane delta
+      // costs less).
+      const scActive = raceState.safetyCarActive;
       const pitExtra =
-        (eventResult.extraTimeBySec[driver.driverId] ?? 0) +
-        (aiExtraTime[driver.driverId] ?? 0);
+        ((eventResult.extraTimeBySec[driver.driverId] ?? 0) +
+          (aiExtraTime[driver.driverId] ?? 0)) *
+        (scActive ? SC_PIT_LOSS_FACTOR : 1);
 
       const lapTimeSec = result.lapTimeSec + pitExtra;
 
@@ -217,10 +261,16 @@ export function simulate(input: SimulationInput): SimulationResult {
     // 4. Re-sort positions
     drivers = recomputePositions(drivers);
 
-    // 5. Store snapshots with updated positions
+    // 4b. On the SC restart lap, bunch the field up behind the Safety Car.
+    if (scRestartLaps.has(lap)) {
+      drivers = recomputePositions(bunchFieldBehindSC(drivers));
+    }
+
+    // 5. Store snapshots with updated positions + gaps (reflect this lap's
+    //    re-sort and any SC bunching).
     const snapshotsWithPositions = lapSnapshots.map((s) => {
       const d = drivers.find((dr) => dr.driverId === s.driverId);
-      return d ? { ...s, position: d.position } : s;
+      return d ? { ...s, position: d.position, gapToLeaderSec: d.gapToLeaderSec } : s;
     });
 
     lapHistory.push(snapshotsWithPositions.sort((a, b) => a.position - b.position));

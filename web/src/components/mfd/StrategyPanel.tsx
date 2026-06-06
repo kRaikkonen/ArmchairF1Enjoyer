@@ -46,6 +46,7 @@ export function StrategyPanel({ playerId, totalLaps, startCompound, isRunning, o
   const [penSec, setPenSec] = useState(5);
   const [scOn, setScOn]     = useState(false);
   const [scLap, setScLap]   = useState(Math.round(totalLaps / 3));
+  const [scDur, setScDur]   = useState(3);
   const [vscOn, setVscOn]   = useState(false);
   const [vscLap, setVscLap] = useState(Math.round(totalLaps / 2.5));
   const [rainOn, setRainOn] = useState(false);
@@ -76,7 +77,7 @@ export function StrategyPanel({ playerId, totalLaps, startCompound, isRunning, o
       prevMode = p.ersMode;
     }
     if (penOn) ev.push({ type: 'penalty', lap: 1, driverId: playerId, penaltySec: penSec });
-    if (scOn)  ev.push({ type: 'safety_car', lap: scLap });
+    if (scOn)  ev.push({ type: 'safety_car', lap: scLap, duration: scDur });
     if (vscOn) ev.push({ type: 'vsc', lap: vscLap });
     if (rainOn) ev.push({ type: 'rain', lap: rainLap, isWet: true });
     onRun(ev, trackTemp, false);
@@ -123,7 +124,10 @@ export function StrategyPanel({ playerId, totalLaps, startCompound, isRunning, o
           <NumBox value={penSec} min={1} max={60} onChange={setPenSec} suffix="s" />
         </EventRow>
         <EventRow on={scOn} onToggle={() => setScOn(!scOn)} label="安全车 SC">
-          <NumBox value={scLap} min={1} max={totalLaps} onChange={setScLap} prefix="L" />
+          <div className="flex items-center gap-1">
+            <NumBox value={scLap} min={1} max={totalLaps} onChange={setScLap} prefix="L" />
+            <NumBox value={scDur} min={1} max={10} onChange={setScDur} suffix="圈" />
+          </div>
         </EventRow>
         <EventRow on={vscOn} onToggle={() => setVscOn(!vscOn)} label="虚拟安全车 VSC">
           <NumBox value={vscLap} min={1} max={totalLaps} onChange={setVscLap} prefix="L" />
