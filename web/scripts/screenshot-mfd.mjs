@@ -24,6 +24,16 @@ if (process.env.FLOW === 'home') {
 }
 
 // Optionally scrub the global lap slider (first range input, in the HUD).
+if (process.env.WHATIF) {
+  // Inject a What-If: 60s penalty on the controlled driver, then re-simulate.
+  await page.getByRole('button', { name: /罚时/ }).click();
+  await page.waitForTimeout(150);
+  const penBox = page.locator('aside input[type=number]').first();
+  await penBox.fill('60');
+  await page.getByRole('button', { name: /重新推演/ }).click();
+  await page.waitForTimeout(900);
+}
+
 if (process.env.LAP) {
   await page.evaluate((lap) => {
     const el = document.querySelector('header input[type=range]');

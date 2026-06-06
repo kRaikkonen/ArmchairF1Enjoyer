@@ -113,6 +113,15 @@ export function simulate(input: SimulationInput): SimulationResult {
 
   const lapHistory: LapSnapshot[][] = [];
 
+  // Drivers whose pit strategy the user has dictated (any 'pit' event). The AI
+  // must not auto-pit these — the user controls their stops, so an AI stop on
+  // top would be an unwanted second pit.
+  const userControlledPitIds = new Set(
+    events
+      .filter((e) => e.type === 'pit' && e.driverId !== undefined)
+      .map((e) => e.driverId as string),
+  );
+
   for (let lap = 1; lap <= totalLaps; lap++) {
     raceState = { ...raceState, lap };
 
@@ -139,6 +148,7 @@ export function simulate(input: SimulationInput): SimulationResult {
     drivers = drivers.map((driver) => {
       if (driver.isRetired) return driver;
       if (userPittedIds.has(driver.driverId)) return driver;
+      if (userControlledPitIds.has(driver.driverId)) return driver; // user dictates this driver's pits
 
       const lapsRemaining = totalLaps - lap + 1;
       const decision = decidePit(driver, trackModel, lapsRemaining);

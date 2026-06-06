@@ -65,6 +65,8 @@ export interface RaceStore {
   result: SimulationResult | null;
   isRunning: boolean;
   runSimulation: () => void;
+  /** Run a full What-If scenario: replace events + weather and simulate. */
+  runScenario: (events: EventEffect[], trackTempC: number, weatherIsWet: boolean) => void;
   clearResult: () => void;
 }
 
@@ -118,6 +120,28 @@ export const useRaceStore = create<RaceStore>((set, get) => ({
       set({ result, isRunning: false });
     } catch (err) {
       console.error('Simulation error:', err);
+      set({ isRunning: false });
+    }
+  },
+
+  runScenario: (events, trackTempC, weatherIsWet) => {
+    const { trackModel, drivers, seed } = get();
+    if (!trackModel || drivers.length === 0) return;
+
+    set({ isRunning: true, result: null, events });
+    try {
+      const result = simulate({
+        trackModel,
+        initialDrivers: drivers,
+        totalLaps: trackModel.totalLaps && trackModel.totalLaps > 0 ? trackModel.totalLaps : 57,
+        events,
+        seed,
+        trackTempC,
+        weatherIsWet,
+      });
+      set({ result, isRunning: false });
+    } catch (err) {
+      console.error('Scenario simulation error:', err);
       set({ isRunning: false });
     }
   },

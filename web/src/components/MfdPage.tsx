@@ -22,7 +22,7 @@ import type { DriverEntry } from './mfd/DriverList';
 import { GapChart } from './mfd/GapChart';
 import type { GapSeries } from './mfd/GapChart';
 import { TrackSvg } from './mfd/TrackSvg';
-import { PitConsole } from './mfd/PitConsole';
+import { StrategyPanel } from './mfd/StrategyPanel';
 import type { LapSnapshot } from '../engine/types';
 
 export function MfdPage() {
@@ -31,6 +31,8 @@ export function MfdPage() {
   const result        = useRaceStore((s) => s.result);
   const isRunning     = useRaceStore((s) => s.isRunning);
   const runSimulation = useRaceStore((s) => s.runSimulation);
+  const runScenario   = useRaceStore((s) => s.runScenario);
+  const events        = useRaceStore((s) => s.events);
   const storedPlayer  = useRaceStore((s) => s.selectedPlayerId);
   const seed          = useRaceStore((s) => s.seed);
 
@@ -130,7 +132,11 @@ export function MfdPage() {
         <span className="text-f1-muted text-xs whitespace-nowrap">
           {eventName} · {trackModel.season} · {trackModel.circuitLengthKm?.toFixed(3)}km · {totalLaps}L
         </span>
-        <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-green-600 text-white">绿旗</span>
+        {events.length > 0 ? (
+          <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-f1-orange text-white">What-If 推演</span>
+        ) : (
+          <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-green-600 text-white">基准 · 真实策略</span>
+        )}
 
         {/* global lap scrubber */}
         <div className="flex items-center gap-2 flex-1 min-w-0">
@@ -152,11 +158,11 @@ export function MfdPage() {
           </div>
         )}
         <button
-          onClick={() => runSimulation()}
+          onClick={() => runScenario([], 32, false)}
           disabled={isRunning}
-          className="px-3 py-1.5 rounded bg-f1-orange text-white text-xs font-bold hover:opacity-90 active:scale-[0.98] transition disabled:opacity-50 whitespace-nowrap"
+          className="px-3 py-1.5 rounded border border-f1-border text-f1-muted text-xs font-bold hover:text-f1-text hover:border-f1-muted transition disabled:opacity-50 whitespace-nowrap"
         >
-          {isRunning ? '推演中…' : '重新推演 ▶'}
+          重置基准
         </button>
       </header>
 
@@ -186,13 +192,15 @@ export function MfdPage() {
               totalLaps={totalLaps}
             />
           </div>
-          <PitConsole
+          <StrategyPanel
+            playerId={playerId}
             totalLaps={totalLaps}
-            currentLap={lap}
-            onReSimulate={() => runSimulation()}
+            isRunning={isRunning}
+            onRun={(ev, temp, wet) => runScenario(ev, temp, wet)}
+            onReset={() => runScenario([], 32, false)}
           />
-          <div className="px-3 py-2 text-[9px] text-f1-border leading-relaxed">
-            seed {seed} · 单 seed 确定性推演。进站/事件注入为下一步；本步进站控制台滑杆暂未接入推演。
+          <div className="px-3 py-2 text-[9px] text-f1-border leading-relaxed border-t border-f1-border">
+            seed {seed} · 单 seed 确定性推演。只有接管车手的策略会改变；其余 19 车仍跑各自 AI 策略（对手不博弈，已知局限）。
           </div>
         </aside>
       </div>
