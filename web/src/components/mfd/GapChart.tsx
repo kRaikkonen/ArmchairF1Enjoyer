@@ -30,6 +30,8 @@ interface GapChartProps {
   currentLap: number;
   series: GapSeries[];
   maxGapSec?: number;
+  /** Driver the gaps are measured against (scenario P1 / winner). */
+  referenceLabel?: string;
 }
 
 // ── Layout constants (UI, not physics) ────────────────────────────────────
@@ -90,7 +92,7 @@ function yTicks(maxGap: number): number[] {
 // ── Component ─────────────────────────────────────────────────────────────
 
 export function GapChart({
-  trackName, totalLaps, currentLap, series, maxGapSec = 40,
+  trackName, totalLaps, currentLap, series, maxGapSec = 40, referenceLabel,
 }: GapChartProps) {
   const xTickEvery = totalLaps <= 30 ? 5 : 10;
   const xTicks: number[] = [];
@@ -210,7 +212,9 @@ export function GapChart({
         {series.length > 6 && (
           <span className="text-[9px] text-f1-border">其余 {series.length - series.filter((s) => s.highlighted).length} 车 · 各线为与领跑差距</span>
         )}
-        <span className="text-[9px] text-f1-border ml-auto">单 seed · 非不确定带</span>
+        <span className="text-[9px] text-f1-border ml-auto">
+          {referenceLabel ? `间距相对 P1 ${referenceLabel} · ` : ''}单 seed
+        </span>
       </div>
     </div>
   );

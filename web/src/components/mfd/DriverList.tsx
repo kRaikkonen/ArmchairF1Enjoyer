@@ -13,6 +13,9 @@ export interface DriverEntry {
   gap: string;       // e.g. "+19.1s" or "领跑"
   isPlayer: boolean;
   hasPitted: boolean;
+  /** Real FastF1 classification — to flag cars the engine "finishes" that
+   * actually retired (dnf) or were disqualified (dsq). */
+  realStatus?: 'finished' | 'dnf' | 'dsq';
 }
 
 // Compound badge colors for tire nomination labels (C1–C5 relative)
@@ -90,8 +93,15 @@ export function DriverList({ drivers, onSelectDriver }: DriverListProps) {
                   {isLeader ? t('drivers.leader') : d.gap}
                 </span>
 
+                {/* Real DNF/DSQ flag — engine doesn't model failures */}
+                {d.realStatus === 'dnf' && (
+                  <span title="真实比赛退赛；本推演未建模故障" className="text-red-400/70 text-[9px]">真退赛</span>
+                )}
+                {d.realStatus === 'dsq' && (
+                  <span title="真实比赛被取消资格；本推演未建模" className="text-red-400/70 text-[9px]">真DSQ</span>
+                )}
                 {/* Pitted tick */}
-                {d.hasPitted && (
+                {d.realStatus === 'finished' && d.hasPitted && (
                   <span className="text-f1-orange text-[9px]">✓已进</span>
                 )}
               </button>

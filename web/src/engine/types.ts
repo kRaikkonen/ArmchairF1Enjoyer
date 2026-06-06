@@ -153,6 +153,7 @@ export interface EventEffect {
   /** undefined = affects all drivers */
   driverId?: string;
   compound?: Compound;     // pit: which tyre to fit
+  pitTimeSec?: number;     // pit: total stop time (slow stop); default = PIT_STOP_TIME_SEC
   penaltySec?: number;     // penalty: seconds to add
   duration?: number;       // sc/vsc: laps it stays out
   ersMode?: ErsMode;       // ers_mode: switch mode

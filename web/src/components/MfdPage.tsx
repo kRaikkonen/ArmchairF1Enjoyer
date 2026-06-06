@@ -65,6 +65,16 @@ export function MfdPage() {
     return m;
   }, [trackModel]);
 
+  const driverIds = useMemo(() => Object.keys(teamByDriver), [teamByDriver]);
+
+  // Real classification status (FastF1) — to honestly flag drivers the engine
+  // shows as finishers but who actually retired (R) or were disqualified (D).
+  const realStatusByDriver = useMemo(() => {
+    const m: Record<string, 'finished' | 'dnf' | 'dsq'> = {};
+    for (const r of trackModel?.results ?? []) m[r.driverId] = r.status;
+    return m;
+  }, [trackModel]);
+
   // drivers that have pitted on or before a given lap (isInPit in lapHistory)
   const pittedByLap = useMemo(() => {
     const out: Set<string>[] = [];
@@ -76,14 +86,25 @@ export function MfdPage() {
     return out;
   }, [result]);
 
-  // per-driver gap-to-leader across all laps → Gap Chart series
+  // Reference driver = the scenario's P1 (final winner), so the chart is anchored
+  // to whoever wins THIS scenario, not the per-lap leader.
+  const winnerId = result?.finalOrder[0]?.driverId ?? '';
+
+  // per-driver gap-to-WINNER across all laps → Gap Chart series
   const gapSeries: GapSeries[] = useMemo(() => {
     if (!result) return [];
+    const nLaps = result.lapHistory.length;
+    // winner's gap-to-leader per lap = the reference baseline to subtract.
+    const winnerGap = Array(nLaps).fill(0);
+    result.lapHistory.forEach((snaps, i) => {
+      const w = snaps.find((s) => s.driverId === winnerId);
+      if (w) winnerGap[i] = w.gapToLeaderSec;
+    });
     const byDriver = new Map<string, number[]>();
     result.lapHistory.forEach((snaps, i) => {
       for (const s of snaps) {
-        if (!byDriver.has(s.driverId)) byDriver.set(s.driverId, Array(result.lapHistory.length).fill(NaN));
-        byDriver.get(s.driverId)![i] = Math.max(0, s.gapToLeaderSec);
+        if (!byDriver.has(s.driverId)) byDriver.set(s.driverId, Array(nLaps).fill(NaN));
+        byDriver.get(s.driverId)![i] = Math.max(0, s.gapToLeaderSec - winnerGap[i]);
       }
     });
     return [...byDriver.entries()].map(([driverId, gaps]) => ({
@@ -94,7 +115,7 @@ export function MfdPage() {
       highlighted: driverId === playerId,
       dim: driverId !== playerId,
     }));
-  }, [result, playerId, teamByDriver]);
+  }, [result, playerId, teamByDriver, winnerId]);
 
   // max gap for the Y-axis (cover the field at the final lap, rounded, capped)
   const maxGapSec = useMemo(() => {
@@ -118,8 +139,9 @@ export function MfdPage() {
         gap: s.position === 1 ? '领跑' : `+${s.gapToLeaderSec.toFixed(1)}s`,
         isPlayer: s.driverId === playerId,
         hasPitted: pitted.has(s.driverId),
+        realStatus: realStatusByDriver[s.driverId],
       }));
-  }, [result, lap, playerId, teamByDriver, pittedByLap]);
+  }, [result, lap, playerId, teamByDriver, pittedByLap, realStatusByDriver]);
 
   const player = standings.find((d) => d.driverId === playerId) ?? standings[0];
 
@@ -182,6 +204,12 @@ export function MfdPage() {
         </button>
       </header>
 
+      {/* ── Honest-trust banner (§8.6) ── */}
+      <div className="flex items-center gap-2 px-4 h-6 bg-f1-dark border-b border-f1-border shrink-0 text-[10px] text-f1-muted">
+        <span className="text-yellow-500">⚠ 可信度</span>
+        <span>领奖台(前3)较可信 · 中下游仅供娱乐（真实复现误差约 ±5 位）· 单 seed 确定性 · 对手不博弈 · 退赛/DSQ 未建模</span>
+      </div>
+
       {/* ── Body: three side-by-side columns (no deep stacking) ── */}
       <div className="flex-1 flex overflow-hidden min-h-0">
         {/* Left: live standings at the scrubbed lap */}
@@ -195,6 +223,7 @@ export function MfdPage() {
             currentLap={lap}
             series={gapSeries}
             maxGapSec={maxGapSec}
+            referenceLabel={winnerId}
           />
         </main>
 
@@ -213,6 +242,7 @@ export function MfdPage() {
             playerId={playerId}
             totalLaps={totalLaps}
             startCompound={storeDrivers.find((d) => d.driverId === playerId)?.compound ?? 'MEDIUM'}
+            driverIds={driverIds}
             realPits={facts?.strategies[playerId]}
             realSafetyCars={facts?.safetyCars}
             isRunning={isRunning}

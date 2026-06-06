@@ -65,6 +65,7 @@ export function eventAppliesTo(
 export function applyPit(
   driver: DriverState,
   newCompound: Compound,
+  pitTimeSec: number = PIT_STOP_TIME_SEC,
 ): { newState: DriverState; extraTimeSec: number } {
   return {
     newState: {
@@ -73,7 +74,7 @@ export function applyPit(
       stintLap: 1,
       pitCount: driver.pitCount + 1,
     },
-    extraTimeSec: PIT_STOP_TIME_SEC,
+    extraTimeSec: pitTimeSec,
   };
 }
 
@@ -154,7 +155,7 @@ export function applyEventsForLap(
 
       if (event.type === 'pit') {
         const compound = event.compound ?? d.nextCompound;
-        const { newState, extraTimeSec } = applyPit(d, compound);
+        const { newState, extraTimeSec } = applyPit(d, compound, event.pitTimeSec);
         d = newState;
         extraTimeBySec[d.driverId] = (extraTimeBySec[d.driverId] ?? 0) + extraTimeSec;
       } else if (event.type === 'penalty' && event.penaltySec !== undefined) {
