@@ -1,16 +1,15 @@
 /**
  * Strategy panel — the What-If injection console (Phase 3, step 2b).
  *
- * Every control maps to a real engine input, so "重新推演" actually changes the
- * simulation:
- *   - 进站圈数 + 出站轮胎  → a `pit` event for the controlled driver
- *   - 引擎模式             → an `ers_mode` event for the controlled driver
- *   - 罚时                 → a `penalty` event for the controlled driver
- *   - 安全车 / VSC / 雨天   → race-wide events
- *   - 路面温度             → trackTempC passed to simulate()
+ * The controlled driver's strategy is a list of STINTS, so you can build a
+ * multi-stop race and pick the engine mode per stint (not one global toggle):
+ *   - start stint: fixed start compound (from the grid) + an engine mode
+ *   - each added pit: lap + out-compound + engine mode for the new stint
  *
- * Only engine-modelled events are exposed (no "pit error / gun failure" — the
- * engine doesn't model those, so showing them would be a lie).
+ * Each control maps to a real engine input so "重新推演" changes the sim:
+ *   pit lap + compound → `pit` events; per-stint engine mode → `ers_mode`
+ *   events at each stint boundary; 罚时/SC/VSC/雨天 → penalty/safety_car/vsc/rain;
+ *   路面温度 → trackTempC. Only engine-modelled events are exposed.
  */
 import { useState } from 'react';
 import type { Compound, ErsMode, EventEffect } from '../../engine/types';
@@ -18,26 +17,29 @@ import type { Compound, ErsMode, EventEffect } from '../../engine/types';
 interface StrategyPanelProps {
   playerId: string;
   totalLaps: number;
+  /** Grid start compound for the controlled driver (from buildDriversFromModel). */
+  startCompound: Compound;
   isRunning: boolean;
   onRun: (events: EventEffect[], trackTempC: number, weatherIsWet: boolean) => void;
   onReset: () => void;
 }
 
+interface Pit { lap: number; compound: Compound; ersMode: ErsMode; }
+
+const MAX_PITS = 3;
 const COMPOUNDS: { v: Compound; label: string }[] = [
-  { v: 'SOFT', label: '软 SOFT' },
-  { v: 'MEDIUM', label: '中 MEDIUM' },
-  { v: 'HARD', label: '硬 HARD' },
+  { v: 'SOFT', label: '软' }, { v: 'MEDIUM', label: '中' }, { v: 'HARD', label: '硬' },
 ];
 const ERS_MODES: { v: ErsMode; label: string }[] = [
-  { v: 'neutral', label: '标准' },
-  { v: 'attack', label: '激进' },
-  { v: 'save', label: '节能' },
+  { v: 'neutral', label: '标准' }, { v: 'attack', label: '激进' }, { v: 'save', label: '节能' },
 ];
+const COMPOUND_LABEL: Record<string, string> = { SOFT: '软', MEDIUM: '中', HARD: '硬', INTER: '中性', WET: '湿' };
 
-export function StrategyPanel({ playerId, totalLaps, isRunning, onRun, onReset }: StrategyPanelProps) {
-  const [pitLap, setPitLap]     = useState(Math.max(2, Math.round(totalLaps / 2.6)));
-  const [outComp, setOutComp]   = useState<Compound>('HARD');
-  const [ersMode, setErsMode]   = useState<ErsMode>('neutral');
+export function StrategyPanel({ playerId, totalLaps, startCompound, isRunning, onRun, onReset }: StrategyPanelProps) {
+  const [startErs, setStartErs] = useState<ErsMode>('neutral');
+  const [pits, setPits] = useState<Pit[]>([
+    { lap: Math.max(2, Math.round(totalLaps / 2.6)), compound: 'HARD', ersMode: 'neutral' },
+  ]);
   const [trackTemp, setTrackTemp] = useState(31);
 
   const [penOn, setPenOn]   = useState(false);
@@ -49,11 +51,30 @@ export function StrategyPanel({ playerId, totalLaps, isRunning, onRun, onReset }
   const [rainOn, setRainOn] = useState(false);
   const [rainLap, setRainLap] = useState(Math.round(totalLaps / 2));
 
+  function setPit(i: number, patch: Partial<Pit>) {
+    setPits((ps) => ps.map((p, j) => (j === i ? { ...p, ...patch } : p)));
+  }
+  function addPit() {
+    setPits((ps) => {
+      if (ps.length >= MAX_PITS) return ps;
+      const lastLap = ps[ps.length - 1]?.lap ?? Math.round(totalLaps / 3);
+      const lap = Math.min(totalLaps - 1, lastLap + Math.round(totalLaps / 4));
+      return [...ps, { lap, compound: 'SOFT', ersMode: 'neutral' }];
+    });
+  }
+  function removePit(i: number) {
+    setPits((ps) => (ps.length <= 1 ? ps : ps.filter((_, j) => j !== i)));
+  }
+
   function run() {
-    const ev: EventEffect[] = [
-      { type: 'pit', lap: pitLap, driverId: playerId, compound: outComp },
-    ];
-    if (ersMode !== 'neutral') ev.push({ type: 'ers_mode', lap: 1, driverId: playerId, ersMode });
+    const ev: EventEffect[] = [];
+    let prevMode: ErsMode = startErs;
+    if (startErs !== 'neutral') ev.push({ type: 'ers_mode', lap: 1, driverId: playerId, ersMode: startErs });
+    for (const p of [...pits].sort((a, b) => a.lap - b.lap)) {
+      ev.push({ type: 'pit', lap: p.lap, driverId: playerId, compound: p.compound });
+      if (p.ersMode !== prevMode) ev.push({ type: 'ers_mode', lap: p.lap, driverId: playerId, ersMode: p.ersMode });
+      prevMode = p.ersMode;
+    }
     if (penOn) ev.push({ type: 'penalty', lap: 1, driverId: playerId, penaltySec: penSec });
     if (scOn)  ev.push({ type: 'safety_car', lap: scLap });
     if (vscOn) ev.push({ type: 'vsc', lap: vscLap });
@@ -64,43 +85,40 @@ export function StrategyPanel({ playerId, totalLaps, isRunning, onRun, onReset }
   return (
     <div className="p-3 space-y-3">
       <div className="flex items-center justify-between">
-        <span className="text-[10px] text-f1-muted uppercase tracking-widest">What-If 推演设置</span>
+        <span className="text-[10px] text-f1-muted uppercase tracking-widest">车手策略</span>
         <span className="text-[10px] text-f1-muted">接管 <b className="text-f1-orange">{playerId}</b></span>
       </div>
 
-      {/* Pit lap */}
-      <div>
-        <div className="flex justify-between text-[10px] text-f1-muted mb-1">
-          <span>进站圈数（接管车手）</span>
-          <span className="font-mono text-f1-orange">第 {pitLap} 圈</span>
-        </div>
-        <input type="range" min={2} max={totalLaps - 1} value={pitLap}
-          onChange={(e) => setPitLap(Number(e.target.value))}
-          className="w-full accent-f1-orange h-1.5" />
+      {/* Stint 0 (start) */}
+      <div className="flex items-center gap-2 text-[11px]">
+        <span className="text-f1-muted w-12">起步</span>
+        <span className="px-1.5 py-0.5 rounded bg-f1-mid text-f1-text font-mono">{COMPOUND_LABEL[startCompound] ?? startCompound}</span>
+        <span className="text-f1-muted ml-auto">引擎</span>
+        <ErsSelect value={startErs} onChange={setStartErs} />
       </div>
 
-      {/* Out tyre + engine mode */}
-      <div className="grid grid-cols-2 gap-2">
-        <label className="block">
-          <span className="text-[10px] text-f1-muted">出站轮胎</span>
-          <select value={outComp} onChange={(e) => setOutComp(e.target.value as Compound)}
-            className="w-full mt-1 bg-f1-mid border border-f1-border rounded px-2 py-1 text-xs text-f1-text">
-            {COMPOUNDS.map((c) => <option key={c.v} value={c.v}>{c.label}</option>)}
-          </select>
-        </label>
-        <label className="block">
-          <span className="text-[10px] text-f1-muted">引擎模式</span>
-          <select value={ersMode} onChange={(e) => setErsMode(e.target.value as ErsMode)}
-            className="w-full mt-1 bg-f1-mid border border-f1-border rounded px-2 py-1 text-xs text-f1-text">
-            {ERS_MODES.map((m) => <option key={m.v} value={m.v}>{m.label}</option>)}
-          </select>
-        </label>
-      </div>
+      {/* Pit stints */}
+      {pits.map((p, i) => (
+        <div key={i} className="flex items-center gap-1.5 text-[11px] border-l-2 border-f1-orange/40 pl-2">
+          <span className="text-f1-muted">进站{i + 1} L</span>
+          <input type="number" min={2} max={totalLaps - 1} value={p.lap}
+            onChange={(e) => setPit(i, { lap: Number(e.target.value) })}
+            className="w-11 bg-f1-mid border border-f1-border rounded px-1 py-0.5 text-xs text-center" />
+          <span className="text-f1-muted">→</span>
+          <CompoundSelect value={p.compound} onChange={(v) => setPit(i, { compound: v })} />
+          <ErsSelect value={p.ersMode} onChange={(v) => setPit(i, { ersMode: v })} />
+          {pits.length > 1 && (
+            <button onClick={() => removePit(i)} className="ml-auto text-f1-muted hover:text-f1-red text-sm leading-none">×</button>
+          )}
+        </div>
+      ))}
+      {pits.length < MAX_PITS && (
+        <button onClick={addPit} className="text-[10px] text-f1-orange hover:underline">+ 增加进站（多停）</button>
+      )}
 
       {/* Events */}
       <div className="space-y-1.5 border-t border-f1-border pt-2">
         <div className="text-[10px] text-f1-muted uppercase tracking-widest">事件注入</div>
-
         <EventRow on={penOn} onToggle={() => setPenOn(!penOn)} label={`罚时 ${playerId}`}>
           <NumBox value={penSec} min={1} max={60} onChange={setPenSec} suffix="s" />
         </EventRow>
@@ -118,15 +136,12 @@ export function StrategyPanel({ playerId, totalLaps, isRunning, onRun, onReset }
       {/* Track temp */}
       <div>
         <div className="flex justify-between text-[10px] text-f1-muted mb-1">
-          <span>路面温度</span>
-          <span className="font-mono text-f1-muted">{trackTemp}°C</span>
+          <span>路面温度</span><span className="font-mono text-f1-muted">{trackTemp}°C</span>
         </div>
         <input type="range" min={15} max={55} value={trackTemp}
-          onChange={(e) => setTrackTemp(Number(e.target.value))}
-          className="w-full accent-f1-orange h-1.5" />
+          onChange={(e) => setTrackTemp(Number(e.target.value))} className="w-full accent-f1-orange h-1.5" />
       </div>
 
-      {/* Run / reset */}
       <div className="flex gap-2">
         <button onClick={run} disabled={isRunning}
           className="flex-1 bg-f1-orange text-white font-bold py-2 rounded-lg text-sm hover:opacity-90 active:scale-[0.99] transition disabled:opacity-50">
@@ -141,31 +156,39 @@ export function StrategyPanel({ playerId, totalLaps, isRunning, onRun, onReset }
   );
 }
 
-function EventRow({
-  on, onToggle, label, children,
-}: { on: boolean; onToggle: () => void; label: string; children: React.ReactNode }) {
+function CompoundSelect({ value, onChange }: { value: Compound; onChange: (v: Compound) => void }) {
+  return (
+    <select value={value} onChange={(e) => onChange(e.target.value as Compound)}
+      className="bg-f1-mid border border-f1-border rounded px-1 py-0.5 text-xs text-f1-text">
+      {COMPOUNDS.map((c) => <option key={c.v} value={c.v}>{c.label}</option>)}
+    </select>
+  );
+}
+function ErsSelect({ value, onChange }: { value: ErsMode; onChange: (v: ErsMode) => void }) {
+  return (
+    <select value={value} onChange={(e) => onChange(e.target.value as ErsMode)}
+      className="bg-f1-mid border border-f1-border rounded px-1 py-0.5 text-xs text-f1-text">
+      {ERS_MODES.map((m) => <option key={m.v} value={m.v}>{m.label}</option>)}
+    </select>
+  );
+}
+function EventRow({ on, onToggle, label, children }: { on: boolean; onToggle: () => void; label: string; children: React.ReactNode }) {
   return (
     <div className="flex items-center gap-2">
       <button onClick={onToggle}
-        className={[
-          'px-2 py-0.5 rounded text-[10px] font-medium border transition-colors shrink-0 w-32 text-left',
-          on ? 'bg-yellow-500 text-gray-900 border-yellow-500' : 'bg-f1-mid border-f1-border text-f1-muted hover:text-f1-text',
-        ].join(' ')}>
+        className={['px-2 py-0.5 rounded text-[10px] font-medium border transition-colors shrink-0 w-32 text-left',
+          on ? 'bg-yellow-500 text-gray-900 border-yellow-500' : 'bg-f1-mid border-f1-border text-f1-muted hover:text-f1-text'].join(' ')}>
         {on ? '● ' : '○ '}{label}
       </button>
       <div className={on ? '' : 'opacity-30 pointer-events-none'}>{children}</div>
     </div>
   );
 }
-
-function NumBox({
-  value, min, max, onChange, prefix, suffix,
-}: { value: number; min: number; max: number; onChange: (n: number) => void; prefix?: string; suffix?: string }) {
+function NumBox({ value, min, max, onChange, prefix, suffix }: { value: number; min: number; max: number; onChange: (n: number) => void; prefix?: string; suffix?: string }) {
   return (
     <div className="flex items-center gap-0.5 text-[10px] text-f1-muted">
       {prefix}
-      <input type="number" value={value} min={min} max={max}
-        onChange={(e) => onChange(Number(e.target.value))}
+      <input type="number" value={value} min={min} max={max} onChange={(e) => onChange(Number(e.target.value))}
         className="w-12 bg-f1-mid border border-f1-border rounded px-1 py-0.5 text-xs text-f1-text text-center" />
       {suffix}
     </div>

@@ -33,6 +33,7 @@ export function MfdPage() {
   const runSimulation = useRaceStore((s) => s.runSimulation);
   const runScenario   = useRaceStore((s) => s.runScenario);
   const events        = useRaceStore((s) => s.events);
+  const storeDrivers  = useRaceStore((s) => s.drivers);
   const storedPlayer  = useRaceStore((s) => s.selectedPlayerId);
   const seed          = useRaceStore((s) => s.seed);
 
@@ -195,6 +196,7 @@ export function MfdPage() {
           <StrategyPanel
             playerId={playerId}
             totalLaps={totalLaps}
+            startCompound={storeDrivers.find((d) => d.driverId === playerId)?.compound ?? 'MEDIUM'}
             isRunning={isRunning}
             onRun={(ev, temp, wet) => runScenario(ev, temp, wet)}
             onReset={() => runScenario([], 32, false)}
