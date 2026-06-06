@@ -11,12 +11,17 @@ const errors = [];
 page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
 page.on('pageerror', (e) => errors.push(String(e)));
 
-// Share URL → auto-restores Bahrain model, runs simulate(), shows result page.
-await page.goto(`${BASE}/?track=bahrain&season=2025&player=VER&seed=42`, { waitUntil: 'networkidle' });
-
-// Click into the MFD ("进入策略推演台").
-await page.getByRole('button', { name: /策略推演台/ }).click();
-await page.waitForTimeout(900);
+if (process.env.FLOW === 'home') {
+  // New entry flow: Home → pick a race → straight into the MFD.
+  await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
+  await page.getByRole('button', { name: /Bahrain/ }).click();
+  await page.waitForTimeout(1200);
+} else {
+  // Share URL → auto-restores Bahrain, runs simulate(), shows result page.
+  await page.goto(`${BASE}/?track=bahrain&season=2025&player=VER&seed=42`, { waitUntil: 'networkidle' });
+  await page.getByRole('button', { name: /策略推演台/ }).click();
+  await page.waitForTimeout(900);
+}
 
 // Optionally scrub the global lap slider (first range input, in the HUD).
 if (process.env.LAP) {

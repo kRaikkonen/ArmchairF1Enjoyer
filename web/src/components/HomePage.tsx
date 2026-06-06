@@ -33,7 +33,10 @@ export function HomePage() {
       const model = (await res.json()) as TrackModel;
       setTrackModel(model);
       setDrivers(buildDriversFromModel(model));
-      setView('driver-select');
+      // Go straight into the MFD — it's the main interface (switch driver by
+      // clicking the standings, inject What-Ifs via the strategy controls).
+      // The old driver-select → what-if → result lead-in is bypassed.
+      setView('mfd');
     } catch (err) {
       console.error('Failed to load track model:', err);
     }
