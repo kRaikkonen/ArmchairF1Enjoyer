@@ -214,7 +214,7 @@ export function MfdPage() {
             totalLaps={totalLaps}
             startCompound={storeDrivers.find((d) => d.driverId === playerId)?.compound ?? 'MEDIUM'}
             realPits={facts?.strategies[playerId]}
-            realSc={facts?.safetyCars[0] ?? null}
+            realSafetyCars={facts?.safetyCars}
             isRunning={isRunning}
             // Keep every other driver on their real strategy; only the
             // controlled driver runs the player's edited plan.

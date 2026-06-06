@@ -120,36 +120,30 @@ export function applyEventsForLap(
 ): EventApplicationResult {
   const lapEvents = events.filter((e) => e.lap === raceState.lap);
 
-  let safetyCarActive = raceState.safetyCarActive;
-  let virtualSafetyCarActive = raceState.virtualSafetyCarActive;
+  const trackTempC = raceState.trackTempC;
+
+  // Weather persists; a rain event on this lap toggles it (supports multiple
+  // rain on/off changes across the race).
   let weatherIsWet = raceState.weatherIsWet;
-  let trackTempC = raceState.trackTempC;
-
-  // Process race-level events first
   for (const event of lapEvents) {
-    if (event.type === 'safety_car' && event.driverId === undefined) {
-      safetyCarActive = true;
-      virtualSafetyCarActive = false;
-    }
-    if (event.type === 'vsc' && event.driverId === undefined) {
-      virtualSafetyCarActive = true;
-      safetyCarActive = false;
-    }
-    if (event.type === 'rain' && event.isWet !== undefined) {
-      weatherIsWet = event.isWet;
-    }
+    if (event.type === 'rain' && event.isWet !== undefined) weatherIsWet = event.isWet;
   }
 
-  // Determine SC/VSC end based on duration
+  // SC/VSC active iff some period covers this lap. Recomputed from scratch each
+  // lap (not carried forward), so multiple — even overlapping — SC/VSC periods
+  // all work. A period of length d covers laps [lap, lap + d - 1].
+  let safetyCarActive = false;
+  let virtualSafetyCarActive = false;
   for (const event of events) {
-    const endLap = event.lap + (event.duration ?? (event.type === 'safety_car' ? DEFAULT_SC_DURATION_LAPS : DEFAULT_VSC_DURATION_LAPS));
-    if (event.type === 'safety_car' && raceState.lap >= endLap) {
-      safetyCarActive = false;
-    }
-    if (event.type === 'vsc' && raceState.lap >= endLap) {
-      virtualSafetyCarActive = false;
+    if (event.driverId !== undefined) continue;
+    if (event.type !== 'safety_car' && event.type !== 'vsc') continue;
+    const dur = event.duration ?? (event.type === 'safety_car' ? DEFAULT_SC_DURATION_LAPS : DEFAULT_VSC_DURATION_LAPS);
+    if (raceState.lap >= event.lap && raceState.lap < event.lap + dur) {
+      if (event.type === 'safety_car') safetyCarActive = true;
+      else virtualSafetyCarActive = true;
     }
   }
+  if (safetyCarActive) virtualSafetyCarActive = false; // full SC supersedes VSC
 
   // Process per-driver events
   const extraTimeBySec: Record<string, number> = {};
