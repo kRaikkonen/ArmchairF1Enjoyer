@@ -35,6 +35,7 @@ logging.basicConfig(level=logging.WARNING)
 
 FIXTURE = ROOT / "pipeline" / "tests" / "fixtures" / "bahrain-2025-laps.parquet"
 META = ROOT / "pipeline" / "tests" / "fixtures" / "bahrain-2025-meta.json"
+OUTLINE = ROOT / "pipeline" / "scripts" / "outline-bahrain.json"
 OUT = ROOT / "models" / "tracks" / "2025" / "bahrain.json"
 
 
@@ -45,6 +46,21 @@ def main() -> None:
     meta = json.loads(META.read_text(encoding="utf-8"))
     model.results = extract_results(meta["results"])
     classified = {r["driverId"] for r in model.results if r["status"] == "finished"}
+
+    # Race metadata + real circuit outline (FastF1-derived).
+    model.total_laps = int(meta.get("total_laps", 0))
+    if OUTLINE.exists():
+        outline = json.loads(OUTLINE.read_text(encoding="utf-8"))
+        model.circuit_length_km = outline.get("lengthKm")
+        model.track_outline = {
+            "viewBox": outline["viewBox"],
+            "path": outline["path"],
+            "startFinish": outline["startFinish"],
+            "source": outline.get("source"),
+        }
+        print(f"[honest] attached track outline ({outline['nPoints']} pts, {model.circuit_length_km} km)")
+    else:
+        print("[honest] WARNING: no outline file; trackOutline omitted")
 
     report = backtest(model, laps, classified_drivers=classified)
     print("[honest] Python backtest (real strategy, controlled replay):")

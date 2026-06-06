@@ -70,6 +70,20 @@ def build(event_slug: str, year: int) -> None:
     track_base_pace = float(laps.loc[laps["IsClean"], "LapTimeSec"].median())
     logger.info("Track base pace (median clean lap): %.3f s", track_base_pace)
 
+    # Race metadata + real circuit outline (FastF1-derived). total_laps from the
+    # lap data; outline (if present) from extract_track_outline.py.
+    total_laps = int(laps["LapNumber"].max())
+    outline_path = ROOT / "pipeline" / "scripts" / f"outline-{event_slug.lower()}.json"
+    track_outline = None
+    circuit_length_km = None
+    if outline_path.exists():
+        o = json.loads(outline_path.read_text(encoding="utf-8"))
+        circuit_length_km = o.get("lengthKm")
+        track_outline = {
+            "viewBox": o["viewBox"], "path": o["path"],
+            "startFinish": o["startFinish"], "source": o.get("source"),
+        }
+
     # Official race results, derived straight from FastF1 (single source of
     # truth, PLAN §8.1). This replaces the old hand-typed results block.
     results = extract_results(session.results.to_dict("records"))
@@ -108,6 +122,9 @@ def build(event_slug: str, year: int) -> None:
             "drsBoostInsufficient": drs_boost.insufficient,
         },
         results=results,
+        total_laps=total_laps,
+        circuit_length_km=circuit_length_km,
+        track_outline=track_outline,
     )
 
     # 4. Backtest — derive classified finishers from session results

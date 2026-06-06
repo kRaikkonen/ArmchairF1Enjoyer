@@ -1,83 +1,51 @@
 /**
- * Track SVG — simplified circuit layout used as a visual landmark.
- * Not geographically accurate; intended as an ambient orientation aid.
+ * Track map — renders the REAL circuit outline from FastF1 telemetry
+ * (model.trackOutline, extracted by pipeline/scripts/extract_track_outline.py).
  *
- * The Silverstone path below is a hand-approximated outline of the circuit.
- * It is a UI constant and bears no relationship to physics parameters.
+ * Note: cars are NOT drawn on the track. The engine ranks by cumulative time,
+ * not physical track position (known limitation, see README debt #4), so any
+ * on-track dot would be false precision (PLAN §8.6). We show only the circuit
+ * shape and the start/finish line.
  */
+import type { TrackOutline } from '../../engine/types';
 
 interface TrackSvgProps {
   trackName: string;
-  driverPositions?: { id: string; frac: number; isPlayer: boolean }[]; // 0..1 along the path
+  outline: TrackOutline | null | undefined;
+  lengthKm?: number | null;
+  totalLaps?: number;
 }
 
-// Simplified Silverstone layout (hand-traced, normalised to 0-200 × 0-200)
-const SILVERSTONE_PATH = `
-  M 148,30
-  C 168,30 178,42 178,55
-  L 175,80
-  C 172,95 162,102 150,112
-  C 135,124 122,128 112,120
-  C 100,110  94,96  88,84
-  C 82,72   72,65  58,68
-  C 42,72   30,83  26,100
-  C 22,118  28,138  40,155
-  C 52,172  72,180  96,182
-  C 118,184  148,180  164,172
-  C 178,164  183,152  180,138
-  C 177,124  168,118  168,108
-  C 168,95  175,80  175,80
-`;
-
-export function TrackSvg({ trackName, driverPositions = [] }: TrackSvgProps) {
+export function TrackSvg({ trackName, outline, lengthKm, totalLaps }: TrackSvgProps) {
   return (
-    <div className="w-[200px] shrink-0 flex flex-col items-center justify-center p-3">
-      <div className="text-[9px] text-f1-muted uppercase tracking-widest mb-2">
-        {trackName}
+    <div className="flex flex-col items-center w-full">
+      <div className="flex items-center justify-between w-full mb-2">
+        <span className="text-[10px] text-f1-muted uppercase tracking-widest">{trackName}</span>
+        <span className="text-[9px] text-f1-border">真实赛道轮廓</span>
       </div>
-      <svg viewBox="10 20 180 170" className="w-full" style={{ maxHeight: '160px' }}>
-        {/* Track outline (thick) */}
-        <path
-          d={SILVERSTONE_PATH}
-          fill="none"
-          stroke="#2a2a3e"
-          strokeWidth="14"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        {/* Track surface */}
-        <path
-          d={SILVERSTONE_PATH}
-          fill="none"
-          stroke="#3a3a52"
-          strokeWidth="10"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        {/* Start/finish line */}
-        <line x1="146" y1="26" x2="150" y2="46" stroke="#e8002d" strokeWidth="2" />
 
-        {/* Driver dots (placeholder positions along a simplified arc) */}
-        {driverPositions.slice(0, 6).map((dp) => {
-          // Map frac 0..1 around a rough ellipse for placeholder positions
-          const angle = dp.frac * 2 * Math.PI - Math.PI / 2;
-          const cx = 100 + 68 * Math.cos(angle);
-          const cy = 105 + 65 * Math.sin(angle);
-          return (
-            <circle
-              key={dp.id}
-              cx={cx.toFixed(1)}
-              cy={cy.toFixed(1)}
-              r={dp.isPlayer ? 4.5 : 3}
-              fill={dp.isPlayer ? '#f97316' : '#8888aa'}
-              opacity={0.85}
-            />
-          );
-        })}
-      </svg>
-      {/* Circuit stats */}
-      <div className="text-[9px] text-f1-muted mt-1 text-center">
-        5.891 km · 52圈
+      {outline ? (
+        <svg viewBox={outline.viewBox} className="w-full" style={{ maxHeight: 200 }}>
+          {/* track bed */}
+          <path d={outline.path} fill="none" stroke="#2a2a3e" strokeWidth={34}
+            strokeLinecap="round" strokeLinejoin="round" />
+          {/* track surface */}
+          <path d={outline.path} fill="none" stroke="#454560" strokeWidth={22}
+            strokeLinecap="round" strokeLinejoin="round" />
+          {/* center hairline */}
+          <path d={outline.path} fill="none" stroke="#5e5e80" strokeWidth={1.5}
+            strokeDasharray="6 10" strokeLinecap="round" />
+          {/* start/finish */}
+          <circle cx={outline.startFinish.x} cy={outline.startFinish.y} r={13}
+            fill="none" stroke="#e8002d" strokeWidth={4} />
+          <circle cx={outline.startFinish.x} cy={outline.startFinish.y} r={4} fill="#e8002d" />
+        </svg>
+      ) : (
+        <div className="text-[10px] text-f1-muted py-8">无赛道轮廓数据</div>
+      )}
+
+      <div className="text-[10px] text-f1-muted mt-1 text-center font-mono">
+        {lengthKm ? `${lengthKm.toFixed(3)} km` : ''}{lengthKm && totalLaps ? ' · ' : ''}{totalLaps ? `${totalLaps} 圈` : ''}
       </div>
     </div>
   );

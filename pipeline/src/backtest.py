@@ -33,6 +33,11 @@ class TrackModel:
     # Official race results, derived from FastF1 (single source of truth,
     # PLAN §8.1). Each entry is a canonical RaceResultEntry dict from results.py.
     results: list = field(default_factory=list)
+    # Race metadata + real circuit outline (FastF1-derived). total_laps from the
+    # session; track_outline from telemetry (extract_track_outline.py).
+    total_laps: int = 0
+    circuit_length_km: float | None = None
+    track_outline: dict | None = None
 
 
 @dataclass

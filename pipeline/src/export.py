@@ -83,6 +83,10 @@ def export_track(model: TrackModel, path: str | Path) -> None:
         # PLAN §8.1). Built in build_track.py via results.extract_results and
         # carried on the model unchanged. Never hand-edit this in the JSON.
         "results": model.results,
+        # Race metadata + real circuit outline (FastF1-derived).
+        "totalLaps": model.total_laps,
+        "circuitLengthKm": model.circuit_length_km,
+        "trackOutline": model.track_outline,
     }
 
     with open(path, "w", encoding="utf-8") as f:

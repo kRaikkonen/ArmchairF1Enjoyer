@@ -74,6 +74,19 @@ export interface TrackModel {
   fitMeta: Record<string, unknown>;
   /** Official race classification for this event (comparison view). */
   results?: RaceResultEntry[];
+  /** Race lap count (FastF1-derived). */
+  totalLaps?: number;
+  /** Circuit length in km (FastF1 telemetry-derived). */
+  circuitLengthKm?: number | null;
+  /** Real circuit outline from FastF1 telemetry, for the MFD track map. */
+  trackOutline?: TrackOutline | null;
+}
+
+export interface TrackOutline {
+  viewBox: string;             // e.g. "0 0 1000 1000"
+  path: string;                // SVG path "M x,y L ... Z"
+  startFinish: { x: number; y: number };
+  source?: string;
 }
 
 // ---------------------------------------------------------------------------

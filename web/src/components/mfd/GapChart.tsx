@@ -15,12 +15,13 @@ import { t } from '../../i18n';
 // ── Types ──────────────────────────────────────────────────────────────────
 
 export interface GapSeries {
-  id: string;           // e.g. 'c4-soft'
-  label: string;        // e.g. 'C4 软'
+  id: string;           // e.g. 'VER'
+  label: string;        // e.g. 'VER'
   color: string;        // hex
   gaps: number[];       // gap to leader per lap (length = totalLaps)
-  uncertainty: number[];// ±σ per lap — widens towards end
-  highlighted?: boolean; // player's group
+  uncertainty?: number[];// ±σ per lap (optional). Omit for a single deterministic line.
+  highlighted?: boolean; // player's series
+  dim?: boolean;         // de-emphasised (non-player crowd)
 }
 
 interface GapChartProps {
@@ -157,26 +158,28 @@ export function GapChart({
           fill="none" stroke="#2a2a3e" strokeWidth="1"
         />
 
-        {/* Series: bands first (below lines) */}
-        {series.map((s) => (
-          <path
-            key={`band-${s.id}`}
-            d={buildBandPolygon(s.gaps, s.uncertainty, totalLaps, maxGapSec)}
-            fill={s.color}
-            fillOpacity={s.highlighted ? 0.18 : 0.10}
-            stroke="none"
-          />
-        ))}
+        {/* Series: uncertainty bands first (only when provided) */}
+        {series.map((s) =>
+          s.uncertainty ? (
+            <path
+              key={`band-${s.id}`}
+              d={buildBandPolygon(s.gaps, s.uncertainty, totalLaps, maxGapSec)}
+              fill={s.color}
+              fillOpacity={s.highlighted ? 0.18 : 0.1}
+              stroke="none"
+            />
+          ) : null,
+        )}
 
-        {/* Series: center lines */}
-        {series.map((s) => (
+        {/* Series: center lines — player drawn last (on top) */}
+        {[...series].sort((a, b) => Number(a.highlighted) - Number(b.highlighted)).map((s) => (
           <path
             key={`line-${s.id}`}
             d={buildCenterLine(s.gaps, totalLaps, maxGapSec)}
             fill="none"
             stroke={s.color}
-            strokeWidth={s.highlighted ? 1.8 : 1.2}
-            strokeOpacity={s.highlighted ? 1 : 0.7}
+            strokeWidth={s.highlighted ? 2.4 : s.dim ? 1 : 1.4}
+            strokeOpacity={s.highlighted ? 1 : s.dim ? 0.45 : 0.8}
             strokeLinejoin="round"
             strokeLinecap="round"
           />
@@ -196,22 +199,18 @@ export function GapChart({
         </text>
       </svg>
 
-      {/* Compound legend */}
-      <div className="flex gap-3 mt-1 px-1">
-        {series.map((s) => (
+      {/* Legend — compact when there are many driver lines */}
+      <div className="flex gap-3 mt-1 px-1 items-center flex-wrap">
+        {(series.length > 6 ? series.filter((s) => s.highlighted) : series).map((s) => (
           <div key={s.id} className="flex items-center gap-1">
-            <svg width="16" height="8">
-              <rect x="0" y="3" width="16" height="4"
-                fill={s.color} fillOpacity="0.25" />
-              <line x1="0" y1="5" x2="16" y2="5"
-                stroke={s.color} strokeWidth="1.5" />
-            </svg>
+            <svg width="16" height="6"><line x1="0" y1="3" x2="16" y2="3" stroke={s.color} strokeWidth="2" /></svg>
             <span className="text-[9px] text-f1-muted">{s.label}</span>
           </div>
         ))}
-        <span className="text-[9px] text-f1-border ml-auto">
-          {t('chart.uncertainty')}
-        </span>
+        {series.length > 6 && (
+          <span className="text-[9px] text-f1-border">其余 {series.length - series.filter((s) => s.highlighted).length} 车 · 各线为与领跑差距</span>
+        )}
+        <span className="text-[9px] text-f1-border ml-auto">单 seed · 非不确定带</span>
       </div>
     </div>
   );

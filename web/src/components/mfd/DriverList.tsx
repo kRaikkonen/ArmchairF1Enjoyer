@@ -18,13 +18,25 @@ export interface DriverEntry {
 // Compound badge colors for tire nomination labels (C1–C5 relative)
 // These are UI constants, not physics fits.
 const COMPOUND_BADGE: Record<string, { bg: string; text: string }> = {
-  C5: { bg: 'bg-red-600',    text: 'text-white'     }, // soft
-  C4: { bg: 'bg-amber-400',  text: 'text-gray-900'  }, // medium
-  C3: { bg: 'bg-gray-300',   text: 'text-gray-900'  }, // hard
-  C2: { bg: 'bg-blue-500',   text: 'text-white'     }, // inter
-  C1: { bg: 'bg-blue-800',   text: 'text-white'     }, // wet
+  // Engine compounds (what simulate() emits)
+  SOFT:   { bg: 'bg-red-600',   text: 'text-white'    },
+  MEDIUM: { bg: 'bg-amber-400', text: 'text-gray-900' },
+  HARD:   { bg: 'bg-gray-200',  text: 'text-gray-900' },
+  INTER:  { bg: 'bg-green-500', text: 'text-white'    },
+  WET:    { bg: 'bg-blue-600',  text: 'text-white'    },
+  // Relative C-codes (legacy display)
+  C5: { bg: 'bg-red-600',    text: 'text-white'     },
+  C4: { bg: 'bg-amber-400',  text: 'text-gray-900'  },
+  C3: { bg: 'bg-gray-300',   text: 'text-gray-900'  },
+  C2: { bg: 'bg-blue-500',   text: 'text-white'     },
+  C1: { bg: 'bg-blue-800',   text: 'text-white'     },
 };
 const FALLBACK_BADGE = { bg: 'bg-f1-muted', text: 'text-white' };
+
+// Short badge label for engine compounds; C-codes pass through unchanged.
+const COMPOUND_SHORT: Record<string, string> = {
+  SOFT: 'S', MEDIUM: 'M', HARD: 'H', INTER: 'I', WET: 'W',
+};
 
 interface DriverListProps {
   drivers: DriverEntry[];
@@ -68,9 +80,9 @@ export function DriverList({ drivers, onSelectDriver }: DriverListProps) {
 
                 {/* Compound badge */}
                 <span
-                  className={`px-1 py-0.5 rounded text-[9px] font-bold leading-none ${badge.bg} ${badge.text}`}
+                  className={`w-4 text-center px-1 py-0.5 rounded text-[9px] font-bold leading-none ${badge.bg} ${badge.text}`}
                 >
-                  {d.compound}
+                  {COMPOUND_SHORT[d.compound] ?? d.compound}
                 </span>
 
                 {/* Gap / leader */}

@@ -109,7 +109,7 @@ export const useRaceStore = create<RaceStore>((set, get) => ({
       const result = simulate({
         trackModel,
         initialDrivers: drivers,
-        totalLaps: 57, // TODO: read from trackModel when multi-track is supported
+        totalLaps: trackModel.totalLaps && trackModel.totalLaps > 0 ? trackModel.totalLaps : 57,
         events,
         seed,
         trackTempC: 32,

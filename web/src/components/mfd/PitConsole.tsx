@@ -36,8 +36,9 @@ interface PitConsoleProps {
   onReSimulate: (pitLap: number, compound: string, engineMode: string, trackTemp: number) => void;
 }
 
-export function PitConsole({ totalLaps, currentLap, onReSimulate }: PitConsoleProps) {
-  const [pitLap, setPitLap]       = useState(Math.min(currentLap + 2, totalLaps - 5));
+export function PitConsole({ totalLaps, onReSimulate }: PitConsoleProps) {
+  // Pit lap is a *plan* (anywhere in the race), independent of the view lap.
+  const [pitLap, setPitLap]       = useState(Math.max(2, Math.round(totalLaps / 2.6)));
   const [tireIdx, setTireIdx]     = useState(1); // default C3
   const [engineMode, setEngineMode] = useState('standard');
   const [trackTemp, setTrackTemp] = useState(31);
@@ -89,8 +90,8 @@ export function PitConsole({ totalLaps, currentLap, onReSimulate }: PitConsolePr
           </div>
           <input
             type="range"
-            min={currentLap + 1}
-            max={totalLaps - 2}
+            min={2}
+            max={totalLaps - 1}
             value={pitLap}
             onChange={(e) => setPitLap(Number(e.target.value))}
             className="w-full accent-f1-orange h-1.5"
