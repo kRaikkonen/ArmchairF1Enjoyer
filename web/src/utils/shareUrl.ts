@@ -9,6 +9,7 @@
  */
 
 import type { EventEffect } from '../engine/types';
+import { PIT_LANE_IN_SEC, PIT_LANE_OUT_SEC } from '../engine/events';
 
 export interface ShareParams {
   track:   string;
@@ -61,7 +62,17 @@ export function parseUrlParams(): ParsedUrlParams {
   const eventsRaw = sp.get('events');
   if (eventsRaw) {
     try {
-      events = JSON.parse(eventsRaw) as EventEffect[];
+      const raw = JSON.parse(eventsRaw) as Array<Record<string, unknown>>;
+      // Migration: the pit-time field was once `pitTimeSec` (TOTAL stop time);
+      // it is now `pitStationarySec` (stationary only; total = in + stationary +
+      // out). Convert legacy links so they still reproduce their original stop.
+      events = raw.map((e) => {
+        if (e.type === 'pit' && typeof e.pitTimeSec === 'number' && e.pitStationarySec === undefined) {
+          const { pitTimeSec, ...rest } = e;
+          return { ...rest, pitStationarySec: Math.max(0, pitTimeSec - PIT_LANE_IN_SEC - PIT_LANE_OUT_SEC) };
+        }
+        return e;
+      }) as unknown as EventEffect[];
     } catch {
       console.warn('[shareUrl] Failed to parse events param:', eventsRaw);
     }

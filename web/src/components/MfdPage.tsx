@@ -21,6 +21,8 @@ import { DriverList } from './mfd/DriverList';
 import type { DriverEntry } from './mfd/DriverList';
 import { GapChart } from './mfd/GapChart';
 import type { GapSeries } from './mfd/GapChart';
+import { PositionChart } from './mfd/PositionChart';
+import type { PosSeries } from './mfd/PositionChart';
 import { TrackSvg } from './mfd/TrackSvg';
 import { StrategyPanel } from './mfd/StrategyPanel';
 import { realRaceEvents, realPitEvents } from '../utils/raceFactsEvents';
@@ -54,6 +56,7 @@ export function MfdPage() {
   const [playerId, setPlayerId] = useState(storedPlayer ?? 'VER');
   const [resetNonce, setResetNonce] = useState(0);
   const [isWhatIf, setIsWhatIf] = useState(false);
+  const [chartTab, setChartTab] = useState<'gap' | 'position'>('gap');
 
   // Keep the scrubber pinned to the final lap whenever a new result arrives.
   useEffect(() => { setLap(result?.lapHistory.length ?? totalLaps); }, [result, totalLaps]);
@@ -117,6 +120,29 @@ export function MfdPage() {
     }));
   }, [result, playerId, teamByDriver, winnerId]);
 
+  // per-driver position (rank) across all laps → Position Chart series
+  const posSeries: PosSeries[] = useMemo(() => {
+    if (!result) return [];
+    const nLaps = result.lapHistory.length;
+    const byDriver = new Map<string, number[]>();
+    result.lapHistory.forEach((snaps, i) => {
+      for (const s of snaps) {
+        if (!byDriver.has(s.driverId)) byDriver.set(s.driverId, Array(nLaps).fill(NaN));
+        byDriver.get(s.driverId)![i] = s.position;
+      }
+    });
+    return [...byDriver.entries()].map(([driverId, positions]) => ({
+      id: driverId,
+      label: driverId,
+      color: driverId === playerId ? '#f97316' : teamColor(teamByDriver[driverId] ?? ''),
+      positions,
+      highlighted: driverId === playerId,
+      dim: driverId !== playerId,
+    }));
+  }, [result, playerId, teamByDriver]);
+
+  const maxPos = result?.finalOrder.length ?? 20;
+
   // max gap for the Y-axis (cover the field at the final lap, rounded, capped)
   const maxGapSec = useMemo(() => {
     if (!result) return 60;
@@ -149,6 +175,15 @@ export function MfdPage() {
     setResetNonce((n) => n + 1);
     setIsWhatIf(false);
     runScenario(realRaceEvents(facts), BASELINE_TEMP_C, false);
+  }
+
+  // Switching the controlled driver while a What-If is showing would leave a
+  // stale parallel-world result for the OLD driver next to a panel reset to the
+  // NEW driver's real strategy — confusing. Re-run the real-race baseline.
+  function handleSelectDriver(id: string) {
+    if (id === playerId) return;
+    setPlayerId(id);
+    if (isWhatIf) resetToBaseline();
   }
 
   if (!trackModel) {
@@ -213,18 +248,39 @@ export function MfdPage() {
       {/* ── Body: three side-by-side columns (no deep stacking) ── */}
       <div className="flex-1 flex overflow-hidden min-h-0">
         {/* Left: live standings at the scrubbed lap */}
-        <DriverList drivers={standings} onSelectDriver={setPlayerId} />
+        <DriverList drivers={standings} onSelectDriver={handleSelectDriver} />
 
-        {/* Center: Gap Chart (hero) */}
+        {/* Center: chart with tab switcher (gap / track position) */}
         <main className="flex-1 flex flex-col min-w-0 overflow-hidden p-1">
-          <GapChart
-            trackName={eventName}
-            totalLaps={totalLaps}
-            currentLap={lap}
-            series={gapSeries}
-            maxGapSec={maxGapSec}
-            referenceLabel={winnerId}
-          />
+          <div className="flex gap-1 px-2 pt-1 shrink-0">
+            {([['gap', '间距图'], ['position', '场上位置']] as const).map(([k, label]) => (
+              <button key={k} onClick={() => setChartTab(k)}
+                className={[
+                  'px-3 py-1 rounded-t text-[11px] font-medium transition-colors',
+                  chartTab === k ? 'bg-f1-surface text-f1-text border-b-2 border-f1-orange' : 'text-f1-muted hover:text-f1-text',
+                ].join(' ')}>
+                {label}
+              </button>
+            ))}
+          </div>
+          {chartTab === 'gap' ? (
+            <GapChart
+              trackName={eventName}
+              totalLaps={totalLaps}
+              currentLap={lap}
+              series={gapSeries}
+              maxGapSec={maxGapSec}
+              referenceLabel={winnerId}
+            />
+          ) : (
+            <PositionChart
+              trackName={eventName}
+              totalLaps={totalLaps}
+              currentLap={lap}
+              series={posSeries}
+              maxPos={maxPos}
+            />
+          )}
         </main>
 
         {/* Right: real track map + strategy panel */}

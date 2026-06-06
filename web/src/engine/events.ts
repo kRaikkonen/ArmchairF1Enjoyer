@@ -15,14 +15,20 @@ import type { DriverState, RaceState, EventEffect, Compound } from './types';
 // published value and a reasonable cross-track default.
 // ---------------------------------------------------------------------------
 
-/** Stationary tyre-change time (s). Schema constant. */
-const PIT_STATIONARY_SEC = 2.5;
+// A pit stop's lap-time cost = pit-in + stationary + pit-out.
+//   pit-in / pit-out  : generic per-track estimates (entry/exit vs racing line)
+//   stationary        : the tyre change itself — customisable (slow/botched stop)
+// Schema constants (race-control / pit-lane geometry), not physics fits.
 
-/** Pit-lane entry + exit delta vs racing line (s). Schema constant. */
-const PIT_LANE_DELTA_SEC = 18.0;
+/** Generic pit-entry estimate (s): racing line → pit box. */
+export const PIT_LANE_IN_SEC = 9.5;
+/** Generic pit-exit estimate (s): pit box → racing line. */
+export const PIT_LANE_OUT_SEC = 8.5;
+/** Default stationary tyre-change time (s) — the customisable part. */
+export const DEFAULT_PIT_STATIONARY_SEC = 2.5;
 
-/** Total pit-stop time penalty added to a lap time (s). */
-export const PIT_STOP_TIME_SEC = PIT_STATIONARY_SEC + PIT_LANE_DELTA_SEC;
+/** Total default pit-stop time (s) = in + default stationary + out. */
+export const PIT_STOP_TIME_SEC = PIT_LANE_IN_SEC + DEFAULT_PIT_STATIONARY_SEC + PIT_LANE_OUT_SEC;
 
 // ---------------------------------------------------------------------------
 // SC / VSC duration defaults — schema constants.
@@ -65,8 +71,10 @@ export function eventAppliesTo(
 export function applyPit(
   driver: DriverState,
   newCompound: Compound,
-  pitTimeSec: number = PIT_STOP_TIME_SEC,
+  stationarySec: number = DEFAULT_PIT_STATIONARY_SEC,
 ): { newState: DriverState; extraTimeSec: number } {
+  // in + (customisable) stationary + out
+  const extraTimeSec = PIT_LANE_IN_SEC + stationarySec + PIT_LANE_OUT_SEC;
   return {
     newState: {
       ...driver,
@@ -74,7 +82,7 @@ export function applyPit(
       stintLap: 1,
       pitCount: driver.pitCount + 1,
     },
-    extraTimeSec: pitTimeSec,
+    extraTimeSec,
   };
 }
 
@@ -150,13 +158,18 @@ export function applyEventsForLap(
   const extraTimeBySec: Record<string, number> = {};
   const updatedDrivers = raceState.drivers.map((driver) => {
     let d = driver;
+    let pittedThisLap = false;
     for (const event of lapEvents) {
       if (!eventAppliesTo(event, d.driverId, raceState.lap)) continue;
 
       if (event.type === 'pit') {
+        // A driver can only stop once per lap — ignore duplicate pit events so a
+        // malformed input can't double-charge the pit loss and pitCount.
+        if (pittedThisLap) continue;
         const compound = event.compound ?? d.nextCompound;
-        const { newState, extraTimeSec } = applyPit(d, compound, event.pitTimeSec);
+        const { newState, extraTimeSec } = applyPit(d, compound, event.pitStationarySec);
         d = newState;
+        pittedThisLap = true;
         extraTimeBySec[d.driverId] = (extraTimeBySec[d.driverId] ?? 0) + extraTimeSec;
       } else if (event.type === 'penalty' && event.penaltySec !== undefined) {
         d = applyPenalty(d, event.penaltySec);
