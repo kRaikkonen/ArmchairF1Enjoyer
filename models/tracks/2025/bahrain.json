@@ -1,7 +1,7 @@
 {
   "schemaVersion": "v1",
   "season": 2025,
-  "event": "Bahrain",
+  "event": "Bahrain Grand Prix",
   "trackBasePace": 98.439,
   "stintProgress": {
     "slope": -0.028076136826714965,
@@ -363,7 +363,24 @@
       "nSamples": 45
     }
   },
-  "fitMeta": {},
+  "fitMeta": {
+    "nCleanLaps": 924,
+    "nTotalLaps": 1128,
+    "insufficientTyreGroups": [
+      "Alpine/SOFT(15)",
+      "Aston Martin/SOFT(10)",
+      "Haas F1 Team/MEDIUM(17)",
+      "Kick Sauber/HARD(17)",
+      "Kick Sauber/SOFT(3)",
+      "Red Bull Racing/HARD(14)"
+    ],
+    "backtest": {
+      "top5MaxErr": 1,
+      "allMaxErr": 5,
+      "top3TimeMaxErr": 1.76,
+      "passes": true
+    }
+  },
   "results": [
     {
       "position": 1,
@@ -795,6 +812,11 @@
         "lap": 32,
         "duration": 4
       }
-    ]
-  }
+    ],
+    "virtualSafetyCars": [],
+    "redFlags": []
+  },
+  "pitLaneSec": 21.2,
+  "modelVersion": "bahrain-2025-v1-6823967e",
+  "dataQuality": "ok"
 }

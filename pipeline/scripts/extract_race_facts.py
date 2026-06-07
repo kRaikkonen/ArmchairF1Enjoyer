@@ -1,12 +1,15 @@
 #!/usr/bin/env python
-"""Extract the real race facts (strategy + safety cars) from the lap fixture.
+"""Extract the real race facts (strategy + neutralisations) from a lap fixture.
 
-So the MFD can open on the REAL race and let the player modify the parallel
-world from there: per-driver start compound + pit laps/compounds, and the real
-Safety Car periods. All FastF1-derived (single source of truth, PLAN §8.1),
-offline from the committed lap fixture.
+Per-driver start compound + pit laps/compounds, and the real Safety Car / VSC /
+red-flag periods — so the MFD opens on the real race. All FastF1-derived (single
+source of truth, PLAN §8.1), offline from the committed lap fixture.
 
-Run: conda run -n f1apt python pipeline/scripts/extract_race_facts.py bahrain
+FastF1 TrackStatus is a per-lap string of single-char codes:
+  1=green 2=yellow 4=SC 5=red 6=VSC-deployed 7=VSC-ending
+We parse it per-character (a substring match on '4' would wrongly fire on '14').
+
+Run: conda run -n f1apt python pipeline/scripts/extract_race_facts.py <slug> <year>
 """
 
 import json
@@ -16,65 +19,61 @@ from pathlib import Path
 import pandas as pd
 
 ROOT = Path(__file__).parent.parent.parent
-FIXTURE = ROOT / "pipeline" / "tests" / "fixtures" / "bahrain-2025-laps.parquet"
+FIXTURES = ROOT / "pipeline" / "tests" / "fixtures"
+
+
+def _periods(df: pd.DataFrame, codes: set[str]) -> list[dict]:
+    """Consecutive lap ranges whose TrackStatus contains any of `codes`."""
+    mask = df["TrackStatus"].astype(str).apply(lambda s: any(c in set(s) for c in codes))
+    laps = sorted(df.loc[mask, "LapNumber"].dropna().astype(int).unique().tolist())
+    out: list[dict] = []
+    if not laps:
+        return out
+    start = prev = laps[0]
+    for lap in laps[1:] + [None]:
+        if lap is None or lap != prev + 1:
+            out.append({"lap": int(start), "duration": int(prev - start + 1)})
+            if lap is not None:
+                start = lap
+        if lap is not None:
+            prev = lap
+    return out
 
 
 def extract(df: pd.DataFrame) -> dict:
     start_compounds: dict[str, str] = {}
     strategies: dict[str, list] = {}
-
     for drv, d in df.groupby("Driver"):
         d = d.sort_values("LapNumber")
         stints = (
-            d.dropna(subset=["Stint", "Compound"])
-            .groupby("Stint")
+            d.dropna(subset=["Stint", "Compound"]).groupby("Stint")
             .agg(startLap=("LapNumber", "min"), compound=("Compound", "first"))
-            .reset_index()
-            .sort_values("Stint")
+            .reset_index().sort_values("Stint")
         )
         if stints.empty:
             continue
         start_compounds[drv] = str(stints.iloc[0]["compound"])
-        # Pits = the start of every stint after the first.
-        pits = [
+        strategies[drv] = [
             {"lap": int(r["startLap"]), "compound": str(r["compound"])}
             for _, r in stints.iloc[1:].iterrows()
         ]
-        strategies[drv] = pits
-
-    # Safety-car periods: consecutive laps whose TrackStatus contains '4'.
-    sc_laps = sorted(
-        df.loc[df["TrackStatus"].astype(str).str.contains("4"), "LapNumber"]
-        .dropna().astype(int).unique().tolist()
-    )
-    safety_cars = []
-    if sc_laps:
-        start = prev = sc_laps[0]
-        for lap in sc_laps[1:] + [None]:
-            if lap is None or lap != prev + 1:
-                safety_cars.append({"lap": int(start), "duration": int(prev - start + 1)})
-                if lap is not None:
-                    start = lap
-            if lap is not None:
-                prev = lap
-
     return {
         "startCompounds": start_compounds,
         "strategies": strategies,
-        "safetyCars": safety_cars,
+        "safetyCars": _periods(df, {"4"}),
+        "virtualSafetyCars": _periods(df, {"6", "7"}),
+        "redFlags": _periods(df, {"5"}),
     }
 
 
-def main(slug: str) -> None:
-    df = pd.read_parquet(FIXTURE)
+def main(slug: str, year: int) -> None:
+    df = pd.read_parquet(FIXTURES / f"{slug}-{year}-laps.parquet")
     facts = extract(df)
     dest = ROOT / "pipeline" / "scripts" / f"facts-{slug}.json"
     dest.write_text(json.dumps(facts), encoding="utf-8")
-    print(f"startCompounds: {len(facts['startCompounds'])} drivers")
-    print(f"safetyCars: {facts['safetyCars']}")
-    print(f"sample VER strategy: {facts['strategies'].get('VER')}")
-    print(f"wrote {dest}")
+    print(f"[facts] {slug}: {len(facts['startCompounds'])} drivers · "
+          f"SC {facts['safetyCars']} · VSC {facts['virtualSafetyCars']} · red {facts['redFlags']}")
 
 
 if __name__ == "__main__":
-    main(sys.argv[1] if len(sys.argv) > 1 else "bahrain")
+    main(sys.argv[1], int(sys.argv[2]) if len(sys.argv) > 2 else 2025)

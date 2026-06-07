@@ -41,6 +41,14 @@ class TrackModel:
     # Real race facts (FastF1-derived): per-driver start compound + pit strategy
     # and safety-car periods. Lets the UI open on the real race. extract_race_facts.py.
     race_facts: dict | None = None
+    # Per-track pit-lane delta (s, in+out, excludes the stationary tyre change),
+    # derived from data; the engine reads this instead of a global constant.
+    pit_lane_sec: float | None = None
+    # Stable version (slug-year-schema-confhash) for the share URL (PLAN §8.5).
+    model_version: str = ""
+    # 'ok' | 'limited' — whether the backtest met the acceptance gate; drives a
+    # "数据不足/仅供参考" badge for tracks the model fits poorly (PLAN §10).
+    data_quality: str = "ok"
 
 
 @dataclass
