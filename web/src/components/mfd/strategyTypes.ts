@@ -18,10 +18,17 @@ export interface DriverStrat { pits: Pit[]; ers: ErsChange[]; }
 const clampLap = (l: number, lo: number, hi: number) =>
   Math.min(hi, Math.max(lo, Number.isFinite(l) ? Math.round(l) : lo));
 
-/** A driver's REAL strategy as an editable DriverStrat (real pits, no ers changes). */
-export function defaultStrat(realPits: { lap: number; compound: Compound }[] | undefined): DriverStrat {
+/** A driver's REAL strategy as an editable DriverStrat — real pits with their REAL
+ *  stationary time (so a slow stop shows its real ~14s, editable), no ers changes. */
+export function defaultStrat(
+  realPits: { lap: number; compound: Compound; stationarySec?: number }[] | undefined,
+): DriverStrat {
   return {
-    pits: (realPits ?? []).map((p) => ({ lap: p.lap, compound: p.compound, stationary: DEFAULT_PIT_STATIONARY_SEC })),
+    pits: (realPits ?? []).map((p) => ({
+      lap: p.lap,
+      compound: p.compound,
+      stationary: typeof p.stationarySec === 'number' ? p.stationarySec : DEFAULT_PIT_STATIONARY_SEC,
+    })),
     ers: [],
   };
 }

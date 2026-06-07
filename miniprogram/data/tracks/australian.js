@@ -536,366 +536,448 @@ module.exports = {
       "ALB": [
         {
           "lap": 3,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 4,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 3.3
         },
         {
           "lap": 5,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 34,
-          "compound": "MEDIUM"
+          "compound": "MEDIUM",
+          "stationarySec": 4.9
         },
         {
           "lap": 45,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 5.1
         }
       ],
       "ALO": [
         {
           "lap": 3,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.8
         },
         {
           "lap": 4,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 2.6
         },
         {
           "lap": 5,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         }
       ],
       "ANT": [
         {
           "lap": 3,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 4,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 2.7
         },
         {
           "lap": 5,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 34,
-          "compound": "HARD"
+          "compound": "HARD",
+          "stationarySec": 5.3
         },
         {
           "lap": 45,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 8.2
         }
       ],
       "BEA": [
         {
           "lap": 3,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 4,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 2.6
         },
         {
           "lap": 5,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 8.5
         },
         {
           "lap": 40,
-          "compound": "MEDIUM"
+          "compound": "MEDIUM",
+          "stationarySec": 8.9
         },
         {
           "lap": 45,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 5.7
         }
       ],
       "BOR": [
         {
           "lap": 3,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 4,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 2.6
         },
         {
           "lap": 5,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 34,
-          "compound": "MEDIUM"
+          "compound": "MEDIUM",
+          "stationarySec": 10.3
         },
         {
           "lap": 45,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 12.3
         }
       ],
       "DOO": [],
       "GAS": [
         {
           "lap": 3,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 4,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 2.1
         },
         {
           "lap": 5,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 34,
-          "compound": "HARD"
+          "compound": "HARD",
+          "stationarySec": 5.9
         },
         {
           "lap": 47,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 6.0
         }
       ],
       "HAD": [],
       "HAM": [
         {
           "lap": 3,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 4,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 2.6
         },
         {
           "lap": 5,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 34,
-          "compound": "HARD"
+          "compound": "HARD",
+          "stationarySec": 4.9
         },
         {
           "lap": 48,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 7.2
         }
       ],
       "HUL": [
         {
           "lap": 3,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.6
         },
         {
           "lap": 4,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 2.3
         },
         {
           "lap": 5,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 34,
-          "compound": "MEDIUM"
+          "compound": "MEDIUM",
+          "stationarySec": 7.4
         },
         {
           "lap": 45,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 6.4
         }
       ],
       "LAW": [
         {
           "lap": 3,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 4,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 2.4
         },
         {
           "lap": 5,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 5.0
         },
         {
           "lap": 34,
-          "compound": "MEDIUM"
+          "compound": "MEDIUM",
+          "stationarySec": 6.3
         }
       ],
       "LEC": [
         {
           "lap": 3,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 4,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 5,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 35,
-          "compound": "HARD"
+          "compound": "HARD",
+          "stationarySec": 4.4
         },
         {
           "lap": 48,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 10.7
         }
       ],
       "NOR": [
         {
           "lap": 3,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 4,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 5,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 35,
-          "compound": "HARD"
+          "compound": "HARD",
+          "stationarySec": 4.8
         },
         {
           "lap": 45,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 4.2
         }
       ],
       "OCO": [
         {
           "lap": 3,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 4,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 2.8
         },
         {
           "lap": 5,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 5.9
         },
         {
           "lap": 40,
-          "compound": "MEDIUM"
+          "compound": "MEDIUM",
+          "stationarySec": 5.2
         },
         {
           "lap": 47,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 6.2
         }
       ],
       "PIA": [
         {
           "lap": 3,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 4,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 5,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 35,
-          "compound": "HARD"
+          "compound": "HARD",
+          "stationarySec": 5.9
         },
         {
           "lap": 45,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 6.0
         }
       ],
       "RUS": [
         {
           "lap": 3,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 4,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 5,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 35,
-          "compound": "HARD"
+          "compound": "HARD",
+          "stationarySec": 5.5
         },
         {
           "lap": 45,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 5.7
         }
       ],
       "SAI": [],
       "STR": [
         {
           "lap": 3,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 2.0
         },
         {
           "lap": 4,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 2.4
         },
         {
           "lap": 5,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 34,
-          "compound": "HARD"
+          "compound": "HARD",
+          "stationarySec": 5.0
         },
         {
           "lap": 45,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 5.2
         }
       ],
       "TSU": [
         {
           "lap": 3,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 4,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 5,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 34,
-          "compound": "MEDIUM"
+          "compound": "MEDIUM",
+          "stationarySec": 5.2
         },
         {
           "lap": 48,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 5.5
         }
       ],
       "VER": [
         {
           "lap": 3,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 4,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 5,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 1.5
         },
         {
           "lap": 35,
-          "compound": "MEDIUM"
+          "compound": "MEDIUM",
+          "stationarySec": 4.9
         },
         {
           "lap": 47,
-          "compound": "INTER"
+          "compound": "INTER",
+          "stationarySec": 5.1
         }
       ]
     },

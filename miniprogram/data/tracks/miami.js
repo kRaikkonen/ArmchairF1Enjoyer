@@ -537,19 +537,22 @@ module.exports = {
       "ALB": [
         {
           "lap": 33,
-          "compound": "HARD"
+          "compound": "HARD",
+          "stationarySec": 2.5
         }
       ],
       "ALO": [
         {
           "lap": 33,
-          "compound": "MEDIUM"
+          "compound": "MEDIUM",
+          "stationarySec": 2.5
         }
       ],
       "ANT": [
         {
           "lap": 33,
-          "compound": "HARD"
+          "compound": "HARD",
+          "stationarySec": 2.5
         }
       ],
       "BEA": [],
@@ -558,70 +561,81 @@ module.exports = {
       "GAS": [
         {
           "lap": 33,
-          "compound": "MEDIUM"
+          "compound": "MEDIUM",
+          "stationarySec": 2.5
         }
       ],
       "HAD": [],
       "HAM": [
         {
           "lap": 33,
-          "compound": "MEDIUM"
+          "compound": "MEDIUM",
+          "stationarySec": 2.5
         }
       ],
       "HUL": [
         {
           "lap": 37,
-          "compound": "MEDIUM"
+          "compound": "MEDIUM",
+          "stationarySec": 2.5
         }
       ],
       "LAW": [
         {
           "lap": 32,
-          "compound": "MEDIUM"
+          "compound": "MEDIUM",
+          "stationarySec": 2.5
         }
       ],
       "LEC": [
         {
           "lap": 33,
-          "compound": "HARD"
+          "compound": "HARD",
+          "stationarySec": 2.5
         }
       ],
       "NOR": [
         {
           "lap": 33,
-          "compound": "HARD"
+          "compound": "HARD",
+          "stationarySec": 2.5
         }
       ],
       "OCO": [],
       "PIA": [
         {
           "lap": 33,
-          "compound": "HARD"
+          "compound": "HARD",
+          "stationarySec": 2.5
         }
       ],
       "RUS": [
         {
           "lap": 33,
-          "compound": "MEDIUM"
+          "compound": "MEDIUM",
+          "stationarySec": 2.5
         }
       ],
       "SAI": [
         {
           "lap": 33,
-          "compound": "HARD"
+          "compound": "HARD",
+          "stationarySec": 2.5
         }
       ],
       "STR": [],
       "TSU": [
         {
           "lap": 33,
-          "compound": "HARD"
+          "compound": "HARD",
+          "stationarySec": 2.5
         }
       ],
       "VER": [
         {
           "lap": 33,
-          "compound": "HARD"
+          "compound": "HARD",
+          "stationarySec": 2.5
         }
       ]
     },

@@ -13,6 +13,7 @@ Run: conda run -n f1apt python pipeline/scripts/extract_race_facts.py <slug> <ye
 """
 
 import json
+import statistics
 import sys
 from pathlib import Path
 
@@ -20,6 +21,24 @@ import pandas as pd
 
 ROOT = Path(__file__).parent.parent.parent
 FIXTURES = ROOT / "pipeline" / "tests" / "fixtures"
+
+# Engine's normal stationary tyre-change baseline (s). Per-stop slowness measured
+# from real pit-lane time is added on top (so a slow stop reads ~12s, a normal ~2.5s).
+DEFAULT_STATIONARY_SEC = 2.5
+
+
+def _pit_in_pit_sec(d_sorted: pd.DataFrame, out_lap: int) -> float | None:
+    """Real time spent in the pit lane for the stop whose OUT-lap is `out_lap`:
+    PitOutTime(out_lap) − PitInTime(out_lap−1). This = pit-lane travel + stationary,
+    a real measured value. None if either marker is missing."""
+    inl = d_sorted[d_sorted["LapNumber"] == out_lap - 1]
+    outl = d_sorted[d_sorted["LapNumber"] == out_lap]
+    if not len(inl) or not len(outl):
+        return None
+    pin, pout = inl.iloc[0]["PitInTime"], outl.iloc[0]["PitOutTime"]
+    if pd.isna(pin) or pd.isna(pout):
+        return None
+    return (pd.to_timedelta(pout) - pd.to_timedelta(pin)).total_seconds()
 
 
 def _periods(df: pd.DataFrame, codes: set[str]) -> list[dict]:
@@ -42,7 +61,8 @@ def _periods(df: pd.DataFrame, codes: set[str]) -> list[dict]:
 
 def extract(df: pd.DataFrame) -> dict:
     start_compounds: dict[str, str] = {}
-    strategies: dict[str, list] = {}
+    raw: dict[str, list] = {}   # drv -> [{lap, compound, _pip}]
+    all_pip: list[float] = []   # every stop's real in-pit time, for the field baseline
     for drv, d in df.groupby("Driver"):
         d = d.sort_values("LapNumber")
         stints = (
@@ -53,10 +73,29 @@ def extract(df: pd.DataFrame) -> dict:
         if stints.empty:
             continue
         start_compounds[drv] = str(stints.iloc[0]["compound"])
-        strategies[drv] = [
-            {"lap": int(r["startLap"]), "compound": str(r["compound"])}
-            for _, r in stints.iloc[1:].iterrows()
-        ]
+        stops = []
+        for _, r in stints.iloc[1:].iterrows():
+            out_lap = int(r["startLap"])
+            pip = _pit_in_pit_sec(d, out_lap)
+            stops.append({"lap": out_lap, "compound": str(r["compound"]), "_pip": pip})
+            if pip is not None:
+                all_pip.append(pip)
+        raw[drv] = stops
+
+    # Field-wide "normal" in-pit time (lane travel + normal stationary). A stop's
+    # stationary = DEFAULT + how much slower than normal it was — so a botched stop
+    # reads its real ~12s and a clean stop ~2.5s. Robust to wet races via the median.
+    base = statistics.median(all_pip) if all_pip else None
+    strategies: dict[str, list] = {}
+    for drv, stops in raw.items():
+        out = []
+        for s in stops:
+            stationary = DEFAULT_STATIONARY_SEC
+            if base is not None and s["_pip"] is not None:
+                stationary = round(max(1.5, min(30.0, DEFAULT_STATIONARY_SEC + (s["_pip"] - base))), 1)
+            out.append({"lap": s["lap"], "compound": s["compound"], "stationarySec": stationary})
+        strategies[drv] = out
+
     return {
         "startCompounds": start_compounds,
         "strategies": strategies,

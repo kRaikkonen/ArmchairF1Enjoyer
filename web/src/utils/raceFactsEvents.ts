@@ -13,7 +13,13 @@ export function realPitEvents(
   const ev: EventEffect[] = [];
   for (const [driverId, pits] of Object.entries(facts.strategies)) {
     if (driverId === excludeDriverId) continue;
-    for (const p of pits) ev.push({ type: 'pit', lap: p.lap, driverId, compound: p.compound });
+    for (const p of pits) {
+      // Carry the real stationary time so the baseline reproduces real slow stops
+      // (e.g. a 14.7s botched stop), not a flat default.
+      const e: EventEffect = { type: 'pit', lap: p.lap, driverId, compound: p.compound };
+      if (typeof p.stationarySec === 'number') e.pitStationarySec = p.stationarySec;
+      ev.push(e);
+    }
   }
   return ev;
 }

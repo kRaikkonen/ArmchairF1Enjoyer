@@ -98,8 +98,10 @@ export interface TrackModel {
 export interface RaceFacts {
   /** driverId → grid start compound. */
   startCompounds: Record<string, Compound>;
-  /** driverId → real pit stops (lap + out-compound), in order. */
-  strategies: Record<string, { lap: number; compound: Compound }[]>;
+  /** driverId → real pit stops (lap + out-compound + real stationary time), in order.
+   *  stationarySec is the measured tyre-change time (slow stops read high), so the
+   *  baseline reproduces real slow stops and the player can edit them. */
+  strategies: Record<string, { lap: number; compound: Compound; stationarySec?: number }[]>;
   /** Real safety-car periods. */
   safetyCars: { lap: number; duration: number }[];
   /** Real virtual-safety-car periods. */

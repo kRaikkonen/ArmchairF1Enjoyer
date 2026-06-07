@@ -260,6 +260,10 @@ export function MfdPage() {
     ];
   }, [driverStrats, raceEvts, initialRaceEvts, totalLaps]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // The real race timeline (every driver's real pit + real stationary time + real
+  // SC/VSC) — shown in the feed so the player sees what actually happened.
+  const realTimeline = useMemo(() => realRaceEvents(facts), [facts]);
+
   function buildScenarioEvents() {
     const overrideSet = new Set(overridden);
     const overrideEvents = overridden.flatMap((d) => stratToEvents(d, driverStrats[d], totalLaps));
@@ -420,7 +424,7 @@ export function MfdPage() {
         </main>
 
         {/* Event feed — the player's accumulated What-If modifications */}
-        <EventFeed events={feedEvents} isWhatIf={isWhatIf} />
+        <EventFeed realEvents={realTimeline} modEvents={feedEvents} overriddenDrivers={overridden} isWhatIf={isWhatIf} />
 
         {/* Right: strategy panel (track map is now the 赛道位置 tab) */}
         <aside className="w-[290px] shrink-0 flex flex-col border-l border-f1-border bg-f1-surface overflow-y-auto">
