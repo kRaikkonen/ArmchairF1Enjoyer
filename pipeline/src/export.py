@@ -54,6 +54,7 @@ def export_track(model: TrackModel, path: str | Path) -> None:
     payload: dict[str, Any] = {
         "schemaVersion": SCHEMA_VERSION,
         "season": model.season,
+        "slug": model.slug,
         "event": model.event,
         "trackBasePace": model.track_base_pace,
         "stintProgress": {

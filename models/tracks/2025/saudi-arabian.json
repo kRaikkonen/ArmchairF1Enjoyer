@@ -1,6 +1,7 @@
 {
   "schemaVersion": "v1",
   "season": 2025,
+  "slug": "saudi-arabian",
   "event": "Saudi Arabian Grand Prix",
   "trackBasePace": 94.387,
   "stintProgress": {

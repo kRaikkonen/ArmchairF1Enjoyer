@@ -28,7 +28,7 @@ import type { TrackDriver } from './mfd/TrackPositionView';
 import { EventFeed } from './mfd/EventFeed';
 import { ShareCard } from './mfd/ShareCard';
 import { StrategyPanel } from './mfd/StrategyPanel';
-import { buildShareUrl } from '../utils/shareUrl';
+import { buildShareUrl, slugifyTrack } from '../utils/shareUrl';
 import { realRaceEvents, realPitEvents } from '../utils/raceFactsEvents';
 import { defaultStrat, stratToEvents, raceEvtsToEvents, realRaceEvts } from './mfd/strategyTypes';
 import type { DriverStrat, RaceEvt, Pit, ErsChange } from './mfd/strategyTypes';
@@ -68,7 +68,7 @@ export function MfdPage() {
   // across driver switches: each edited driver keeps their strategy override,
   // race events are global, and the feed shows them all.
   const [driverStrats, setDriverStrats] = useState<Record<string, DriverStrat>>({});
-  const [raceEvts, setRaceEvts] = useState<RaceEvt[]>(() => realRaceEvts(facts?.safetyCars));
+  const [raceEvts, setRaceEvts] = useState<RaceEvt[]>(() => realRaceEvts(facts?.safetyCars, facts?.virtualSafetyCars));
 
   // Keep the scrubber pinned to the final lap whenever a new result arrives.
   useEffect(() => { setLap(result?.lapHistory.length ?? totalLaps); }, [result, totalLaps]);
@@ -225,7 +225,7 @@ export function MfdPage() {
   const player = standings.find((d) => d.driverId === playerId) ?? standings[0];
 
   // ── Scenario (accumulates across driver switches) ──────────────────────────
-  const initialRaceEvts = useMemo(() => realRaceEvts(facts?.safetyCars), [facts]);
+  const initialRaceEvts = useMemo(() => realRaceEvts(facts?.safetyCars, facts?.virtualSafetyCars), [facts]);
 
   // the controlled driver's editable strategy (override if any, else their real)
   const currentStrat: DriverStrat = driverStrats[playerId] ?? defaultStrat(facts?.strategies[playerId]);
@@ -379,8 +379,17 @@ export function MfdPage() {
 
       {/* ── Honest-trust banner (§8.6) ── */}
       <div className="flex items-center gap-2 px-4 h-6 bg-f1-dark border-b border-f1-border shrink-0 text-[10px] text-f1-muted">
-        <span className="text-yellow-500">⚠ 可信度</span>
-        <span>领奖台(前3)较可信 · 中下游仅供娱乐（真实复现误差约 ±4 位）· 单 seed 确定性 · 对手不博弈 · 退赛/DSQ 车手已剔除（不参与推演）</span>
+        {trackModel?.dataQuality === 'limited' ? (
+          <>
+            <span className="text-yellow-500">⚠ 数据不足</span>
+            <span>本站模型未通过回测精度门槛，复现与推演仅供娱乐 · 退赛/DSQ 车手已剔除</span>
+          </>
+        ) : (
+          <>
+            <span className="text-yellow-500">⚠ 可信度</span>
+            <span>领奖台(前3)较可信 · 中下游仅供娱乐（真实复现误差约 ±4 位）· 单 seed 确定性 · 对手不博弈 · 退赛/DSQ 车手已剔除（不参与推演）</span>
+          </>
+        )}
       </div>
 
       {/* ── Body: three side-by-side columns (no deep stacking) ── */}
@@ -463,7 +472,7 @@ export function MfdPage() {
           season={trackModel.season}
           seed={seed}
           feedEvents={feedEvents}
-          shareUrl={buildShareUrl({ track: eventName.toLowerCase(), season: trackModel.season, player: playerId, events: buildScenarioEvents(), seed })}
+          shareUrl={buildShareUrl({ track: trackModel.slug ?? slugifyTrack(eventName), season: trackModel.season, player: playerId, events: buildScenarioEvents(), seed, modelVersion: trackModel.modelVersion, rivalsReact, overridden })}
           onClose={() => setShowShare(false)}
         />
       )}

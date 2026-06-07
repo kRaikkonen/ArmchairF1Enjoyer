@@ -1,0 +1,182 @@
+[
+  {
+    "slug": "australian",
+    "name": "Australian Grand Prix",
+    "round": 1,
+    "season": 2025,
+    "totalLaps": 57,
+    "circuitLengthKm": 5.24,
+    "dataQuality": "limited",
+    "modelVersion": "australian-2025-v1-88cea3a0"
+  },
+  {
+    "slug": "japanese",
+    "name": "Japanese Grand Prix",
+    "round": 3,
+    "season": 2025,
+    "totalLaps": 53,
+    "circuitLengthKm": 5.766,
+    "dataQuality": "limited",
+    "modelVersion": "japanese-2025-v1-28cbb492"
+  },
+  {
+    "slug": "bahrain",
+    "name": "Bahrain Grand Prix",
+    "round": 4,
+    "season": 2025,
+    "totalLaps": 57,
+    "circuitLengthKm": 5.377,
+    "dataQuality": "ok",
+    "modelVersion": "bahrain-2025-v1-6823967e"
+  },
+  {
+    "slug": "saudi-arabian",
+    "name": "Saudi Arabian Grand Prix",
+    "round": 5,
+    "season": 2025,
+    "totalLaps": 50,
+    "circuitLengthKm": 6.076,
+    "dataQuality": "limited",
+    "modelVersion": "saudi-arabian-2025-v1-cbe6b059"
+  },
+  {
+    "slug": "emilia-romagna",
+    "name": "Emilia Romagna Grand Prix",
+    "round": 7,
+    "season": 2025,
+    "totalLaps": 63,
+    "circuitLengthKm": 4.881,
+    "dataQuality": "limited",
+    "modelVersion": "emilia-romagna-2025-v1-08358a33"
+  },
+  {
+    "slug": "monaco",
+    "name": "Monaco Grand Prix",
+    "round": 8,
+    "season": 2025,
+    "totalLaps": 78,
+    "circuitLengthKm": 3.284,
+    "dataQuality": "limited",
+    "modelVersion": "monaco-2025-v1-a97b34e8"
+  },
+  {
+    "slug": "spanish",
+    "name": "Spanish Grand Prix",
+    "round": 9,
+    "season": 2025,
+    "totalLaps": 66,
+    "circuitLengthKm": 4.633,
+    "dataQuality": "limited",
+    "modelVersion": "spanish-2025-v1-65f763e1"
+  },
+  {
+    "slug": "canadian",
+    "name": "Canadian Grand Prix",
+    "round": 10,
+    "season": 2025,
+    "totalLaps": 70,
+    "circuitLengthKm": 4.298,
+    "dataQuality": "limited",
+    "modelVersion": "canadian-2025-v1-7406931f"
+  },
+  {
+    "slug": "austrian",
+    "name": "Austrian Grand Prix",
+    "round": 11,
+    "season": 2025,
+    "totalLaps": 70,
+    "circuitLengthKm": 4.295,
+    "dataQuality": "limited",
+    "modelVersion": "austrian-2025-v1-e3d7c15d"
+  },
+  {
+    "slug": "british",
+    "name": "British Grand Prix",
+    "round": 12,
+    "season": 2025,
+    "totalLaps": 52,
+    "circuitLengthKm": 5.819,
+    "dataQuality": "limited",
+    "modelVersion": "british-2025-v1-eb6dd03b"
+  },
+  {
+    "slug": "hungarian",
+    "name": "Hungarian Grand Prix",
+    "round": 14,
+    "season": 2025,
+    "totalLaps": 70,
+    "circuitLengthKm": 4.355,
+    "dataQuality": "limited",
+    "modelVersion": "hungarian-2025-v1-61c898b6"
+  },
+  {
+    "slug": "dutch",
+    "name": "Dutch Grand Prix",
+    "round": 15,
+    "season": 2025,
+    "totalLaps": 72,
+    "circuitLengthKm": 4.239,
+    "dataQuality": "limited",
+    "modelVersion": "dutch-2025-v1-adc298a7"
+  },
+  {
+    "slug": "italian",
+    "name": "Italian Grand Prix",
+    "round": 16,
+    "season": 2025,
+    "totalLaps": 53,
+    "circuitLengthKm": 5.74,
+    "dataQuality": "limited",
+    "modelVersion": "italian-2025-v1-fa4c2df3"
+  },
+  {
+    "slug": "azerbaijan",
+    "name": "Azerbaijan Grand Prix",
+    "round": 17,
+    "season": 2025,
+    "totalLaps": 51,
+    "circuitLengthKm": 5.932,
+    "dataQuality": "limited",
+    "modelVersion": "azerbaijan-2025-v1-ccaadc0b"
+  },
+  {
+    "slug": "singapore",
+    "name": "Singapore Grand Prix",
+    "round": 18,
+    "season": 2025,
+    "totalLaps": 62,
+    "circuitLengthKm": 4.893,
+    "dataQuality": "limited",
+    "modelVersion": "singapore-2025-v1-96173d2c"
+  },
+  {
+    "slug": "mexico-city",
+    "name": "Mexico City Grand Prix",
+    "round": 20,
+    "season": 2025,
+    "totalLaps": 71,
+    "circuitLengthKm": 4.24,
+    "dataQuality": "limited",
+    "modelVersion": "mexico-city-2025-v1-d1ce6c25"
+  },
+  {
+    "slug": "las-vegas",
+    "name": "Las Vegas Grand Prix",
+    "round": 22,
+    "season": 2025,
+    "totalLaps": 50,
+    "circuitLengthKm": 6.139,
+    "dataQuality": "limited",
+    "modelVersion": "las-vegas-2025-v1-037250b4"
+  },
+  {
+    "slug": "abu-dhabi",
+    "name": "Abu Dhabi Grand Prix",
+    "round": 24,
+    "season": 2025,
+    "totalLaps": 58,
+    "circuitLengthKm": 5.214,
+    "dataQuality": "limited",
+    "modelVersion": "abu-dhabi-2025-v1-b087daed"
+  }
+]

@@ -51,7 +51,15 @@ export function raceEvtsToEvents(raceEvts: RaceEvt[], totalLaps: number): EventE
   return ev;
 }
 
-/** Initial global race events = the real race's safety cars. */
-export function realRaceEvts(safetyCars: { lap: number; duration: number }[] | undefined): RaceEvt[] {
-  return (safetyCars ?? []).map((sc) => ({ kind: 'safety_car' as EvtKind, lap: sc.lap, duration: sc.duration, isWet: true, driverId: '', penaltySec: 5 }));
+/** Initial global race events = the real race's safety cars + virtual safety cars. */
+export function realRaceEvts(
+  safetyCars: { lap: number; duration: number }[] | undefined,
+  virtualSafetyCars?: { lap: number; duration: number }[] | undefined,
+): RaceEvt[] {
+  const mk = (kind: EvtKind) => (s: { lap: number; duration: number }): RaceEvt =>
+    ({ kind, lap: s.lap, duration: s.duration, isWet: true, driverId: '', penaltySec: 5 });
+  return [
+    ...(safetyCars ?? []).map(mk('safety_car')),
+    ...(virtualSafetyCars ?? []).map(mk('vsc')),
+  ].sort((a, b) => a.lap - b.lap);
 }

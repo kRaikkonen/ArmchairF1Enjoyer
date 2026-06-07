@@ -27,3 +27,9 @@ pipeline/scripts/controlled_consistency_dump.json
 # IDE
 .vscode/
 .idea/
+
+# WSL/Windows zone-transfer marker artifacts
+*:Zone.Identifier
+
+# Local planning scratch (kept out of history by request)
+PLAN.md

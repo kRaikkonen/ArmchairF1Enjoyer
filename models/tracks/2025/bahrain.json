@@ -1,6 +1,7 @@
 {
   "schemaVersion": "v1",
   "season": 2025,
+  "slug": "bahrain",
   "event": "Bahrain Grand Prix",
   "trackBasePace": 98.439,
   "stintProgress": {

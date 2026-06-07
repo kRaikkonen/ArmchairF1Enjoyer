@@ -63,6 +63,8 @@ export interface RaceResultEntry {
 export interface TrackModel {
   schemaVersion: string;
   season: number;
+  /** URL/file slug, e.g. "saudi-arabian". Keys the JSON filename + share URL. */
+  slug?: string;
   event: string;
   trackBasePace: number; // median clean lap (diagnostic only)
   stintProgress: StintProgressFit;
@@ -83,6 +85,12 @@ export interface TrackModel {
   trackOutline?: TrackOutline | null;
   /** Real race facts (FastF1-derived): strategies + safety cars. */
   raceFacts?: RaceFacts | null;
+  /** Per-track pit-lane delta (s, in+out, excl. stationary), data-derived. */
+  pitLaneSec?: number | null;
+  /** Stable model version (slug-year-schema-hash) for the share URL. */
+  modelVersion?: string;
+  /** 'ok' | 'limited' — whether the model met the accuracy gate. */
+  dataQuality?: 'ok' | 'limited';
 }
 
 export interface RaceFacts {
@@ -92,6 +100,10 @@ export interface RaceFacts {
   strategies: Record<string, { lap: number; compound: Compound }[]>;
   /** Real safety-car periods. */
   safetyCars: { lap: number; duration: number }[];
+  /** Real virtual-safety-car periods. */
+  virtualSafetyCars?: { lap: number; duration: number }[];
+  /** Real red-flag periods (not modelled by the engine; for display only). */
+  redFlags?: { lap: number; duration: number }[];
 }
 
 export interface TrackOutline {

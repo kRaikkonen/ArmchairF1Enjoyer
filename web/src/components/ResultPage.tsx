@@ -16,7 +16,7 @@ import { useState } from 'react';
 import { useRaceStore } from '../store/raceStore';
 import type { EventEffect, DriverState } from '../engine/types';
 import { teamColor } from '../engine/teamColors';
-import { buildShareUrl } from '../utils/shareUrl';
+import { buildShareUrl, slugifyTrack } from '../utils/shareUrl';
 
 // ---------------------------------------------------------------------------
 // Compound badge styling (self-contained — avoids Tailwind text-color conflict)
@@ -96,11 +96,12 @@ export function ResultPage() {
   function handleCopyLink() {
     if (!trackModel) return;
     const url = buildShareUrl({
-      track:  trackModel.event.toLowerCase(),
+      track:  trackModel.slug ?? slugifyTrack(trackModel.event),
       season: trackModel.season,
       player: selectedPlayerId,
       events,
       seed,
+      modelVersion: trackModel.modelVersion,
     });
     navigator.clipboard.writeText(url).then(() => {
       setCopied(true);

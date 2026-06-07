@@ -18,13 +18,15 @@ export function realPitEvents(
   return ev;
 }
 
-/** Real safety-car periods. */
+/** Real safety-car periods (full SC + virtual SC). */
 export function realScEvents(facts: RaceFacts | null | undefined): EventEffect[] {
   if (!facts) return [];
-  return facts.safetyCars.map((sc) => ({ type: 'safety_car', lap: sc.lap, duration: sc.duration }));
+  const sc: EventEffect[] = facts.safetyCars.map((s) => ({ type: 'safety_car', lap: s.lap, duration: s.duration }));
+  const vsc: EventEffect[] = (facts.virtualSafetyCars ?? []).map((s) => ({ type: 'vsc', lap: s.lap, duration: s.duration }));
+  return [...sc, ...vsc];
 }
 
-/** The full real race: every driver's real strategy + the real safety cars. */
+/** The full real race: every driver's real strategy + the real safety cars (incl. VSC). */
 export function realRaceEvents(facts: RaceFacts | null | undefined): EventEffect[] {
   return [...realPitEvents(facts), ...realScEvents(facts)];
 }

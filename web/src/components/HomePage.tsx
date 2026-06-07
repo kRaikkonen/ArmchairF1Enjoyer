@@ -1,41 +1,47 @@
 /**
- * Home page — race selector.
- *
- * Phase 1: shows available race cards (Bahrain only for now).
- * User taps a card to go to the setup flow.
+ * Home page — race selector, driven by the generated manifest
+ * (/models/tracks/<year>/index.json) so every onboarded race shows up
+ * automatically. Picking a race goes straight into the MFD.
  */
 
+import { useEffect, useState } from 'react';
 import { useRaceStore } from '../store/raceStore';
 import type { TrackModel } from '../engine/types';
 import { buildDriversFromModel } from '../utils/buildDrivers';
 
-// Available tracks in Phase 1 (Bahrain only)
-const TRACKS = [
-  {
-    id: 'bahrain',
-    name: 'Bahrain Grand Prix',
-    year: 2025,
-    jsonPath: '/models/tracks/2025/bahrain.json',
-    subtitle: '2025 · Round 1 · Sakhir',
-    totalLaps: 57,
-  },
-] as const;
+interface RaceEntry {
+  slug: string;
+  name: string;
+  round: number;
+  season: number;
+  totalLaps?: number;
+  circuitLengthKm?: number | null;
+  dataQuality?: 'ok' | 'limited';
+}
+
+const SEASON = 2025;
 
 export function HomePage() {
   const setView = useRaceStore((s) => s.setView);
   const setTrackModel = useRaceStore((s) => s.setTrackModel);
   const setDrivers = useRaceStore((s) => s.setDrivers);
+  const [races, setRaces] = useState<RaceEntry[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
-  async function selectTrack(track: (typeof TRACKS)[number]) {
+  useEffect(() => {
+    fetch(`/models/tracks/${SEASON}/index.json`)
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))))
+      .then((d: RaceEntry[]) => setRaces(d))
+      .catch((e) => setError(String(e)));
+  }, []);
+
+  async function selectTrack(race: RaceEntry) {
     try {
-      const res = await fetch(track.jsonPath);
-      if (!res.ok) throw new Error(`Failed to load ${track.jsonPath}`);
+      const res = await fetch(`/models/tracks/${race.season}/${race.slug}.json`);
+      if (!res.ok) throw new Error(`Failed to load ${race.slug}`);
       const model = (await res.json()) as TrackModel;
       setTrackModel(model);
       setDrivers(buildDriversFromModel(model));
-      // Go straight into the MFD — it's the main interface (switch driver by
-      // clicking the standings, inject What-Ifs via the strategy controls).
-      // The old driver-select → what-if → result lead-in is bypassed.
       setView('mfd');
     } catch (err) {
       console.error('Failed to load track model:', err);
@@ -43,43 +49,42 @@ export function HomePage() {
   }
 
   return (
-    <main className="max-w-lg mx-auto px-4 py-8">
-      {/* Header */}
-      <header className="mb-8 text-center">
-        <h1 className="text-2xl font-bold text-f1-red tracking-wide uppercase">
-          Armchair Pitwall
-        </h1>
-        <p className="text-f1-muted text-sm mt-1">
-          What if you called the strategy?
-        </p>
+    <main className="max-w-3xl mx-auto px-4 py-8">
+      <header className="mb-6 text-center">
+        <h1 className="text-2xl font-bold text-f1-red tracking-wide uppercase">Armchair Pitwall</h1>
+        <p className="text-f1-muted text-sm mt-1">复现真实那场比赛，然后接管车手改写结局</p>
       </header>
 
-      {/* Race cards */}
       <section aria-label="Select a race">
         <h2 className="text-xs uppercase tracking-widest text-f1-muted mb-3">
-          Choose a race
+          {SEASON} 赛季 · 选一场比赛（{races.length} 场）
         </h2>
-        <ul className="space-y-3">
-          {TRACKS.map((track) => (
-            <li key={track.id}>
+        {error && <div className="text-f1-muted text-sm">赛事清单加载失败：{error}</div>}
+        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {races.map((race) => (
+            <li key={race.slug}>
               <button
-                onClick={() => void selectTrack(track)}
-                className="w-full text-left bg-f1-mid border border-f1-border rounded-lg px-4 py-4 hover:border-f1-red transition-colors"
+                onClick={() => void selectTrack(race)}
+                className="w-full text-left bg-f1-mid border border-f1-border rounded-lg px-4 py-3 hover:border-f1-red transition-colors"
               >
-                <div className="font-semibold text-f1-text">{track.name}</div>
-                <div className="text-f1-muted text-sm mt-0.5">{track.subtitle}</div>
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] text-f1-muted font-mono">R{race.round}</span>
+                  {race.dataQuality === 'limited' && (
+                    <span className="text-[9px] text-yellow-500/90 border border-yellow-500/40 rounded px-1">数据不足·仅供参考</span>
+                  )}
+                </div>
+                <div className="font-semibold text-f1-text mt-0.5">{race.name}</div>
+                <div className="text-f1-muted text-xs mt-0.5">
+                  {race.circuitLengthKm ? `${race.circuitLengthKm.toFixed(3)} km · ` : ''}{race.totalLaps ?? '?'} 圈
+                </div>
               </button>
             </li>
           ))}
         </ul>
       </section>
 
-      {/* Footer */}
-      <footer className="mt-12 text-center text-xs text-f1-muted">
-        <p>Model v1 · Based on 2025 Bahrain GP data</p>
-        <p className="mt-1">
-          Data courtesy of FastF1. Not affiliated with F1, FIA, or any team.
-        </p>
+      <footer className="mt-10 text-center text-xs text-f1-muted">
+        <p>Model v1 · 数据来自 FastF1 · 与 F1/FIA/车队无关</p>
       </footer>
     </main>
   );

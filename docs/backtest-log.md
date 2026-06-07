@@ -111,3 +111,40 @@ characterization 测试已把 maxErr=8 钉死（`simulate.test.ts` Test 2），�
   复活"跟车/超车/undercut"张力。§8.3 受控模式仍把这些归零，golden 不变。
 - 巴林真实复现误差因为这层摩擦反而**从 6 改善到 4**。
 - 对手博弈（reactive AI）：对手会防守 undercut / 安全车抢停 / 雨天换胎；无干预时精确复现真实（偏差 0）。
+
+---
+
+## 2026-06-07 · 全季 onboarding（18 场常规赛）+ 诚实精度门槛
+
+`onboard_season.py` 拉取并构建 2025 全部 18 场常规赛（非冲刺）。每场 **in-sample**
+（自身拟合→自身回测）数字如下。门槛：top5≤2、全场≤6、top3 时间≤5s 三项全过才记 `ok`，
+否则 `limited` 并在 UI 打"数据不足/仅供参考"标（不再 hard-fail 删赛道，PLAN §10 决策）。
+
+| 轮次 | 赛道 | top5 max | 全场 max | top3 时间(s) | 评级 |
+|---|---|---|---|---|---|
+| R1 | australian | 1 | 3 | 7.22 | limited |
+| R3 | japanese | 3 | 16 | 0.76 | limited |
+| R4 | **bahrain** | 1 | 5 | 1.76 | **ok** |
+| R5 | saudi-arabian | 4 | 14 | 5.73 | limited |
+| R7 | emilia-romagna | 7 | 7 | 4.49 | limited |
+| R8 | monaco | 4 | 12 | 11.67 | limited |
+| R9 | spanish | 3 | 3 | 3.88 | limited |
+| R10 | canadian | 11 | 11 | 3.53 | limited |
+| R11 | austrian | 11 | 15 | 1.21 | limited |
+| R12 | british | 2 | 12 | 5.22 | limited |
+| R14 | hungarian | 10 | 12 | 2.30 | limited |
+| R15 | dutch | 13 | 13 | 12.91 | limited |
+| R16 | italian | 5 | 14 | 3.76 | limited |
+| R17 | azerbaijan | 7 | 17 | 4.25 | limited |
+| R18 | singapore | 6 | 11 | 9.14 | limited |
+| R20 | mexico-city | 7 | 14 | 0.70 | limited |
+| R22 | las-vegas | 1 | 14 | 2.50 | limited |
+| R24 | abu-dhabi | 5 | 16 | 7.37 | limited |
+
+**结论（诚实）**：18 场里只有 **Bahrain 过门槛**，其余 17 场全 `limited`。这与 #3 跨赛道
+holdout 的结论一致——基于累积时间的位置模型在超车多/方差大的赛道吃力，单赛道拟合也难压住
+全场误差。产品对策不是藏，而是**逐场打标**：领奖台尚可看，中下游仅供娱乐。
+
+**修复（本轮 audit 发现）**：Australian / British 是仅有的两场雨战，FastF1 把中性胎拼作
+`INTERMEDIATE`，而引擎/UI 契约是 `INTER`——湿胎被错当光头胎吃 15s/圈 罚时、AI 误换胎、
+徽章显示 `?`。已在 `build_track.py` 读 parquet 后统一 `INTERMEDIATE→INTER`，两场重建验证无残留。

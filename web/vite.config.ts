@@ -15,7 +15,7 @@ export default defineConfig({
   // (see scripts/verify.sh for the copy step in CI).
   test: {
     globals: true,
-    environment: 'node',   // engine is pure TS, no DOM
-    include: ['src/engine/**/*.test.ts'],
+    environment: 'node',   // engine is pure TS; utils tests stub window themselves
+    include: ['src/engine/**/*.test.ts', 'src/utils/**/*.test.ts'],
   },
 })

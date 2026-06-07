@@ -78,6 +78,12 @@ def build(slug: str, year: int) -> None:
         sys.exit(1)
 
     raw = pd.read_parquet(laps_path)
+    # FastF1 spells the intermediate tyre 'INTERMEDIATE'; the TS engine's Compound
+    # union and every UI badge map use 'INTER'. Normalize once at the source so the
+    # fitted tyreDeg keys, race facts, and start compounds all match the engine
+    # contract. Dry races never hit this; wet races (AUS/GBR 2025) do — without it
+    # the engine applies the slick-in-rain penalty to inter-shod cars (PLAN §8.1).
+    raw["Compound"] = raw["Compound"].replace({"INTERMEDIATE": "INTER"})
     meta = json.loads(meta_path.read_text(encoding="utf-8"))
     event = meta["event"]
     logger.info("=== build_track: %s %d (%s) ===", slug, year, event)
@@ -88,7 +94,7 @@ def build(slug: str, year: int) -> None:
     insufficient = [f"{t}/{c}({e.n_samples})" for (t, c), e in tyre_deg.items() if e.insufficient]
 
     model = TrackModel(
-        season=year, event=event, track_base_pace=track_base_pace,
+        season=year, event=event, slug=slug, track_base_pace=track_base_pace,
         stint_progress=fit_stint_progress(laps), tyre_deg=tyre_deg,
         dirty_air=fit_dirty_air(laps), drs_boost=fit_drs_boost(laps),
         driver_offsets=fit_driver_offsets(laps),

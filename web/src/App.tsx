@@ -31,6 +31,7 @@ export default function App() {
   const addEvent           = useRaceStore((s) => s.addEvent);
   const setSeed            = useRaceStore((s) => s.setSeed);
   const runSimulation      = useRaceStore((s) => s.runSimulation);
+  const runScenario        = useRaceStore((s) => s.runScenario);
 
   // Guard against React StrictMode double-invocation in dev
   const restoredRef = useRef(false);
@@ -40,7 +41,7 @@ export default function App() {
     if (!hasShareParams()) return;
     restoredRef.current = true;
 
-    const { track, season, player, events, seed } = parseUrlParams();
+    const { track, season, player, events, seed, modelVersion, rivalsReact, overridden } = parseUrlParams();
     if (!track || !season) return;
 
     const jsonPath = `/models/tracks/${season}/${track}.json`;
@@ -51,6 +52,15 @@ export default function App() {
         return res.json() as Promise<TrackModel>;
       })
       .then((model) => {
+        // §8.5 reproducibility: warn if the link was built against a different
+        // model build (the fit changed since the link was shared, so the
+        // recreated result may not match the original).
+        if (modelVersion && model.modelVersion && modelVersion !== model.modelVersion) {
+          console.warn(
+            `[App] Share-link model drift: link=${modelVersion} current=${model.modelVersion}. ` +
+            `Result may differ from the original.`,
+          );
+        }
         // Restore all parameters — order matters: model first so drivers can be built.
         setTrackModel(model);
         setDrivers(buildDriversFromModel(model));
@@ -63,9 +73,25 @@ export default function App() {
         // Restore seed (may differ from the default-42 set during store init)
         if (seed !== null) setSeed(seed);
 
-        // All Zustand set() calls above are synchronous; runSimulation's get()
-        // will see the fully-updated state.
-        runSimulation();
+        // "对手博弈" links carry only the player's overrides + race events; the
+        // rivals' reactive strategies are rebuilt here from the model's own race
+        // facts (real strategy minus overridden drivers), mirroring the MFD's
+        // buildReactiveStrategies(), and the run goes through runScenario() so the
+        // reactive AI fires. Without this the link would silently fall back to the
+        // generic 1-stop AI and not reproduce. Plain (non-react) links inject every
+        // rival's real pits into `events`, so runSimulation() reproduces them as-is.
+        if (rivalsReact && model.raceFacts) {
+          const overrideSet = new Set(overridden);
+          const reactive: NonNullable<Parameters<typeof runScenario>[3]> = {};
+          for (const [d, pits] of Object.entries(model.raceFacts.strategies)) {
+            if (!overrideSet.has(d)) reactive[d] = pits;
+          }
+          // 32°C / dry — the baseline run params (match the store's runSimulation
+          // defaults and the MFD's BASELINE_TEMP_C, so react vs plain reproduce alike).
+          runScenario(events ?? [], 32, false, reactive);
+        } else {
+          runSimulation();
+        }
         setView('result');
       })
       .catch((err) => {

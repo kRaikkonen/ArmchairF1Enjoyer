@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 class TrackModel:
     """Aggregated fit parameters for one race weekend."""
     season: int
-    event: str
+    event: str                      # FastF1 event name, e.g. "Bahrain Grand Prix"
     track_base_pace: float          # median clean lap time (s) — diagnostic only
     stint_progress: StintProgressModel
     tyre_deg: dict                  # (team, compound) -> TyreDegEntry
@@ -49,6 +49,9 @@ class TrackModel:
     # 'ok' | 'limited' — whether the backtest met the acceptance gate; drives a
     # "数据不足/仅供参考" badge for tracks the model fits poorly (PLAN §10).
     data_quality: str = "ok"
+    # URL/file slug (e.g. "saudi-arabian"). The JSON filename and share-URL
+    # `track` param key off this, NOT the FastF1 event name.
+    slug: str = ""
 
 
 @dataclass
