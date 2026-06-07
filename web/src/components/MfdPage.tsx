@@ -26,7 +26,9 @@ import type { PosSeries } from './mfd/PositionChart';
 import { TrackPositionView } from './mfd/TrackPositionView';
 import type { TrackDriver } from './mfd/TrackPositionView';
 import { EventFeed } from './mfd/EventFeed';
+import { ShareCard } from './mfd/ShareCard';
 import { StrategyPanel } from './mfd/StrategyPanel';
+import { buildShareUrl } from '../utils/shareUrl';
 import { realRaceEvents, realPitEvents } from '../utils/raceFactsEvents';
 import { defaultStrat, stratToEvents, raceEvtsToEvents, realRaceEvts } from './mfd/strategyTypes';
 import type { DriverStrat, RaceEvt, Pit, ErsChange } from './mfd/strategyTypes';
@@ -43,6 +45,7 @@ export function MfdPage() {
   const runScenario   = useRaceStore((s) => s.runScenario);
   const storeDrivers  = useRaceStore((s) => s.drivers);
   const storedPlayer  = useRaceStore((s) => s.selectedPlayerId);
+  const setSelectedPlayerId = useRaceStore((s) => s.setSelectedPlayerId);
   const seed          = useRaceStore((s) => s.seed);
 
   const facts = trackModel?.raceFacts;
@@ -59,6 +62,7 @@ export function MfdPage() {
   const [lap, setLap] = useState(totalLaps);
   const [playerId, setPlayerId] = useState(storedPlayer ?? 'VER');
   const [chartTab, setChartTab] = useState<'gap' | 'position' | 'track'>('gap');
+  const [showShare, setShowShare] = useState(false);
   // Scenario state lives HERE (not in the panel) so it persists and ACCUMULATES
   // across driver switches: each edited driver keeps their strategy override,
   // race events are global, and the feed shows them all.
@@ -91,6 +95,20 @@ export function MfdPage() {
     for (const r of trackModel?.results ?? []) m[r.driverId] = r.driverNumber;
     return m;
   }, [trackModel]);
+
+  // real finishing position per classified driver — for the "beat the real
+  // result" verdict and the share card.
+  const realPosByDriver = useMemo(() => {
+    const m: Record<string, number> = {};
+    (trackModel?.results ?? []).filter((r) => r.status === 'finished')
+      .sort((a, b) => a.position - b.position)
+      .forEach((r, i) => { m[r.driverId] = i + 1; });
+    return m;
+  }, [trackModel]);
+
+  // Keep the store's selected player in sync so ResultPage / the share URL
+  // reflect the driver you're actually controlling (was a stale-data bug).
+  useEffect(() => { if (playerId) setSelectedPlayerId(playerId); }, [playerId, setSelectedPlayerId]);
 
   // drivers that have pitted on or before a given lap (isInPit in lapHistory)
   const pittedByLap = useMemo(() => {
@@ -219,6 +237,15 @@ export function MfdPage() {
   const raceEvtsModified = JSON.stringify(raceEvts) !== JSON.stringify(initialRaceEvts);
   const isWhatIf = overridden.length > 0 || raceEvtsModified;
 
+  // "Beat the real result" verdict for the controlled driver.
+  const verdict = useMemo(() => {
+    if (!result) return null;
+    const simPos = result.finalOrder.findIndex((d) => d.driverId === playerId) + 1;
+    const realPos = realPosByDriver[playerId];
+    if (!simPos || !realPos) return null;
+    return { realPos, simPos, delta: realPos - simPos };
+  }, [result, playerId, realPosByDriver]);
+
   // Feed = the player's modifications: edited drivers' strategies + race events
   // that aren't the baseline real safety car.
   const feedEvents = useMemo(() => {
@@ -279,6 +306,13 @@ export function MfdPage() {
           <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-green-600 text-white">真实复现 · 基准</span>
         )}
 
+        {/* "Beat the real result" verdict for the controlled driver */}
+        {isWhatIf && verdict && (
+          <span className={`px-2 py-0.5 rounded text-[11px] font-bold whitespace-nowrap ${verdict.delta > 0 ? 'bg-green-500/20 text-green-400' : verdict.delta < 0 ? 'bg-red-500/20 text-red-400' : 'bg-f1-mid text-f1-muted'}`}>
+            {playerId} 真实 P{verdict.realPos} → P{verdict.simPos} {verdict.delta > 0 ? `▲${verdict.delta} 赢了!` : verdict.delta < 0 ? `▼${-verdict.delta}` : '持平'}
+          </span>
+        )}
+
         {/* global lap scrubber */}
         <div className="flex items-center gap-2 flex-1 min-w-0">
           <span className="text-[10px] text-f1-muted uppercase tracking-wider whitespace-nowrap">圈</span>
@@ -305,6 +339,14 @@ export function MfdPage() {
               </span>
             )}
           </div>
+        )}
+        {isWhatIf && (
+          <button
+            onClick={() => setShowShare(true)}
+            className="px-3 py-1.5 rounded bg-f1-orange text-white text-xs font-bold hover:opacity-90 transition whitespace-nowrap"
+          >
+            分享 ▤
+          </button>
         )}
         <button
           onClick={resetToBaseline}
@@ -384,6 +426,22 @@ export function MfdPage() {
       >
         ← 对比视图
       </button>
+
+      {showShare && verdict && (
+        <ShareCard
+          driverId={playerId}
+          teamColor={teamColor(teamByDriver[playerId] ?? '')}
+          realPos={verdict.realPos}
+          simPos={verdict.simPos}
+          delta={verdict.delta}
+          eventName={eventName}
+          season={trackModel.season}
+          seed={seed}
+          feedEvents={feedEvents}
+          shareUrl={buildShareUrl({ track: eventName.toLowerCase(), season: trackModel.season, player: playerId, events: buildScenarioEvents(), seed })}
+          onClose={() => setShowShare(false)}
+        />
+      )}
     </div>
   );
 }
