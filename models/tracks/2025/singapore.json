@@ -348,9 +348,10 @@
       "Kick Sauber/SOFT(16)"
     ],
     "backtest": {
-      "top5MaxErr": 6,
-      "allMaxErr": 11,
-      "top3TimeMaxErr": 9.14,
+      "top5MaxErr": 3,
+      "allMaxErr": 12,
+      "top3TimeMaxErr": 4.91,
+      "tier": "podium",
       "passes": false
     }
   },
@@ -710,5 +711,5 @@
   },
   "pitLaneSec": 20.7,
   "modelVersion": "singapore-2025-v1-5899be5e",
-  "dataQuality": "limited"
+  "dataQuality": "podium"
 }

@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { useRaceStore } from '../store/raceStore';
 import type { TrackModel } from '../engine/types';
 import { buildDriversFromModel } from '../utils/buildDrivers';
+import { tierBadge, type QualityTier } from '../utils/qualityTier';
 
 interface RaceEntry {
   slug: string;
@@ -16,7 +17,7 @@ interface RaceEntry {
   season: number;
   totalLaps?: number;
   circuitLengthKm?: number | null;
-  dataQuality?: 'ok' | 'limited';
+  dataQuality?: QualityTier;
 }
 
 const SEASON = 2025;
@@ -67,11 +68,16 @@ export function HomePage() {
                 onClick={() => void selectTrack(race)}
                 className="w-full text-left bg-f1-mid border border-f1-border rounded-lg px-4 py-3 hover:border-f1-red transition-colors"
               >
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between gap-2">
                   <span className="text-[10px] text-f1-muted font-mono">R{race.round}</span>
-                  {race.dataQuality === 'limited' && (
-                    <span className="text-[9px] text-yellow-500/90 border border-yellow-500/40 rounded px-1">数据不足·仅供参考</span>
-                  )}
+                  {(() => {
+                    const b = tierBadge(race.dataQuality);
+                    return (
+                      <span className={`text-[9px] border rounded px-1 whitespace-nowrap ${b.cls}`}>
+                        {b.icon} {b.short}
+                      </span>
+                    );
+                  })()}
                 </div>
                 <div className="font-semibold text-f1-text mt-0.5">{race.name}</div>
                 <div className="text-f1-muted text-xs mt-0.5">

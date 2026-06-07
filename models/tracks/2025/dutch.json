@@ -361,9 +361,10 @@
     "nTotalLaps": 1364,
     "insufficientTyreGroups": [],
     "backtest": {
-      "top5MaxErr": 13,
-      "allMaxErr": 13,
-      "top3TimeMaxErr": 12.91,
+      "top5MaxErr": 2,
+      "allMaxErr": 9,
+      "top3TimeMaxErr": 15.23,
+      "tier": "podium",
       "passes": false
     }
   },
@@ -804,5 +805,5 @@
   },
   "pitLaneSec": 30.0,
   "modelVersion": "dutch-2025-v1-fe204a8f",
-  "dataQuality": "limited"
+  "dataQuality": "podium"
 }

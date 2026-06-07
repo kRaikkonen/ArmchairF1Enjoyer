@@ -46,7 +46,23 @@ logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(messag
 logger = logging.getLogger("build_track")
 
 FIXTURES = ROOT / "pipeline" / "tests" / "fixtures"
-MAX_TOP5_POS_ERROR, MAX_ALL_POS_ERROR, MAX_TOP3_TIME_ERROR_SEC = 2, 6, 5.0  # relaxed gate (§10)
+MAX_TOP5_POS_ERROR, MAX_ALL_POS_ERROR, MAX_TOP3_TIME_ERROR_SEC = 2, 6, 5.0  # 'ok' gate (§10)
+PODIUM_TOP5_MAX = 3  # 'podium' tier: front/podium trustworthy even if midfield is event-driven
+
+
+def grade(top5: int, all_err: int, t3_time: float) -> str:
+    """Honest quality tier from the backtest (not a binary pass/fail).
+
+    The midfield is event-driven (SC timing, pit luck, first-lap incidents) and
+    not predictable from pace, so a flat 'limited/数据不足' badge over-punishes
+    races whose podium the model nails. Three honest tiers instead:
+      ok     — front AND midfield faithful (rare; e.g. Bahrain).
+      podium — podium/front trustworthy, midfield is a dice roll (most races).
+      rough  — even the front is shaky; for-fun only (chaotic/upset races).
+    """
+    if top5 <= MAX_TOP5_POS_ERROR and all_err <= MAX_ALL_POS_ERROR and t3_time <= MAX_TOP3_TIME_ERROR_SEC:
+        return "ok"
+    return "podium" if top5 <= PODIUM_TOP5_MAX else "rough"
 
 
 def derive_pit_lane_sec(raw: pd.DataFrame) -> float | None:
@@ -117,18 +133,17 @@ def build(slug: str, year: int) -> None:
         model.circuit_length_km = o.get("lengthKm")
         model.track_outline = {"viewBox": o["viewBox"], "path": o["path"], "startFinish": o["startFinish"], "source": o.get("source")}
 
-    # Backtest — record, DON'T hard-fail. Badge 'limited' if it misses the gate.
+    # Backtest — record, DON'T hard-fail. Grade into an honest tier (ok/podium/rough).
     report = backtest(model, laps, classified_drivers=classified)
-    passes = (report.max_top5_error <= MAX_TOP5_POS_ERROR and report.max_all_error <= MAX_ALL_POS_ERROR
-              and report.max_top3_time_error <= MAX_TOP3_TIME_ERROR_SEC)
-    model.data_quality = "ok" if passes else "limited"
+    tier = grade(report.max_top5_error, report.max_all_error, report.max_top3_time_error)
+    model.data_quality = tier
     model.fit_meta["backtest"] = {
         "top5MaxErr": report.max_top5_error, "allMaxErr": report.max_all_error,
-        "top3TimeMaxErr": round(report.max_top3_time_error, 2), "passes": passes,
+        "top3TimeMaxErr": round(report.max_top3_time_error, 2),
+        "tier": tier, "passes": tier == "ok",
     }
     logger.info("Backtest: top5=%d all=%d time=%.2fs → %s",
-                report.max_top5_error, report.max_all_error, report.max_top3_time_error,
-                "OK" if passes else "LIMITED (shipped with 数据不足 badge)")
+                report.max_top5_error, report.max_all_error, report.max_top3_time_error, tier.upper())
 
     # Stable modelVersion from the fitted content (incl. dirty-air/DRS so the
     # version moves when those fits change).

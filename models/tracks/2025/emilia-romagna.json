@@ -308,6 +308,7 @@
       "top5MaxErr": 7,
       "allMaxErr": 7,
       "top3TimeMaxErr": 4.49,
+      "tier": "rough",
       "passes": false
     }
   },
@@ -733,5 +734,5 @@
   },
   "pitLaneSec": 30.0,
   "modelVersion": "emilia-romagna-2025-v1-385a8cb0",
-  "dataQuality": "limited"
+  "dataQuality": "rough"
 }

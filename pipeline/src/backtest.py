@@ -13,9 +13,15 @@ from .fit import (
     DriverOffsetEntry,
     StintProgressModel,
     TyreDegEntry,
+    DIRTY_AIR_GAP_SEC,
 )
 
 logger = logging.getLogger(__name__)
+
+# Position-model constants (mirror the engine: a follower within DIRTY_AIR_GAP_SEC
+# of the car ahead eats the fitted dirty-air penalty, and order is by cumulative
+# time, so a car can only clear the one ahead if its pace edge beats the penalty).
+POS_START_GAP_SEC = 0.3  # grid-order seed: Pn starts (n-1)·this behind P1
 
 
 @dataclass
@@ -115,6 +121,37 @@ def _predict_lap_time(
     return sp_contrib + tyre_contrib + driver_contrib
 
 
+def _position_aware_totals(df: pd.DataFrame, model: "TrackModel") -> pd.Series:
+    """Predicted race total time per driver via a lap-by-lap position sim.
+
+    Mirrors the engine: each lap, cars are ordered by cumulative time; a car
+    running within DIRTY_AIR_GAP_SEC of the one ahead eats the fitted dirty-air
+    penalty (so on hard-to-pass tracks a faster-but-stuck car can't simply
+    tele-pass on raw pace). Seeded in grid order. Uses each row's `PredLapTime`
+    (model pace for clean laps, real time for pit/SC/out laps).
+
+    This replaces the old "sum independent free pace" ranking, which ignored the
+    held-up-behind-a-slower-car dynamic and so mispredicted the order on circuits
+    where track position, not pace, decides finishing places.
+    """
+    da = max(0.0, model.dirty_air.penalty_sec)
+    pace = df.pivot_table(index="LapNumber", columns="Driver", values="PredLapTime", aggfunc="first")
+    drivers = list(pace.columns)
+    start_pos = df.sort_values("LapNumber").groupby("Driver")["Position"].first()
+    cum = {d: ((float(start_pos.get(d)) - 1) * POS_START_GAP_SEC if pd.notna(start_pos.get(d)) else 0.0)
+           for d in drivers}
+    for lap in sorted(pace.index):
+        order = sorted([d for d in drivers if pd.notna(pace.at[lap, d])], key=lambda d: cum[d])
+        nxt = dict(cum)
+        for i, d in enumerate(order):
+            t = pace.at[lap, d]
+            if i > 0 and (cum[d] - cum[order[i - 1]]) < DIRTY_AIR_GAP_SEC:
+                t += da  # held up in dirty air
+            nxt[d] = cum[d] + t
+        cum = nxt
+    return pd.Series(cum, name="PredTotalTime")
+
+
 def backtest(
     model: "TrackModel",
     laps: pd.DataFrame,
@@ -149,7 +186,8 @@ def backtest(
 
     df["PredLapTime"] = df.apply(predict_row, axis=1)
 
-    pred_totals = df.groupby("Driver")["PredLapTime"].sum().rename("PredTotalTime")
+    # Predicted finishing order from the position-aware sim (not a sum of free pace).
+    pred_totals = _position_aware_totals(df, model)
     actual_totals = df.groupby("Driver")["LapTimeSec"].sum().rename("ActualTotalTime")
     lap_counts = df.groupby("Driver")["LapNumber"].count().rename("NLaps")
 

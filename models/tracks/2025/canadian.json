@@ -315,9 +315,10 @@
       "Red Bull Racing/MEDIUM(17)"
     ],
     "backtest": {
-      "top5MaxErr": 11,
+      "top5MaxErr": 4,
       "allMaxErr": 11,
-      "top3TimeMaxErr": 3.53,
+      "top3TimeMaxErr": 11.13,
+      "tier": "rough",
       "passes": false
     }
   },
@@ -918,5 +919,5 @@
   },
   "pitLaneSec": 30.0,
   "modelVersion": "canadian-2025-v1-e1358c6a",
-  "dataQuality": "limited"
+  "dataQuality": "rough"
 }

@@ -309,7 +309,8 @@
     "backtest": {
       "top5MaxErr": 1,
       "allMaxErr": 14,
-      "top3TimeMaxErr": 2.5,
+      "top3TimeMaxErr": 2.3,
+      "tier": "podium",
       "passes": false
     }
   },
@@ -677,5 +678,5 @@
   },
   "pitLaneSec": 21.4,
   "modelVersion": "las-vegas-2025-v1-1a1a4390",
-  "dataQuality": "limited"
+  "dataQuality": "podium"
 }

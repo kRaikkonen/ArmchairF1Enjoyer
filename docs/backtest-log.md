@@ -187,3 +187,14 @@ holdout 的结论一致——基于累积时间的位置模型在超车多/方�
 **位置模型显著改善领奖台/前段（top5），但全场误差（all）几乎不动（仍 11–17）。**
 
 原因诚实讲：中下游名次主要由**安全车时机、进站运气、首圈混乱、罚时**这些事件决定，不是 pace 能预测的。任何确定性 pace 模型都无法把这些预测进 ±6。所以多数 2025 场次在严格 `all≤6` 门槛下**注定 limited**——这不是 bug 也不是偷懒，是赛车本身的随机性。**把它们硬刷成"ok"就是自欺**（违反项目核心原则）。
+
+### 3. 位置模型接入回测 + 诚实分级（替代二元 ok/limited）
+`backtest()` 改为位置感知前向模拟（`_position_aware_totals`）：逐圈按累积时间排序，
+跟车的车吃脏气流惩罚，按发车格 seed。net 改善领奖台（top5 更准 10 场、变差 2 场）。
+据此改成三档诚实分级（不再一刀切"数据不足"）：
+
+- **ok 高度还原**（top5≤2 且 全场≤6）：bahrain, spanish。
+- **podium 领奖台可信·中游随机**（top5≤3）：japanese, las-vegas, dutch, british, monaco, saudi-arabian, singapore。
+- **rough 名次随机·仅供娱乐**（top5>3）：abu-dhabi, australian, austrian, azerbaijan, canadian, emilia-romagna, hungarian, italian, mexico-city。
+
+**2 ok / 7 podium / 9 rough**。比"1 ok / 17 数据不足"诚实得多——9 场领奖台可信，其余如实标"仅供娱乐"。

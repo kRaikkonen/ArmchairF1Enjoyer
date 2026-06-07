@@ -29,6 +29,7 @@ import { EventFeed } from './mfd/EventFeed';
 import { ShareCard } from './mfd/ShareCard';
 import { StrategyPanel } from './mfd/StrategyPanel';
 import { buildShareUrl, slugifyTrack } from '../utils/shareUrl';
+import { tierBadge } from '../utils/qualityTier';
 import { realRaceEvents, realPitEvents } from '../utils/raceFactsEvents';
 import { defaultStrat, stratToEvents, raceEvtsToEvents, realRaceEvts } from './mfd/strategyTypes';
 import type { DriverStrat, RaceEvt, Pit, ErsChange } from './mfd/strategyTypes';
@@ -377,20 +378,16 @@ export function MfdPage() {
         </button>
       </header>
 
-      {/* ── Honest-trust banner (§8.6) ── */}
-      <div className="flex items-center gap-2 px-4 h-6 bg-f1-dark border-b border-f1-border shrink-0 text-[10px] text-f1-muted">
-        {trackModel?.dataQuality === 'limited' ? (
-          <>
-            <span className="text-yellow-500">⚠ 数据不足</span>
-            <span>本站模型未通过回测精度门槛，复现与推演仅供娱乐 · 退赛/DSQ 车手已剔除</span>
-          </>
-        ) : (
-          <>
-            <span className="text-yellow-500">⚠ 可信度</span>
-            <span>领奖台(前3)较可信 · 中下游仅供娱乐（真实复现误差约 ±4 位）· 单 seed 确定性 · 对手不博弈 · 退赛/DSQ 车手已剔除（不参与推演）</span>
-          </>
-        )}
-      </div>
+      {/* ── Honest-trust banner (§8.6): per-race quality tier ── */}
+      {(() => {
+        const b = tierBadge(trackModel?.dataQuality);
+        return (
+          <div className="flex items-center gap-2 px-4 h-6 bg-f1-dark border-b border-f1-border shrink-0 text-[10px] text-f1-muted">
+            <span className={b.cls.split(' ')[0]}>{b.icon} {b.short}</span>
+            <span>{b.long} · 单 seed 确定性 · 退赛/DSQ 车手已剔除（不参与推演）</span>
+          </div>
+        );
+      })()}
 
       {/* ── Body: three side-by-side columns (no deep stacking) ── */}
       <div className="flex-1 flex overflow-hidden min-h-0">

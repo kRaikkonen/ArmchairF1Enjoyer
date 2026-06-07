@@ -340,9 +340,10 @@
       "Williams/MEDIUM(13)"
     ],
     "backtest": {
-      "top5MaxErr": 7,
+      "top5MaxErr": 5,
       "allMaxErr": 14,
-      "top3TimeMaxErr": 0.7,
+      "top3TimeMaxErr": 0.6,
+      "tier": "rough",
       "passes": false
     }
   },
@@ -722,5 +723,5 @@
   },
   "pitLaneSec": 20.2,
   "modelVersion": "mexico-city-2025-v1-df3f0882",
-  "dataQuality": "limited"
+  "dataQuality": "rough"
 }

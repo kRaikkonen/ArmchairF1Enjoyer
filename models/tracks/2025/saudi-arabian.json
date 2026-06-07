@@ -297,9 +297,10 @@
       "Red Bull Racing/MEDIUM(17)"
     ],
     "backtest": {
-      "top5MaxErr": 4,
-      "allMaxErr": 14,
-      "top3TimeMaxErr": 5.73,
+      "top5MaxErr": 3,
+      "allMaxErr": 12,
+      "top3TimeMaxErr": 3.58,
+      "tier": "podium",
       "passes": false
     }
   },
@@ -646,5 +647,5 @@
   },
   "pitLaneSec": 18.9,
   "modelVersion": "saudi-arabian-2025-v1-0fde0e5d",
-  "dataQuality": "limited"
+  "dataQuality": "podium"
 }

@@ -334,9 +334,10 @@
       "Racing Bulls/SOFT(9)"
     ],
     "backtest": {
-      "top5MaxErr": 4,
+      "top5MaxErr": 3,
       "allMaxErr": 12,
-      "top3TimeMaxErr": 11.67,
+      "top3TimeMaxErr": 38.61,
+      "tier": "podium",
       "passes": false
     }
   },
@@ -765,5 +766,5 @@
   },
   "pitLaneSec": 16.4,
   "modelVersion": "monaco-2025-v1-cd4911d3",
-  "dataQuality": "limited"
+  "dataQuality": "podium"
 }

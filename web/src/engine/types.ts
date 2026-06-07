@@ -89,8 +89,10 @@ export interface TrackModel {
   pitLaneSec?: number | null;
   /** Stable model version (slug-year-schema-hash) for the share URL. */
   modelVersion?: string;
-  /** 'ok' | 'limited' — whether the model met the accuracy gate. */
-  dataQuality?: 'ok' | 'limited';
+  /** Honest quality tier from the backtest:
+   *  'ok' = front+midfield faithful · 'podium' = podium trustworthy, midfield
+   *  event-driven · 'rough' = even the front is shaky (for fun only). */
+  dataQuality?: 'ok' | 'podium' | 'rough';
 }
 
 export interface RaceFacts {

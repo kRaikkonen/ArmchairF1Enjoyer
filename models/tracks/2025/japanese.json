@@ -350,9 +350,10 @@
       "Williams/SOFT(19)"
     ],
     "backtest": {
-      "top5MaxErr": 3,
+      "top5MaxErr": 1,
       "allMaxErr": 16,
-      "top3TimeMaxErr": 0.76,
+      "top3TimeMaxErr": 6.13,
+      "tier": "podium",
       "passes": false
     }
   },
@@ -704,5 +705,5 @@
   },
   "pitLaneSec": 21.9,
   "modelVersion": "japanese-2025-v1-ba71d0b2",
-  "dataQuality": "limited"
+  "dataQuality": "podium"
 }

@@ -318,10 +318,11 @@
       "Williams/MEDIUM(18)"
     ],
     "backtest": {
-      "top5MaxErr": 3,
+      "top5MaxErr": 2,
       "allMaxErr": 3,
-      "top3TimeMaxErr": 3.88,
-      "passes": false
+      "top3TimeMaxErr": 4.7,
+      "tier": "ok",
+      "passes": true
     }
   },
   "results": [
@@ -797,5 +798,5 @@
   },
   "pitLaneSec": 21.1,
   "modelVersion": "spanish-2025-v1-a74804c2",
-  "dataQuality": "limited"
+  "dataQuality": "ok"
 }

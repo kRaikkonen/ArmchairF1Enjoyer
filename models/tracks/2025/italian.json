@@ -342,7 +342,8 @@
     "backtest": {
       "top5MaxErr": 5,
       "allMaxErr": 14,
-      "top3TimeMaxErr": 3.76,
+      "top3TimeMaxErr": 2.78,
+      "tier": "rough",
       "passes": false
     }
   },
@@ -685,5 +686,5 @@
   },
   "pitLaneSec": 22.1,
   "modelVersion": "italian-2025-v1-1558f20f",
-  "dataQuality": "limited"
+  "dataQuality": "rough"
 }

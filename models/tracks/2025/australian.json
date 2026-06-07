@@ -306,9 +306,10 @@
       "Williams/MEDIUM(2)"
     ],
     "backtest": {
-      "top5MaxErr": 1,
-      "allMaxErr": 3,
-      "top3TimeMaxErr": 7.22,
+      "top5MaxErr": 4,
+      "allMaxErr": 4,
+      "top3TimeMaxErr": 9.13,
+      "tier": "rough",
       "passes": false
     }
   },
@@ -914,5 +915,5 @@
   },
   "pitLaneSec": 30.0,
   "modelVersion": "australian-2025-v1-60219964",
-  "dataQuality": "limited"
+  "dataQuality": "rough"
 }

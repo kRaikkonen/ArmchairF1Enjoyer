@@ -341,9 +341,10 @@
       "Williams/SOFT(6)"
     ],
     "backtest": {
-      "top5MaxErr": 5,
+      "top5MaxErr": 4,
       "allMaxErr": 16,
-      "top3TimeMaxErr": 7.37,
+      "top3TimeMaxErr": 8.26,
+      "tier": "rough",
       "passes": false
     }
   },
@@ -719,5 +720,5 @@
   },
   "pitLaneSec": 20.3,
   "modelVersion": "abu-dhabi-2025-v1-fb0952d3",
-  "dataQuality": "limited"
+  "dataQuality": "rough"
 }

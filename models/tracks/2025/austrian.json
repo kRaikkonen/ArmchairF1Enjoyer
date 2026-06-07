@@ -336,9 +336,10 @@
       "Williams/MEDIUM(9)"
     ],
     "backtest": {
-      "top5MaxErr": 11,
+      "top5MaxErr": 10,
       "allMaxErr": 15,
-      "top3TimeMaxErr": 1.21,
+      "top3TimeMaxErr": 2.11,
+      "tier": "rough",
       "passes": false
     }
   },
@@ -736,5 +737,5 @@
   },
   "pitLaneSec": 19.1,
   "modelVersion": "austrian-2025-v1-808a0ea6",
-  "dataQuality": "limited"
+  "dataQuality": "rough"
 }

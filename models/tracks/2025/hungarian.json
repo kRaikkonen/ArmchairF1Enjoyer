@@ -340,9 +340,10 @@
       "Red Bull Racing/SOFT(15)"
     ],
     "backtest": {
-      "top5MaxErr": 10,
-      "allMaxErr": 12,
-      "top3TimeMaxErr": 2.3,
+      "top5MaxErr": 11,
+      "allMaxErr": 11,
+      "top3TimeMaxErr": 10.66,
+      "tier": "rough",
       "passes": false
     }
   },
@@ -726,5 +727,5 @@
   },
   "pitLaneSec": 18.4,
   "modelVersion": "hungarian-2025-v1-c1e50714",
-  "dataQuality": "limited"
+  "dataQuality": "rough"
 }
