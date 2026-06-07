@@ -54,7 +54,9 @@ export function StrategyPanel(p: StrategyPanelProps) {
     while (used.has(lap) && lap > 2) lap--;
     setPits([...pits, { lap, compound: 'SOFT', stationary: DEFAULT_PIT_STATIONARY_SEC }]);
   };
-  const removePit = (i: number) => { if (pits.length > 1) setPits(pits.filter((_, j) => j !== i)); };
+  // Allow removing ALL pits — a 0-stop strategy is a valid "what if they never
+  // pitted" (the engine just never stops them; they live with the tyre cliff).
+  const removePit = (i: number) => setPits(pits.filter((_, j) => j !== i));
 
   const setErs = (i: number, patch: Partial<ErsChange>) => setErsChanges(ersChanges.map((x, j) => (j === i ? { ...x, ...patch } : x)));
   const addErs = () => setErsChanges([...ersChanges, { lap: 1, mode: 'attack' }]);
@@ -89,7 +91,7 @@ export function StrategyPanel(p: StrategyPanelProps) {
                 className="w-11 bg-f1-mid border border-f1-border rounded px-1 py-0.5 text-xs text-center" />
               <span className="text-f1-muted">→</span>
               <CompoundSelect value={pit.compound} onChange={(v) => setPit(i, { compound: v })} />
-              {pits.length > 1 && <button onClick={() => removePit(i)} className="ml-auto text-f1-muted hover:text-f1-red text-sm leading-none">×</button>}
+              <button onClick={() => removePit(i)} className="ml-auto text-f1-muted hover:text-f1-red text-sm leading-none">×</button>
             </div>
             <div className="flex items-center gap-1 text-[10px] text-f1-muted pl-1">
               <span>换胎用时</span>

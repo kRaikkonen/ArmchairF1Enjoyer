@@ -33,7 +33,7 @@ import { tierBadge } from '../utils/qualityTier';
 import { realRaceEvents, realPitEvents } from '../utils/raceFactsEvents';
 import { defaultStrat, stratToEvents, raceEvtsToEvents, realRaceEvts } from './mfd/strategyTypes';
 import type { DriverStrat, RaceEvt, Pit, ErsChange } from './mfd/strategyTypes';
-import type { LapSnapshot } from '../engine/types';
+import type { LapSnapshot, EventEffect } from '../engine/types';
 
 const BASELINE_TEMP_C = 32; // schema constant for the real-race baseline run
 
@@ -260,9 +260,25 @@ export function MfdPage() {
     ];
   }, [driverStrats, raceEvts, initialRaceEvts, totalLaps]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // The real race timeline (every driver's real pit + real stationary time + real
-  // SC/VSC) — shown in the feed so the player sees what actually happened.
-  const realTimeline = useMemo(() => realRaceEvents(facts), [facts]);
+  // Effective scenario for the feed: real events with the player's edits/removals
+  // applied, each flagged whether it's a modification. Reflects removals (a deleted
+  // pit/SC is simply absent), unlike the immutable real facts — so it's not
+  // "add-only". Non-overridden drivers keep their real pits (with real times).
+  const feedScenario = useMemo<{ e: EventEffect; modified: boolean }[]>(() => {
+    const overrideSet = new Set(overridden);
+    const rows: { e: EventEffect; modified: boolean }[] = [];
+    for (const e of realPitEvents(facts)) {
+      if (e.driverId && overrideSet.has(e.driverId)) continue; // superseded by the edit below
+      rows.push({ e, modified: false });
+    }
+    for (const d of overridden) for (const e of stratToEvents(d, driverStrats[d], totalLaps)) rows.push({ e, modified: true });
+    for (const re of raceEvts) {
+      const baseline = initialRaceEvts.some((r) => r.kind === re.kind && r.lap === re.lap && r.duration === re.duration);
+      const ev = raceEvtsToEvents([re], totalLaps)[0];
+      if (ev) rows.push({ e: ev, modified: !baseline });
+    }
+    return rows;
+  }, [facts, overridden, driverStrats, raceEvts, initialRaceEvts, totalLaps]); // eslint-disable-line react-hooks/exhaustive-deps
 
   function buildScenarioEvents() {
     const overrideSet = new Set(overridden);
@@ -424,7 +440,7 @@ export function MfdPage() {
         </main>
 
         {/* Event feed — the player's accumulated What-If modifications */}
-        <EventFeed realEvents={realTimeline} modEvents={feedEvents} overriddenDrivers={overridden} isWhatIf={isWhatIf} />
+        <EventFeed events={feedScenario} playerId={playerId} isWhatIf={isWhatIf} />
 
         {/* Right: strategy panel (track map is now the 赛道位置 tab) */}
         <aside className="w-[290px] shrink-0 flex flex-col border-l border-f1-border bg-f1-surface overflow-y-auto">
