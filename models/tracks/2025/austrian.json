@@ -205,17 +205,17 @@
     }
   },
   "dirtyAir": {
-    "penaltySec": 0.2311441737065678,
+    "penaltySec": 0.21868281784558974,
     "gapThresholdSec": 1.5,
-    "nSamplesDirty": 403,
-    "nSamplesClean": 357,
+    "nSamplesDirty": 265,
+    "nSamplesClean": 596,
     "insufficient": false
   },
   "drsBoost": {
     "boostSec": 0.0,
     "gapThresholdSec": 1.0,
-    "nSamplesDrs": 373,
-    "nSamplesNoDrs": 89,
+    "nSamplesDrs": 207,
+    "nSamplesNoDrs": 229,
     "insufficient": false
   },
   "driverOffsets": {
@@ -735,6 +735,6 @@
     "redFlags": []
   },
   "pitLaneSec": 19.1,
-  "modelVersion": "austrian-2025-v1-e3d7c15d",
+  "modelVersion": "austrian-2025-v1-808a0ea6",
   "dataQuality": "limited"
 }

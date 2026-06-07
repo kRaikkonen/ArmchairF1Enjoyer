@@ -231,15 +231,15 @@
   "dirtyAir": {
     "penaltySec": 0.0,
     "gapThresholdSec": 1.5,
-    "nSamplesDirty": 338,
-    "nSamplesClean": 308,
+    "nSamplesDirty": 407,
+    "nSamplesClean": 391,
     "insufficient": false
   },
   "drsBoost": {
     "boostSec": 0.0,
     "gapThresholdSec": 1.0,
-    "nSamplesDrs": 319,
-    "nSamplesNoDrs": 66,
+    "nSamplesDrs": 263,
+    "nSamplesNoDrs": 362,
     "insufficient": false
   },
   "driverOffsets": {
@@ -818,6 +818,6 @@
     "redFlags": []
   },
   "pitLaneSec": 21.2,
-  "modelVersion": "bahrain-2025-v1-6823967e",
+  "modelVersion": "bahrain-2025-v1-3c96dac5",
   "dataQuality": "ok"
 }

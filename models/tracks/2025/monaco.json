@@ -189,17 +189,17 @@
     }
   },
   "dirtyAir": {
-    "penaltySec": 0.0,
+    "penaltySec": 2.327152654113874,
     "gapThresholdSec": 1.5,
-    "nSamplesDirty": 568,
-    "nSamplesClean": 276,
+    "nSamplesDirty": 491,
+    "nSamplesClean": 558,
     "insufficient": false
   },
   "drsBoost": {
-    "boostSec": -0.11972123291089076,
+    "boostSec": 0.0,
     "gapThresholdSec": 1.0,
-    "nSamplesDrs": 558,
-    "nSamplesNoDrs": 41,
+    "nSamplesDrs": 372,
+    "nSamplesNoDrs": 272,
     "insufficient": false
   },
   "driverOffsets": {
@@ -764,6 +764,6 @@
     "redFlags": []
   },
   "pitLaneSec": 16.4,
-  "modelVersion": "monaco-2025-v1-a97b34e8",
+  "modelVersion": "monaco-2025-v1-cd4911d3",
   "dataQuality": "limited"
 }

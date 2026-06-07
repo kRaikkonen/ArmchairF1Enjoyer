@@ -7,7 +7,7 @@
     "totalLaps": 57,
     "circuitLengthKm": 5.24,
     "dataQuality": "limited",
-    "modelVersion": "australian-2025-v1-88cea3a0"
+    "modelVersion": "australian-2025-v1-60219964"
   },
   {
     "slug": "japanese",
@@ -17,7 +17,7 @@
     "totalLaps": 53,
     "circuitLengthKm": 5.766,
     "dataQuality": "limited",
-    "modelVersion": "japanese-2025-v1-28cbb492"
+    "modelVersion": "japanese-2025-v1-ba71d0b2"
   },
   {
     "slug": "bahrain",
@@ -27,7 +27,7 @@
     "totalLaps": 57,
     "circuitLengthKm": 5.377,
     "dataQuality": "ok",
-    "modelVersion": "bahrain-2025-v1-6823967e"
+    "modelVersion": "bahrain-2025-v1-3c96dac5"
   },
   {
     "slug": "saudi-arabian",
@@ -37,7 +37,7 @@
     "totalLaps": 50,
     "circuitLengthKm": 6.076,
     "dataQuality": "limited",
-    "modelVersion": "saudi-arabian-2025-v1-cbe6b059"
+    "modelVersion": "saudi-arabian-2025-v1-0fde0e5d"
   },
   {
     "slug": "emilia-romagna",
@@ -47,7 +47,7 @@
     "totalLaps": 63,
     "circuitLengthKm": 4.881,
     "dataQuality": "limited",
-    "modelVersion": "emilia-romagna-2025-v1-08358a33"
+    "modelVersion": "emilia-romagna-2025-v1-385a8cb0"
   },
   {
     "slug": "monaco",
@@ -57,7 +57,7 @@
     "totalLaps": 78,
     "circuitLengthKm": 3.284,
     "dataQuality": "limited",
-    "modelVersion": "monaco-2025-v1-a97b34e8"
+    "modelVersion": "monaco-2025-v1-cd4911d3"
   },
   {
     "slug": "spanish",
@@ -67,7 +67,7 @@
     "totalLaps": 66,
     "circuitLengthKm": 4.633,
     "dataQuality": "limited",
-    "modelVersion": "spanish-2025-v1-65f763e1"
+    "modelVersion": "spanish-2025-v1-a74804c2"
   },
   {
     "slug": "canadian",
@@ -77,7 +77,7 @@
     "totalLaps": 70,
     "circuitLengthKm": 4.298,
     "dataQuality": "limited",
-    "modelVersion": "canadian-2025-v1-7406931f"
+    "modelVersion": "canadian-2025-v1-e1358c6a"
   },
   {
     "slug": "austrian",
@@ -87,7 +87,7 @@
     "totalLaps": 70,
     "circuitLengthKm": 4.295,
     "dataQuality": "limited",
-    "modelVersion": "austrian-2025-v1-e3d7c15d"
+    "modelVersion": "austrian-2025-v1-808a0ea6"
   },
   {
     "slug": "british",
@@ -97,7 +97,7 @@
     "totalLaps": 52,
     "circuitLengthKm": 5.819,
     "dataQuality": "limited",
-    "modelVersion": "british-2025-v1-eb6dd03b"
+    "modelVersion": "british-2025-v1-c2f85c6f"
   },
   {
     "slug": "hungarian",
@@ -107,7 +107,7 @@
     "totalLaps": 70,
     "circuitLengthKm": 4.355,
     "dataQuality": "limited",
-    "modelVersion": "hungarian-2025-v1-61c898b6"
+    "modelVersion": "hungarian-2025-v1-c1e50714"
   },
   {
     "slug": "dutch",
@@ -117,7 +117,7 @@
     "totalLaps": 72,
     "circuitLengthKm": 4.239,
     "dataQuality": "limited",
-    "modelVersion": "dutch-2025-v1-adc298a7"
+    "modelVersion": "dutch-2025-v1-fe204a8f"
   },
   {
     "slug": "italian",
@@ -127,7 +127,7 @@
     "totalLaps": 53,
     "circuitLengthKm": 5.74,
     "dataQuality": "limited",
-    "modelVersion": "italian-2025-v1-fa4c2df3"
+    "modelVersion": "italian-2025-v1-1558f20f"
   },
   {
     "slug": "azerbaijan",
@@ -137,7 +137,7 @@
     "totalLaps": 51,
     "circuitLengthKm": 5.932,
     "dataQuality": "limited",
-    "modelVersion": "azerbaijan-2025-v1-ccaadc0b"
+    "modelVersion": "azerbaijan-2025-v1-a3ac51c6"
   },
   {
     "slug": "singapore",
@@ -147,7 +147,7 @@
     "totalLaps": 62,
     "circuitLengthKm": 4.893,
     "dataQuality": "limited",
-    "modelVersion": "singapore-2025-v1-96173d2c"
+    "modelVersion": "singapore-2025-v1-5899be5e"
   },
   {
     "slug": "mexico-city",
@@ -157,7 +157,7 @@
     "totalLaps": 71,
     "circuitLengthKm": 4.24,
     "dataQuality": "limited",
-    "modelVersion": "mexico-city-2025-v1-d1ce6c25"
+    "modelVersion": "mexico-city-2025-v1-df3f0882"
   },
   {
     "slug": "las-vegas",
@@ -167,7 +167,7 @@
     "totalLaps": 50,
     "circuitLengthKm": 6.139,
     "dataQuality": "limited",
-    "modelVersion": "las-vegas-2025-v1-037250b4"
+    "modelVersion": "las-vegas-2025-v1-1a1a4390"
   },
   {
     "slug": "abu-dhabi",
@@ -177,6 +177,6 @@
     "totalLaps": 58,
     "circuitLengthKm": 5.214,
     "dataQuality": "limited",
-    "modelVersion": "abu-dhabi-2025-v1-b087daed"
+    "modelVersion": "abu-dhabi-2025-v1-fb0952d3"
   }
 ]

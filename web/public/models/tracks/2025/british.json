@@ -197,18 +197,18 @@
     }
   },
   "dirtyAir": {
-    "penaltySec": 0.1779916260951495,
+    "penaltySec": 0.7591256085725888,
     "gapThresholdSec": 1.5,
-    "nSamplesDirty": 117,
-    "nSamplesClean": 84,
+    "nSamplesDirty": 149,
+    "nSamplesClean": 232,
     "insufficient": false
   },
   "drsBoost": {
     "boostSec": 0.0,
     "gapThresholdSec": 1.0,
-    "nSamplesDrs": 113,
-    "nSamplesNoDrs": 8,
-    "insufficient": true
+    "nSamplesDrs": 88,
+    "nSamplesNoDrs": 139,
+    "insufficient": false
   },
   "driverOffsets": {
     "ALB": {
@@ -752,6 +752,6 @@
     "redFlags": []
   },
   "pitLaneSec": 21.7,
-  "modelVersion": "british-2025-v1-eb6dd03b",
+  "modelVersion": "british-2025-v1-c2f85c6f",
   "dataQuality": "limited"
 }

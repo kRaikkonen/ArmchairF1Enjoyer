@@ -77,56 +77,35 @@ class DriverOffsetEntry:
 # ---------------------------------------------------------------------------
 
 def _compute_gap_ahead(laps: pd.DataFrame) -> pd.Series:
-    """Return estimated gap-to-car-ahead (seconds) for each lap row.
+    """Return the REAL gap-to-car-ahead (seconds) for each lap row.
 
-    Approximation: cumulative lap-time difference between current driver and
-    the driver one position ahead at that lap number.  Includes pit-stop time
-    by construction (pit laps have longer LapTimeSec).
+    Uses FastF1's per-lap session `Time` (timestamp at the line) directly:
+    gap = my Time − (car one position ahead)'s Time at the same lap. This is the
+    actual on-track gap — unlike a cumsum of lap times, which ignores the grid /
+    race-start offset and drifts with every pit/SC, collapsing dirty air to ~0
+    (it zeroed Monaco's ~2.3s following penalty). Validated 2026-06-07; the data
+    was already in the committed fixtures (`Position` + `Time` columns).
 
-    Returns NaN for lap 1, position 1, or laps where the leading driver's
-    cumulative time is unavailable.  Uses vectorised pivot operations.
+    Returns NaN for position 1 or laps where the leader's Time is unavailable.
     """
-    df = laps.reset_index(drop=True).copy()
-    df = df.sort_values(["Driver", "LapNumber"])
-    df["CumTime"] = df.groupby("Driver")["LapTimeSec"].cumsum()
+    df = laps.copy()
+    tsec = pd.to_timedelta(df["Time"]).dt.total_seconds()
 
-    # Wide: rows = LapNumber, columns = Driver
-    cum_wide = df.pivot_table(
-        index="LapNumber", columns="Driver", values="CumTime", aggfunc="first"
+    # Lookup: (LapNumber, Position) -> session Time(s). One car per (lap, pos);
+    # keep first on the rare data glitch. The car ahead of me this lap is the one
+    # at my Position - 1, so my gap = my Time - that car's Time.
+    key_time = pd.Series(tsec.values, index=pd.MultiIndex.from_arrays(
+        [df["LapNumber"].values, df["Position"].values], names=["lap", "pos"]))
+    key_time = key_time[~key_time.index.duplicated(keep="first")]
+    key_dict = key_time.dropna().to_dict()
+
+    ahead_time = pd.Series(
+        [key_dict.get((lap, pos - 1), np.nan) for lap, pos in zip(df["LapNumber"], df["Position"])],
+        index=df.index,
     )
-    pos_wide = df.pivot_table(
-        index="LapNumber", columns="Driver", values="Position", aggfunc="first"
-    )
-
-    # For each (LapNumber, Driver) find the driver at position = pos - 1
-    # and return cum_time_self - cum_time_leader
-    gap_series = pd.Series(np.nan, index=df.index)
-
-    for driver in df["Driver"].unique():
-        drv_rows = df[df["Driver"] == driver][["LapNumber", "Position", "CumTime"]]
-        for _, row in drv_rows.iterrows():
-            lap = row["LapNumber"]
-            pos = row["Position"]
-            if pd.isna(pos) or pos <= 1:
-                continue
-            if lap not in pos_wide.index:
-                continue
-            pos_row = pos_wide.loc[lap]
-            leaders = pos_row[pos_row == pos - 1].index.tolist()
-            if not leaders:
-                continue
-            leader = leaders[0]
-            if leader not in cum_wide.columns or lap not in cum_wide.index:
-                continue
-            cum_leader = cum_wide.at[lap, leader]
-            cum_self = row["CumTime"]
-            if pd.isna(cum_leader):
-                continue
-            loc = df.index[(df["Driver"] == driver) & (df["LapNumber"] == lap)]
-            if len(loc):
-                gap_series.iloc[gap_series.index.get_loc(loc[0])] = cum_self - cum_leader
-
-    return gap_series
+    gap = tsec - ahead_time
+    gap[df["Position"].isna() | (df["Position"] <= 1)] = np.nan
+    return gap
 
 
 def _detrend_stint_progress(laps: pd.DataFrame, model: StintProgressModel) -> pd.Series:

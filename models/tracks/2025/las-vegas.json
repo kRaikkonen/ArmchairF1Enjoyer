@@ -173,17 +173,17 @@
     }
   },
   "dirtyAir": {
-    "penaltySec": 0.1646900732486074,
+    "penaltySec": 0.20635332076005852,
     "gapThresholdSec": 1.5,
-    "nSamplesDirty": 300,
-    "nSamplesClean": 293,
+    "nSamplesDirty": 201,
+    "nSamplesClean": 486,
     "insufficient": false
   },
   "drsBoost": {
     "boostSec": 0.0,
     "gapThresholdSec": 1.0,
-    "nSamplesDrs": 277,
-    "nSamplesNoDrs": 59,
+    "nSamplesDrs": 132,
+    "nSamplesNoDrs": 226,
     "insufficient": false
   },
   "driverOffsets": {
@@ -676,6 +676,6 @@
     "redFlags": []
   },
   "pitLaneSec": 21.4,
-  "modelVersion": "las-vegas-2025-v1-037250b4",
+  "modelVersion": "las-vegas-2025-v1-1a1a4390",
   "dataQuality": "limited"
 }

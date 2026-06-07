@@ -173,17 +173,17 @@
     }
   },
   "dirtyAir": {
-    "penaltySec": 0.0,
+    "penaltySec": 0.6079823498921968,
     "gapThresholdSec": 1.5,
-    "nSamplesDirty": 508,
-    "nSamplesClean": 382,
+    "nSamplesDirty": 433,
+    "nSamplesClean": 609,
     "insufficient": false
   },
   "drsBoost": {
     "boostSec": 0.0,
     "gapThresholdSec": 1.0,
-    "nSamplesDrs": 475,
-    "nSamplesNoDrs": 127,
+    "nSamplesDrs": 306,
+    "nSamplesNoDrs": 418,
     "insufficient": false
   },
   "driverOffsets": {
@@ -917,6 +917,6 @@
     "redFlags": []
   },
   "pitLaneSec": 30.0,
-  "modelVersion": "canadian-2025-v1-7406931f",
+  "modelVersion": "canadian-2025-v1-e1358c6a",
   "dataQuality": "limited"
 }

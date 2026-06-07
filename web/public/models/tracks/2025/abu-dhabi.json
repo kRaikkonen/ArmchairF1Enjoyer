@@ -197,17 +197,17 @@
     }
   },
   "dirtyAir": {
-    "penaltySec": 0.0,
+    "penaltySec": 0.2924066288123015,
     "gapThresholdSec": 1.5,
-    "nSamplesDirty": 509,
-    "nSamplesClean": 321,
+    "nSamplesDirty": 392,
+    "nSamplesClean": 524,
     "insufficient": false
   },
   "drsBoost": {
-    "boostSec": -0.0364951512024021,
+    "boostSec": 0.0,
     "gapThresholdSec": 1.0,
-    "nSamplesDrs": 490,
-    "nSamplesNoDrs": 61,
+    "nSamplesDrs": 253,
+    "nSamplesNoDrs": 390,
     "insufficient": false
   },
   "driverOffsets": {
@@ -718,6 +718,6 @@
     "redFlags": []
   },
   "pitLaneSec": 20.3,
-  "modelVersion": "abu-dhabi-2025-v1-b087daed",
+  "modelVersion": "abu-dhabi-2025-v1-fb0952d3",
   "dataQuality": "limited"
 }

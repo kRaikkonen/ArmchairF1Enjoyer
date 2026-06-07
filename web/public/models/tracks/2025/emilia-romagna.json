@@ -165,17 +165,17 @@
     }
   },
   "dirtyAir": {
-    "penaltySec": 0.0,
+    "penaltySec": 0.21538122849121066,
     "gapThresholdSec": 1.5,
-    "nSamplesDirty": 392,
-    "nSamplesClean": 283,
+    "nSamplesDirty": 423,
+    "nSamplesClean": 445,
     "insufficient": false
   },
   "drsBoost": {
     "boostSec": 0.0,
     "gapThresholdSec": 1.0,
-    "nSamplesDrs": 367,
-    "nSamplesNoDrs": 73,
+    "nSamplesDrs": 299,
+    "nSamplesNoDrs": 325,
     "insufficient": false
   },
   "driverOffsets": {
@@ -732,6 +732,6 @@
     "redFlags": []
   },
   "pitLaneSec": 30.0,
-  "modelVersion": "emilia-romagna-2025-v1-08358a33",
+  "modelVersion": "emilia-romagna-2025-v1-385a8cb0",
   "dataQuality": "limited"
 }

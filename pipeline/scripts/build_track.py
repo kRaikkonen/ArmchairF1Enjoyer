@@ -130,9 +130,12 @@ def build(slug: str, year: int) -> None:
                 report.max_top5_error, report.max_all_error, report.max_top3_time_error,
                 "OK" if passes else "LIMITED (shipped with 数据不足 badge)")
 
-    # Stable modelVersion from the fitted content.
+    # Stable modelVersion from the fitted content (incl. dirty-air/DRS so the
+    # version moves when those fits change).
     conf = json.dumps([model.track_base_pace, {f"{t}|{c}": e.deg_linear for (t, c), e in tyre_deg.items()},
-                       {d: e.offset_sec for d, e in model.driver_offsets.items()}], sort_keys=True, default=str)
+                       {d: e.offset_sec for d, e in model.driver_offsets.items()},
+                       round(model.dirty_air.penalty_sec, 4), round(model.drs_boost.boost_sec, 4)],
+                      sort_keys=True, default=str)
     model.model_version = f"{slug}-{year}-{SCHEMA_VERSION}-{hashlib.sha1(conf.encode()).hexdigest()[:8]}"
 
     out_path = ROOT / "models" / "tracks" / str(year) / f"{slug}.json"

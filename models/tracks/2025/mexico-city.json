@@ -199,15 +199,15 @@
   "dirtyAir": {
     "penaltySec": 0.0,
     "gapThresholdSec": 1.5,
-    "nSamplesDirty": 486,
-    "nSamplesClean": 385,
+    "nSamplesDirty": 298,
+    "nSamplesClean": 695,
     "insufficient": false
   },
   "drsBoost": {
-    "boostSec": 0.0,
+    "boostSec": -0.25522458337438536,
     "gapThresholdSec": 1.0,
-    "nSamplesDrs": 431,
-    "nSamplesNoDrs": 154,
+    "nSamplesDrs": 173,
+    "nSamplesNoDrs": 368,
     "insufficient": false
   },
   "driverOffsets": {
@@ -721,6 +721,6 @@
     "redFlags": []
   },
   "pitLaneSec": 20.2,
-  "modelVersion": "mexico-city-2025-v1-d1ce6c25",
+  "modelVersion": "mexico-city-2025-v1-df3f0882",
   "dataQuality": "limited"
 }
