@@ -148,7 +148,7 @@
       "insufficient": true
     },
     "Racing Bulls|INTER": {
-      "intercept": NaN,
+      "intercept": 113.12679902628386,
       "degLinear": 0.2792614726329111,
       "cliffStart": 999,
       "cliffSlope": 0.0,
@@ -244,8 +244,8 @@
     "HAD": {
       "driverId": "HAD",
       "team": "Racing Bulls",
-      "offsetSec": -14.0676423563823,
-      "nSamples": 2
+      "offsetSec": -13.24013398247746,
+      "nSamples": 3
     },
     "HAM": {
       "driverId": "HAM",
@@ -338,7 +338,7 @@
     "backtest": {
       "top5MaxErr": 2,
       "allMaxErr": 10,
-      "top3TimeMaxErr": 13.07,
+      "top3TimeMaxErr": 12.31,
       "tier": "podium",
       "passes": false
     }
@@ -753,6 +753,6 @@
     "redFlags": []
   },
   "pitLaneSec": 21.7,
-  "modelVersion": "british-2025-v1-b983279a",
+  "modelVersion": "british-2025-v1-a4f93785",
   "dataQuality": "podium"
 }

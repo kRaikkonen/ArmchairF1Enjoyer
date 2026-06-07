@@ -245,6 +245,11 @@ def _supplement_thin_cell(team, compound, grp, orig, support, cross_deg):
     thin slopes are left alone so good-enough fits aren't disturbed.
     """
     intercept, deg, cliff_start, cliff_slope = orig
+    # A 1-2 lap piecewise fit can return a NON-FINITE intercept (NaN), which would
+    # ship as invalid JSON and crash the browser. Re-anchor to the cell's robust
+    # median race pace (always finite — the cell has ≥1 race lap) when that happens.
+    if not np.isfinite(intercept):
+        intercept = float(np.median(grp["DetrLapTime"].to_numpy(dtype=float)))
     if np.isfinite(deg) and THIN_DEG_PLAUSIBLE_LO <= deg <= THIN_DEG_CAP:
         return intercept, deg, cliff_start, cliff_slope  # plausible — leave it
 

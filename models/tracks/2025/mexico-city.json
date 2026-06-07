@@ -132,7 +132,7 @@
       "insufficient": false
     },
     "Racing Bulls|HARD": {
-      "intercept": NaN,
+      "intercept": 85.27844530304522,
       "degLinear": 0.0,
       "cliffStart": 999,
       "cliffSlope": 0.0,
@@ -274,8 +274,8 @@
     "LAW": {
       "driverId": "LAW",
       "team": "Racing Bulls",
-      "offsetSec": 0.0,
-      "nSamples": 0
+      "offsetSec": -0.048269282465184915,
+      "nSamples": 1
     },
     "LEC": {
       "driverId": "LEC",
@@ -722,6 +722,6 @@
     "redFlags": []
   },
   "pitLaneSec": 20.2,
-  "modelVersion": "mexico-city-2025-v1-e7bfc5c2",
+  "modelVersion": "mexico-city-2025-v1-9cc771be",
   "dataQuality": "rough"
 }

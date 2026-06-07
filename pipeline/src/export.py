@@ -96,7 +96,10 @@ def export_track(model: TrackModel, path: str | Path) -> None:
         "dataQuality": model.data_quality,
     }
 
+    # Backstop: NaN/Infinity are invalid JSON and crash JS JSON.parse (a NaN tyre
+    # intercept once made british/mexico-city unloadable). allow_nan=False raises
+    # here at build time — loud, never silently shipping a browser-crashing model.
     with open(path, "w", encoding="utf-8") as f:
-        json.dump(payload, f, indent=2, ensure_ascii=False)
+        json.dump(payload, f, indent=2, ensure_ascii=False, allow_nan=False)
 
     logger.info("Exported TrackModel to %s", path)

@@ -117,7 +117,7 @@
     "totalLaps": 52,
     "circuitLengthKm": 5.819,
     "dataQuality": "podium",
-    "modelVersion": "british-2025-v1-b983279a"
+    "modelVersion": "british-2025-v1-a4f93785"
   },
   {
     "slug": "belgian",
@@ -197,7 +197,7 @@
     "totalLaps": 71,
     "circuitLengthKm": 4.24,
     "dataQuality": "rough",
-    "modelVersion": "mexico-city-2025-v1-e7bfc5c2"
+    "modelVersion": "mexico-city-2025-v1-9cc771be"
   },
   {
     "slug": "sao-paulo",
