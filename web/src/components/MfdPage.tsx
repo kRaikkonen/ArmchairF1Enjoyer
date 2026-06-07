@@ -63,6 +63,7 @@ export function MfdPage() {
   const [playerId, setPlayerId] = useState(storedPlayer ?? 'VER');
   const [chartTab, setChartTab] = useState<'gap' | 'position' | 'track'>('gap');
   const [showShare, setShowShare] = useState(false);
+  const [rivalsReact, setRivalsReact] = useState(false);
   // Scenario state lives HERE (not in the panel) so it persists and ACCUMULATES
   // across driver switches: each edited driver keeps their strategy override,
   // race events are global, and the feed shows them all.
@@ -260,15 +261,34 @@ export function MfdPage() {
 
   function buildScenarioEvents() {
     const overrideSet = new Set(overridden);
+    const overrideEvents = overridden.flatMap((d) => stratToEvents(d, driverStrats[d], totalLaps));
+    const raceEvents = raceEvtsToEvents(raceEvts, totalLaps);
+    if (rivalsReact) {
+      // Rivals run the reactive AI (not hard-injected), so only the player's
+      // explicit overrides + race events are injected.
+      return [...overrideEvents, ...raceEvents];
+    }
     return [
       ...realPitEvents(facts).filter((e) => !(e.driverId && overrideSet.has(e.driverId))),
-      ...overridden.flatMap((d) => stratToEvents(d, driverStrats[d], totalLaps)),
-      ...raceEvtsToEvents(raceEvts, totalLaps),
+      ...overrideEvents,
+      ...raceEvents,
     ];
   }
 
+  // In react mode, every driver WITHOUT a player override runs the reactive AI
+  // seeded to their real strategy.
+  function buildReactiveStrategies(): Record<string, { lap: number; compound: import('../engine/types').Compound }[]> | undefined {
+    if (!rivalsReact || !facts) return undefined;
+    const overrideSet = new Set(overridden);
+    const out: Record<string, { lap: number; compound: import('../engine/types').Compound }[]> = {};
+    for (const [d, pits] of Object.entries(facts.strategies)) {
+      if (!overrideSet.has(d)) out[d] = pits;
+    }
+    return out;
+  }
+
   function handleRun() {
-    runScenario(buildScenarioEvents(), BASELINE_TEMP_C, false);
+    runScenario(buildScenarioEvents(), BASELINE_TEMP_C, false, buildReactiveStrategies());
   }
 
   function resetToBaseline() {
@@ -398,6 +418,11 @@ export function MfdPage() {
 
         {/* Right: strategy panel (track map is now the 赛道位置 tab) */}
         <aside className="w-[290px] shrink-0 flex flex-col border-l border-f1-border bg-f1-surface overflow-y-auto">
+          <label className="flex items-center gap-2 px-3 py-2 border-b border-f1-border text-[11px] cursor-pointer">
+            <input type="checkbox" checked={rivalsReact} onChange={(e) => setRivalsReact(e.target.checked)} className="accent-f1-orange" />
+            <span className="text-f1-text font-medium">对手博弈</span>
+            <span className="text-f1-border text-[9px]">开启后对手会防守 undercut、安全车下抢停、雨天换胎（近似真实，非精确复现）</span>
+          </label>
           <StrategyPanel
             playerId={playerId}
             totalLaps={totalLaps}

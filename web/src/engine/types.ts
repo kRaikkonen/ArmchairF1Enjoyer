@@ -173,6 +173,10 @@ export interface SimulationInput {
   seed: number;
   trackTempC?: number;
   weatherIsWet?: boolean;
+  /** "对手博弈" mode: per-driver planned (real) strategies. Drivers listed here
+   * run the reactive AI (cover undercuts / SC stops / wet switch) instead of a
+   * frozen replay. Omit for exact reproduction. */
+  reactiveStrategies?: Record<string, { lap: number; compound: Compound }[]>;
 }
 
 export interface LapSnapshot {

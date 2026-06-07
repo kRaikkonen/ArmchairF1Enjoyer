@@ -25,7 +25,8 @@ import type {
 } from './types';
 import { computeLapTime } from './lapTime';
 import { applyEventsForLap, applyPit, DEFAULT_SC_DURATION_LAPS } from './events';
-import { decidePit } from './ai';
+import { decidePit, reactiveDecidePit } from './ai';
+import type { RaceContext } from './ai';
 import { createRng, deriveSeed } from './rng';
 
 // ---------------------------------------------------------------------------
@@ -170,6 +171,9 @@ export function simulate(input: SimulationInput): SimulationResult {
     }
   }
 
+  const reactiveStrategies = input.reactiveStrategies;
+  let pittedLastLap = new Set<string>(); // for the reactive undercut-cover trigger
+
   for (let lap = 1; lap <= totalLaps; lap++) {
     raceState = { ...raceState, lap };
 
@@ -193,13 +197,25 @@ export function simulate(input: SimulationInput): SimulationResult {
 
     // 2. AI pit decisions (only for drivers NOT covered by user events)
     const aiExtraTime: Record<string, number> = {};
+    const fieldSnapshot = drivers; // positions from last lap — for reactive context
+    const ctx: RaceContext = {
+      field: fieldSnapshot,
+      pittedLastLap,
+      safetyCarActive: raceState.safetyCarActive,
+      vscActive: raceState.virtualSafetyCarActive,
+      isWet: raceState.weatherIsWet,
+    };
     drivers = drivers.map((driver) => {
       if (driver.isRetired) return driver;
       if (userPittedIds.has(driver.driverId)) return driver;
       if (userControlledPitIds.has(driver.driverId)) return driver; // user dictates this driver's pits
 
       const lapsRemaining = totalLaps - lap + 1;
-      const decision = decidePit(driver, trackModel, lapsRemaining);
+      // "对手博弈" mode: drivers with a planned strategy run the reactive AI.
+      const planned = reactiveStrategies?.[driver.driverId];
+      const decision = planned
+        ? reactiveDecidePit(driver, trackModel, lapsRemaining, planned, ctx)
+        : decidePit(driver, trackModel, lapsRemaining);
       if (decision.shouldPit) {
         const { newState, extraTimeSec } = applyPit(driver, decision.targetCompound);
         aiExtraTime[driver.driverId] = extraTimeSec;
@@ -285,6 +301,9 @@ export function simulate(input: SimulationInput): SimulationResult {
     lapHistory.push(snapshotsWithPositions.sort((a, b) => a.position - b.position));
 
     raceState = { ...raceState, drivers };
+    // Who pitted this lap (user + AI/reactive) → fresh tyres for the reactive
+    // undercut-cover trigger next lap.
+    pittedLastLap = new Set<string>([...userPittedIds, ...Object.keys(aiExtraTime)]);
   }
 
   return {

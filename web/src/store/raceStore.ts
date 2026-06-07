@@ -65,8 +65,14 @@ export interface RaceStore {
   result: SimulationResult | null;
   isRunning: boolean;
   runSimulation: () => void;
-  /** Run a full What-If scenario: replace events + weather and simulate. */
-  runScenario: (events: EventEffect[], trackTempC: number, weatherIsWet: boolean) => void;
+  /** Run a full What-If scenario: replace events + weather and simulate.
+   * `reactiveStrategies` (optional) enables "对手博弈" mode for the listed drivers. */
+  runScenario: (
+    events: EventEffect[],
+    trackTempC: number,
+    weatherIsWet: boolean,
+    reactiveStrategies?: Record<string, { lap: number; compound: import('../engine/types').Compound }[]>,
+  ) => void;
   clearResult: () => void;
 }
 
@@ -124,7 +130,7 @@ export const useRaceStore = create<RaceStore>((set, get) => ({
     }
   },
 
-  runScenario: (events, trackTempC, weatherIsWet) => {
+  runScenario: (events, trackTempC, weatherIsWet, reactiveStrategies) => {
     const { trackModel, drivers, seed } = get();
     if (!trackModel || drivers.length === 0) return;
 
@@ -138,6 +144,7 @@ export const useRaceStore = create<RaceStore>((set, get) => ({
         seed,
         trackTempC,
         weatherIsWet,
+        reactiveStrategies,
       });
       set({ result, isRunning: false });
     } catch (err) {

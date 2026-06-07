@@ -24,6 +24,7 @@
  */
 
 import type { DriverState, TrackModel, Compound } from './types';
+import { PIT_STOP_TIME_SEC } from './events';
 
 // ---------------------------------------------------------------------------
 // Decision constants — schema / rule constants, not fitted parameters.
@@ -190,6 +191,92 @@ export function decidePit(
   // driver.lapsSinceStart laps are done; the lap about to run is +1.
   if (driver.lapsSinceStart + 1 >= pStar) {
     return { shouldPit: true, targetCompound: target };
+  }
+
+  return noChange;
+}
+
+// ---------------------------------------------------------------------------
+// Reactive AI — rivals respond to the player's What-If instead of running a
+// frozen replay. Each rival has a PLANNED strategy (their real pit stops) but
+// will deviate to cover an undercut, take a cheap Safety-Car stop, or switch to
+// wets. Only used in "对手博弈" mode; default off keeps exact reproduction.
+// ---------------------------------------------------------------------------
+
+/** A car within this gap (s) behind that just pitted onto fresher rubber is an
+ * undercut threat the car ahead will cover. Strategy schema constant. */
+const UNDERCUT_COVER_GAP_SEC = 3.0;
+/** A driver will only cover (pit early to defend) within this many laps of their
+ * own planned stop — stops a normal pit window from triggering a runaway wave
+ * that pulls the whole field way too early. Strategy schema constant. */
+const REACTIVE_COVER_MAX_EARLY_LAPS = 6;
+
+export interface RaceContext {
+  field: DriverState[];        // current field (to find the car directly behind)
+  pittedLastLap: Set<string>;  // drivers who pitted last lap → on fresh rubber
+  safetyCarActive: boolean;
+  vscActive: boolean;
+  isWet: boolean;
+}
+
+function isSlick(c: Compound): boolean {
+  return c !== 'INTER' && c !== 'WET';
+}
+
+/**
+ * Decide a rival's pit this lap given their planned (real) strategy + reactions.
+ * plannedPits = the rival's real stops in order; driver.pitCount picks the next.
+ */
+export function reactiveDecidePit(
+  driver: DriverState,
+  model: TrackModel,
+  lapsRemaining: number,
+  plannedPits: { lap: number; compound: Compound }[],
+  ctx: RaceContext,
+): PitDecision {
+  const noChange = { shouldPit: false, targetCompound: driver.compound };
+  if (driver.isRetired) return noChange;
+
+  // Rain: get off slicks onto intermediates (one-time switch).
+  if (ctx.isWet && isSlick(driver.compound)) {
+    return { shouldPit: true, targetCompound: 'INTER' };
+  }
+
+  if (driver.stintLap < MIN_STINT_BEFORE_PIT) return noChange;
+
+  const nextPit = plannedPits[driver.pitCount]; // next planned stop (undefined = none left)
+  const owesMandatory = driver.pitCount === 0; // must change compounds at least once
+  const stopCompound = nextPit?.compound ?? choosePitCompound(driver, model, lapsRemaining);
+
+  // Safety Car / VSC opportunism: take a planned or mandatory stop now — it's cheap.
+  if ((ctx.safetyCarActive || ctx.vscActive) && (nextPit || owesMandatory)) {
+    return { shouldPit: true, targetCompound: stopCompound };
+  }
+
+  // Undercut cover: a car behind that pitted last lap is now on fresher tyres
+  // and ~20s back from its own stop, but was within striking distance before —
+  // so the window includes the pit-loss. Box to defend (only with a stop in hand,
+  // and only when already near your own stop, so it doesn't cascade the field).
+  if (nextPit && driver.lapsSinceStart + 1 >= nextPit.lap - REACTIVE_COVER_MAX_EARLY_LAPS) {
+    const coverWindow = UNDERCUT_COVER_GAP_SEC + PIT_STOP_TIME_SEC; // ~23s incl. pit drop
+    const threat = ctx.field.find(
+      (d) =>
+        d.position > driver.position && // behind me
+        ctx.pittedLastLap.has(d.driverId) && // just pitted → fresh
+        d.stintLap < driver.stintLap && // genuinely fresher than me
+        d.totalTimeSec - driver.totalTimeSec < coverWindow,
+    );
+    if (threat) return { shouldPit: true, targetCompound: nextPit.compound };
+  }
+
+  // Otherwise execute the planned stop at its lap.
+  if (nextPit && driver.lapsSinceStart + 1 >= nextPit.lap) {
+    return { shouldPit: true, targetCompound: nextPit.compound };
+  }
+
+  // Mandatory fallback near the end.
+  if (lapsRemaining <= MANDATORY_PIT_LAP_BUFFER && owesMandatory) {
+    return { shouldPit: true, targetCompound: stopCompound };
   }
 
   return noChange;
