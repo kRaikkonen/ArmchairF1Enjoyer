@@ -147,11 +147,14 @@ def backtest(
         max_laps = lap_counts.max()
         classified_drivers = set(lap_counts[lap_counts >= max_laps * 0.95].index)
 
-    # Actual finishing positions: last recorded Position per driver
+    # Actual finishing positions: last recorded Position per driver. dropna()
+    # first — a DNF driver can have a NaN final Position which would crash the
+    # int cast (only classified finishers survive into the comparison anyway).
     actual_pos = (
         df.sort_values("LapNumber")
         .groupby("Driver")["Position"]
         .last()
+        .dropna()
         .rename("ActualPos")
         .astype(int)
     )

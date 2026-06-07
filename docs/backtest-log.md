@@ -88,3 +88,26 @@ characterization 测试已把 maxErr=8 钉死（`simulate.test.ts` Test 2），�
 (b) 最坏来自 GAS（P7→P15）、ANT（P11→P3）并列 Δ8。(c) 是反事实，"vs 真实完赛"非纯精度，
 重点是量级稳定（没爆）。`simulate.test.ts` characterization 仍为 8（去拐杖后最坏值未变，
 因为 forward-sim 本就没吃到 §8.4 恒等的好处），已更新注释记录。
+
+---
+
+## 2026-06-07 · 跨赛道 holdout（验证债 #3）+ 引擎体感强化
+
+### 1. 跨赛道 holdout —— 模型不泛化（重要诚实结论）
+`holdout_saudi.py`：用 Bahrain 拟合参数预测 Saudi 2025，对比 Saudi 自身拟合（in-sample）。
+
+| | top5 max | 全场 max |
+|---|---|---|
+| in-sample（Saudi 模型 → Saudi） | 4 | 14 |
+| **HOLDOUT（Bahrain 模型 → Saudi）** | **10** | **12** |
+
+**Bahrain 的车手/轮胎特征不迁移到 Saudi**（top5 误差 10 位）。而且 Saudi 连自身 in-sample
+全场误差都到 14——基于累积时间的位置模型在超车多/方差大的赛道更吃力。结论：**每条赛道必须
+各自拟合**（数据从 FastF1 自动派生），且精度逐赛道差异很大（Bahrain ~4-6，Saudi ~14）。
+上架别条赛道前应记录其 in-sample 数字，并对精度差的赛道打"数据不足/仅供参考"标。
+
+### 2. 引擎体感（不影响诚实数字）
+- 脏气流/DRS 拟合塌到 0 → 引擎层 armchair 下限（脏气流 ≥0.4s、DRS ≤−0.3s）+ 出站冷胎 +1.3s，
+  复活"跟车/超车/undercut"张力。§8.3 受控模式仍把这些归零，golden 不变。
+- 巴林真实复现误差因为这层摩擦反而**从 6 改善到 4**。
+- 对手博弈（reactive AI）：对手会防守 undercut / 安全车抢停 / 雨天换胎；无干预时精确复现真实（偏差 0）。
