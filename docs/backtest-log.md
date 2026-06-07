@@ -214,3 +214,19 @@ Ferrari|MEDIUM **−3.39**s/圈（轮胎越跑越快）、Racing Bulls|INTER **N
 
 **没动充足格（n≥20）的怪 deg**：有些是真信号（如澳/雨战 INTER −1.2s/圈 = 干道变干，inter 越来越快），
 clamp 它们反而错。这类留作未来「分段湿胎模型」议题。
+
+---
+
+## 2026-06-07 · 独立审计 + 网格基线（最重要的诚实修正）
+
+一轮独立多 agent 审计（`严谨客观`）发现两个致命问题：
+
+1. **两个模型 NaN 崩溃**：british/mexico-city 的某胎 intercept = NaN（无效 JSON），用户一选就白屏崩溃；而所有测试只加载巴林，所以没人发现。修：`_supplement_thin_cell` 截距非有限时回退到稳健中位；`export.py` 用 `allow_nan=False` 在 build 期硬失败；新增 `all-models.test.ts` 把 24 场全部 JSON.parse+simulate（12→37 测试）。
+
+2. **模型输给"直接抄发车格"基线**：审计重建对比发现，多数场次里 grid-order 空模型（预测=发车顺序）在全场名次上**比我们的模型还准**（Spearman grid~actual 在每条赛道都高于 pred~actual）。"领奖台可信"标签很大程度是在测量 F1 前排"粘性"，不是模型本事。
+
+修法（`backtest.py` + `build_track.grade`）：回测新增 **grid-order 空模型**列（top5/all），并规定**任何宣称可信的档位必须在 gated top5 指标上 ≥ 网格基线**，否则降到 rough。诚实重判：
+
+**3 ok / 10 podium / 11 rough → 3 ok / 5 podium / 16 rough**。模型只在 **10/24** 场 top5 上 ≥ 网格。
+
+留下的 ok/podium 是**真挣来的**：sao-paulo 网格偏 13 位、模型偏 2；las-vegas 网格 8、模型 1；british 网格 7、模型 2。这些是发车格被打乱、而 pace 模型真的预测对了领奖台的场次——模型的真信号所在。rough 标签改成诚实覆盖两种情况（随机 / 或没胜过看排位）。

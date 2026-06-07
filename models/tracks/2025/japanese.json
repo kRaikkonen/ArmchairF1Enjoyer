@@ -353,7 +353,10 @@
       "top5MaxErr": 1,
       "allMaxErr": 16,
       "top3TimeMaxErr": 6.13,
-      "tier": "podium",
+      "gridTop5": 0,
+      "gridAll": 3,
+      "beatsGrid": false,
+      "tier": "rough",
       "passes": false
     }
   },
@@ -705,5 +708,5 @@
   },
   "pitLaneSec": 21.9,
   "modelVersion": "japanese-2025-v1-ba71d0b2",
-  "dataQuality": "podium"
+  "dataQuality": "rough"
 }

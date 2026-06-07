@@ -337,7 +337,10 @@
       "top5MaxErr": 3,
       "allMaxErr": 13,
       "top3TimeMaxErr": 38.61,
-      "tier": "podium",
+      "gridTop5": 1,
+      "gridAll": 5,
+      "beatsGrid": false,
+      "tier": "rough",
       "passes": false
     }
   },
@@ -766,5 +769,5 @@
   },
   "pitLaneSec": 16.4,
   "modelVersion": "monaco-2025-v1-3987d3a3",
-  "dataQuality": "podium"
+  "dataQuality": "rough"
 }

@@ -300,6 +300,9 @@
       "top5MaxErr": 3,
       "allMaxErr": 12,
       "top3TimeMaxErr": 3.58,
+      "gridTop5": 4,
+      "gridAll": 4,
+      "beatsGrid": true,
       "tier": "podium",
       "passes": false
     }

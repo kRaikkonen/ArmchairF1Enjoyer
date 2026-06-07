@@ -316,7 +316,10 @@
       "top5MaxErr": 1,
       "allMaxErr": 13,
       "top3TimeMaxErr": 4.69,
-      "tier": "podium",
+      "gridTop5": 0,
+      "gridAll": 13,
+      "beatsGrid": false,
+      "tier": "rough",
       "passes": false
     }
   },
@@ -683,5 +686,5 @@
   },
   "pitLaneSec": 21.4,
   "modelVersion": "chinese-2025-v1-49cf9edd",
-  "dataQuality": "podium"
+  "dataQuality": "rough"
 }

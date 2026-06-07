@@ -351,7 +351,10 @@
       "top5MaxErr": 3,
       "allMaxErr": 12,
       "top3TimeMaxErr": 4.91,
-      "tier": "podium",
+      "gridTop5": 1,
+      "gridAll": 9,
+      "beatsGrid": false,
+      "tier": "rough",
       "passes": false
     }
   },
@@ -711,5 +714,5 @@
   },
   "pitLaneSec": 20.7,
   "modelVersion": "singapore-2025-v1-5899be5e",
-  "dataQuality": "podium"
+  "dataQuality": "rough"
 }

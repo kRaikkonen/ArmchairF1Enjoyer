@@ -50,19 +50,29 @@ MAX_TOP5_POS_ERROR, MAX_ALL_POS_ERROR, MAX_TOP3_TIME_ERROR_SEC = 2, 6, 5.0  # 'o
 PODIUM_TOP5_MAX = 3  # 'podium' tier: front/podium trustworthy even if midfield is event-driven
 
 
-def grade(top5: int, all_err: int, t3_time: float) -> str:
+def grade(top5: int, all_err: int, t3_time: float, grid_top5: int) -> str:
     """Honest quality tier from the backtest (not a binary pass/fail).
 
     The midfield is event-driven (SC timing, pit luck, first-lap incidents) and
     not predictable from pace, so a flat 'limited/数据不足' badge over-punishes
-    races whose podium the model nails. Three honest tiers instead:
+    races whose podium the model nails. Three honest tiers:
       ok     — front AND midfield faithful (rare; e.g. Bahrain).
-      podium — podium/front trustworthy, midfield is a dice roll (most races).
+      podium — podium/front trustworthy, midfield is a dice roll.
       rough  — even the front is shaky; for-fun only (chaotic/upset races).
+
+    Crucially, a tier claiming trust must BEAT THE GRID-ORDER NULL BASELINE on the
+    gated top-5 metric. F1 front rows are sticky, so "copy the starting grid" is a
+    strong baseline; if the model is worse than it, the model adds no signal and we
+    must NOT badge the race podium-reliable (it would be self-flattery). So
+    ok/podium require model top5 ≤ grid top5; otherwise → rough.
     """
-    if top5 <= MAX_TOP5_POS_ERROR and all_err <= MAX_ALL_POS_ERROR and t3_time <= MAX_TOP3_TIME_ERROR_SEC:
+    beats_grid = top5 <= grid_top5  # at least as good as copying the starting grid
+    if (top5 <= MAX_TOP5_POS_ERROR and all_err <= MAX_ALL_POS_ERROR
+            and t3_time <= MAX_TOP3_TIME_ERROR_SEC and beats_grid):
         return "ok"
-    return "podium" if top5 <= PODIUM_TOP5_MAX else "rough"
+    if top5 <= PODIUM_TOP5_MAX and beats_grid:
+        return "podium"
+    return "rough"
 
 
 def load_support(slug: str, year: int) -> pd.DataFrame | None:
@@ -159,11 +169,14 @@ def build(slug: str, year: int) -> None:
 
     # Backtest — record, DON'T hard-fail. Grade into an honest tier (ok/podium/rough).
     report = backtest(model, laps, classified_drivers=classified)
-    tier = grade(report.max_top5_error, report.max_all_error, report.max_top3_time_error)
+    tier = grade(report.max_top5_error, report.max_all_error, report.max_top3_time_error,
+                 report.grid_max_top5)
     model.data_quality = tier
     model.fit_meta["backtest"] = {
         "top5MaxErr": report.max_top5_error, "allMaxErr": report.max_all_error,
         "top3TimeMaxErr": round(report.max_top3_time_error, 2),
+        "gridTop5": report.grid_max_top5, "gridAll": report.grid_max_all,
+        "beatsGrid": report.max_top5_error <= report.grid_max_top5,
         "tier": tier, "passes": tier == "ok",
     }
     logger.info("Backtest: top5=%d all=%d time=%.2fs → %s",

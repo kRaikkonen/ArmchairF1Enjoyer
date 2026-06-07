@@ -67,6 +67,9 @@ class BacktestReport:
     all_pos_errors: list            # abs position errors for all classified finishers
     top3_time_errors_sec: list      # abs total-time errors for actual top-3
     passes: bool
+    # Grid-order null baseline ("predict finish = start order") on the same field.
+    grid_max_top5: int = 0
+    grid_max_all: int = 0
 
     @property
     def max_top5_error(self) -> int:
@@ -231,11 +234,25 @@ def backtest(
     max_all = max(all_errors) if all_errors else 0
     max_t3_time = max(top3_time_errors) if top3_time_errors else 0.0
 
+    # Grid-order NULL baseline: "predict finish = starting order" (first-lap
+    # Position). The honest sanity check — if just copying the grid beats the model
+    # on a metric, the model adds no signal there, so a tier must not claim trust on
+    # it (see build_track.grade). Front rows being sticky is not model skill.
+    first_pos = df.sort_values("LapNumber").groupby("Driver")["Position"].first().dropna()
+    grid = cmp.join(first_pos.rename("GridPos")).dropna(subset=["GridPos"])
+    grid["GridRank"] = grid["GridPos"].rank(method="min").astype(int)
+    grid["GridDelta"] = (grid["GridRank"] - grid["ActualPos"]).abs()
+    grid_top5 = grid[grid["ActualPos"] <= 5]["GridDelta"]
+    grid_max_top5 = int(grid_top5.max()) if len(grid_top5) else 0
+    grid_max_all = int(grid["GridDelta"].max()) if len(grid) else 0
+
     passes = max_top5 <= 2 and max_all <= 4 and max_t3_time <= 5.0
 
     logger.info(
-        "Backtest: top5_max_err=%d, all_max_err=%d, top3_time_max_err=%.1f s — %s",
-        max_top5, max_all, max_t3_time, "PASS" if passes else "FAIL",
+        "Backtest: top5_max_err=%d, all_max_err=%d, top3_time_max_err=%.1f s | "
+        "GRID baseline top5=%d all=%d — %s",
+        max_top5, max_all, max_t3_time, grid_max_top5, grid_max_all,
+        "PASS" if passes else "FAIL",
     )
 
     return BacktestReport(
@@ -244,4 +261,6 @@ def backtest(
         all_pos_errors=all_errors,
         top3_time_errors_sec=top3_time_errors,
         passes=passes,
+        grid_max_top5=grid_max_top5,
+        grid_max_all=grid_max_all,
     )

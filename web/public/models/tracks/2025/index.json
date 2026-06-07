@@ -16,7 +16,7 @@
     "season": 2025,
     "totalLaps": 56,
     "circuitLengthKm": 5.393,
-    "dataQuality": "podium",
+    "dataQuality": "rough",
     "modelVersion": "chinese-2025-v1-49cf9edd"
   },
   {
@@ -26,7 +26,7 @@
     "season": 2025,
     "totalLaps": 53,
     "circuitLengthKm": 5.766,
-    "dataQuality": "podium",
+    "dataQuality": "rough",
     "modelVersion": "japanese-2025-v1-ba71d0b2"
   },
   {
@@ -76,7 +76,7 @@
     "season": 2025,
     "totalLaps": 78,
     "circuitLengthKm": 3.284,
-    "dataQuality": "podium",
+    "dataQuality": "rough",
     "modelVersion": "monaco-2025-v1-3987d3a3"
   },
   {
@@ -176,7 +176,7 @@
     "season": 2025,
     "totalLaps": 62,
     "circuitLengthKm": 4.893,
-    "dataQuality": "podium",
+    "dataQuality": "rough",
     "modelVersion": "singapore-2025-v1-5899be5e"
   },
   {
@@ -186,7 +186,7 @@
     "season": 2025,
     "totalLaps": 56,
     "circuitLengthKm": 5.447,
-    "dataQuality": "podium",
+    "dataQuality": "rough",
     "modelVersion": "united-states-2025-v1-c4d2cbdf"
   },
   {

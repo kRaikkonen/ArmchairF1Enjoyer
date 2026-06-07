@@ -344,7 +344,10 @@
       "top5MaxErr": 3,
       "allMaxErr": 16,
       "top3TimeMaxErr": 2.83,
-      "tier": "podium",
+      "gridTop5": 1,
+      "gridAll": 6,
+      "beatsGrid": false,
+      "tier": "rough",
       "passes": false
     }
   },
@@ -700,5 +703,5 @@
   },
   "pitLaneSec": 18.3,
   "modelVersion": "united-states-2025-v1-c4d2cbdf",
-  "dataQuality": "podium"
+  "dataQuality": "rough"
 }

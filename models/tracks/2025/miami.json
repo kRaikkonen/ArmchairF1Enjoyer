@@ -310,6 +310,9 @@
       "top5MaxErr": 1,
       "allMaxErr": 5,
       "top3TimeMaxErr": 4.12,
+      "gridTop5": 1,
+      "gridAll": 3,
+      "beatsGrid": true,
       "tier": "ok",
       "passes": true
     }
