@@ -93,7 +93,7 @@
     },
     "Kick Sauber|SOFT": {
       "intercept": 86.61500000000004,
-      "degLinear": -0.7924484808469856,
+      "degLinear": 0.0,
       "cliffStart": 999,
       "cliffSlope": 0.0,
       "nSamples": 2,
@@ -268,7 +268,7 @@
     "HUL": {
       "driverId": "HUL",
       "team": "Kick Sauber",
-      "offsetSec": -0.20973006506230263,
+      "offsetSec": -0.22759552947819373,
       "nSamples": 61
     },
     "LAW": {
@@ -340,8 +340,8 @@
       "Red Bull Racing/SOFT(15)"
     ],
     "backtest": {
-      "top5MaxErr": 11,
-      "allMaxErr": 11,
+      "top5MaxErr": 12,
+      "allMaxErr": 12,
       "top3TimeMaxErr": 10.66,
       "tier": "rough",
       "passes": false
@@ -726,6 +726,6 @@
     "redFlags": []
   },
   "pitLaneSec": 18.4,
-  "modelVersion": "hungarian-2025-v1-c1e50714",
+  "modelVersion": "hungarian-2025-v1-2c14b205",
   "dataQuality": "rough"
 }

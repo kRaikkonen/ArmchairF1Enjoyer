@@ -125,7 +125,7 @@
     },
     "Mercedes|MEDIUM": {
       "intercept": 79.81608051012392,
-      "degLinear": -0.3006959515877078,
+      "degLinear": 0.0,
       "cliffStart": 999,
       "cliffSlope": 0.0,
       "nSamples": 11,
@@ -296,7 +296,7 @@
     "RUS": {
       "driverId": "RUS",
       "team": "Mercedes",
-      "offsetSec": 0.10592724458203406,
+      "offsetSec": -0.18250553542894465,
       "nSamples": 59
     },
     "SAI": {
@@ -335,7 +335,7 @@
     ],
     "backtest": {
       "top5MaxErr": 3,
-      "allMaxErr": 12,
+      "allMaxErr": 13,
       "top3TimeMaxErr": 38.61,
       "tier": "podium",
       "passes": false
@@ -765,6 +765,6 @@
     "redFlags": []
   },
   "pitLaneSec": 16.4,
-  "modelVersion": "monaco-2025-v1-cd4911d3",
+  "modelVersion": "monaco-2025-v1-3987d3a3",
   "dataQuality": "podium"
 }

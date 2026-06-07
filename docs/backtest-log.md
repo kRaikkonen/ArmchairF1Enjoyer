@@ -198,3 +198,19 @@ holdout 的结论一致——基于累积时间的位置模型在超车多/方�
 - **rough 名次随机·仅供娱乐**（top5>3）：abu-dhabi, australian, austrian, azerbaijan, canadian, emilia-romagna, hungarian, italian, mexico-city。
 
 **2 ok / 7 podium / 9 rough**。比"1 ok / 17 数据不足"诚实得多——9 场领奖台可信，其余如实标"仅供娱乐"。
+
+### 4. 薄弱胎拟合格用练习/排位补齐（FP/Q supplementation）
+拉了全 24 场的练习（FP1/2/3）+ 排位（Q/SQ）圈（仅圈速，不含遥测，`fetch_support.py`）。
+发现真正的"数据不足"症状：某队某胎只跑了 2 圈时，分段拟合给出**垃圾 deg**——
+Ferrari|MEDIUM **−3.39**s/圈（轮胎越跑越快）、Racing Bulls|INTER **NaN**，而引擎照单全收。
+
+修法（保守，`fit._supplement_thin_cell`）：薄弱格**保留赛中 pace 截距不动**，只在 deg 物理上
+不可能时（NaN / <−0.15 / >0.8）替换为「赛+练长跑的 stint-relative 斜率 → 该胎跨队中位 deg → 0」，
+并 clamp。截距不动是关键——之前重锚 pace 会让回测排名乱掉。结果：
+
+- **薄弱格垃圾 deg 清零**（24 场 0 个 NaN/越界）。
+- 净影响诚实：belgian podium→rough（它的领奖台本就是垃圾 deg 撑出来的，rough 才诚实）。
+- **巴林前向模拟 maxErr 8→4**（脏气流修复 + deg 不再被过度外推），§8.3 golden 重生、特征化更新。
+
+**没动充足格（n≥20）的怪 deg**：有些是真信号（如澳/雨战 INTER −1.2s/圈 = 干道变干，inter 越来越快），
+clamp 它们反而错。这类留作未来「分段湿胎模型」议题。

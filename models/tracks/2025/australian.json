@@ -13,7 +13,7 @@
   "tyreDeg": {
     "Alpine|HARD": {
       "intercept": 117.28452499636069,
-      "degLinear": -2.8297416667769397,
+      "degLinear": 0.0,
       "cliffStart": 999,
       "cliffSlope": 0.0,
       "nSamples": 2,
@@ -29,7 +29,7 @@
     },
     "Aston Martin|HARD": {
       "intercept": 106.21252499636077,
-      "degLinear": -1.670741666776948,
+      "degLinear": 0.0,
       "cliffStart": 999,
       "cliffSlope": 0.0,
       "nSamples": 2,
@@ -45,7 +45,7 @@
     },
     "Ferrari|HARD": {
       "intercept": 67.25438546819274,
-      "degLinear": 2.583874926152191,
+      "degLinear": 0.0,
       "cliffStart": 999,
       "cliffSlope": 0.0,
       "nSamples": 6,
@@ -69,7 +69,7 @@
     },
     "Haas F1 Team|MEDIUM": {
       "intercept": 82.98907499569906,
-      "degLinear": 2.689758333223061,
+      "degLinear": 0.0,
       "cliffStart": 999,
       "cliffSlope": 0.0,
       "nSamples": 4,
@@ -85,7 +85,7 @@
     },
     "Kick Sauber|MEDIUM": {
       "intercept": 101.79702499636075,
-      "degLinear": -1.3112416667769438,
+      "degLinear": 0.0,
       "cliffStart": 999,
       "cliffSlope": 0.0,
       "nSamples": 4,
@@ -93,7 +93,7 @@
     },
     "McLaren|HARD": {
       "intercept": 99.21078332958373,
-      "degLinear": -1.3932416667769374,
+      "degLinear": 0.0,
       "cliffStart": 999,
       "cliffSlope": 0.0,
       "nSamples": 4,
@@ -109,7 +109,7 @@
     },
     "Mercedes|HARD": {
       "intercept": 95.45431666247606,
-      "degLinear": -0.6228708333884754,
+      "degLinear": 0.0,
       "cliffStart": 999,
       "cliffSlope": 0.0,
       "nSamples": 4,
@@ -133,7 +133,7 @@
     },
     "Racing Bulls|MEDIUM": {
       "intercept": 51.67237115020693,
-      "degLinear": 4.043335256299976,
+      "degLinear": 0.026411383134547134,
       "cliffStart": 999,
       "cliffSlope": 0.0,
       "nSamples": 3,
@@ -149,7 +149,7 @@
     },
     "Red Bull Racing|MEDIUM": {
       "intercept": 58.74395146009077,
-      "degLinear": 3.288388626035219,
+      "degLinear": 0.0,
       "cliffStart": 999,
       "cliffSlope": 0.0,
       "nSamples": 5,
@@ -165,7 +165,7 @@
     },
     "Williams|MEDIUM": {
       "intercept": 112.94152499636073,
-      "degLinear": -2.437741666776944,
+      "degLinear": 0.0,
       "cliffStart": 999,
       "cliffSlope": 0.0,
       "nSamples": 2,
@@ -190,7 +190,7 @@
     "ALB": {
       "driverId": "ALB",
       "team": "Williams",
-      "offsetSec": -0.036673868341125626,
+      "offsetSec": -0.06687237418966419,
       "nSamples": 34
     },
     "ALO": {
@@ -202,7 +202,7 @@
     "ANT": {
       "driverId": "ANT",
       "team": "Mercedes",
-      "offsetSec": 0.3246337295512234,
+      "offsetSec": 0.11380903921521224,
       "nSamples": 33
     },
     "BEA": {
@@ -220,31 +220,31 @@
     "GAS": {
       "driverId": "GAS",
       "team": "Alpine",
-      "offsetSec": 0.021426936485390513,
+      "offsetSec": 0.017545879491109417,
       "nSamples": 32
     },
     "HAM": {
       "driverId": "HAM",
       "team": "Ferrari",
-      "offsetSec": 0.4291923001010005,
+      "offsetSec": 0.5327397090482151,
       "nSamples": 34
     },
     "HUL": {
       "driverId": "HUL",
       "team": "Kick Sauber",
-      "offsetSec": 0.026953977432590648,
+      "offsetSec": -0.08523305046531959,
       "nSamples": 34
     },
     "LAW": {
       "driverId": "LAW",
       "team": "Red Bull Racing",
-      "offsetSec": 0.842759690768645,
+      "offsetSec": 1.0576649308517432,
       "nSamples": 27
     },
     "LEC": {
       "driverId": "LEC",
       "team": "Ferrari",
-      "offsetSec": -0.1091926351964645,
+      "offsetSec": -0.05205732368583682,
       "nSamples": 34
     },
     "NOR": {
@@ -256,13 +256,13 @@
     "OCO": {
       "driverId": "OCO",
       "team": "Haas F1 Team",
-      "offsetSec": -0.7472599682914165,
+      "offsetSec": -0.6112292301643549,
       "nSamples": 32
     },
     "PIA": {
       "driverId": "PIA",
       "team": "McLaren",
-      "offsetSec": -0.018158066471244183,
+      "offsetSec": -0.06016977854724814,
       "nSamples": 33
     },
     "RUS": {
@@ -280,13 +280,13 @@
     "TSU": {
       "driverId": "TSU",
       "team": "Racing Bulls",
-      "offsetSec": -0.38326355591560457,
+      "offsetSec": -0.354875014624362,
       "nSamples": 34
     },
     "VER": {
       "driverId": "VER",
       "team": "Red Bull Racing",
-      "offsetSec": -0.9635719689405136,
+      "offsetSec": -0.8815245889820744,
       "nSamples": 33
     }
   },
@@ -306,9 +306,9 @@
       "Williams/MEDIUM(2)"
     ],
     "backtest": {
-      "top5MaxErr": 4,
-      "allMaxErr": 4,
-      "top3TimeMaxErr": 9.13,
+      "top5MaxErr": 8,
+      "allMaxErr": 11,
+      "top3TimeMaxErr": 50.86,
       "tier": "rough",
       "passes": false
     }
@@ -914,6 +914,6 @@
     "redFlags": []
   },
   "pitLaneSec": 30.0,
-  "modelVersion": "australian-2025-v1-60219964",
+  "modelVersion": "australian-2025-v1-6e38784e",
   "dataQuality": "rough"
 }

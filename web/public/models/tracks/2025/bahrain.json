@@ -117,7 +117,7 @@
     },
     "Kick Sauber|SOFT": {
       "intercept": 101.36816666666667,
-      "degLinear": -0.37442386317328413,
+      "degLinear": 0.3951378504672902,
       "cliffStart": 999,
       "cliffSlope": 0.0,
       "nSamples": 3,
@@ -300,7 +300,7 @@
     "HUL": {
       "driverId": "HUL",
       "team": "Kick Sauber",
-      "offsetSec": -0.1660833957899257,
+      "offsetSec": -0.19516380449290693,
       "nSamples": 47
     },
     "LAW": {
@@ -819,6 +819,6 @@
     "redFlags": []
   },
   "pitLaneSec": 21.2,
-  "modelVersion": "bahrain-2025-v1-3c96dac5",
+  "modelVersion": "bahrain-2025-v1-a8632d46",
   "dataQuality": "ok"
 }

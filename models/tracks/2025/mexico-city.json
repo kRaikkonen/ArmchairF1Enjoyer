@@ -133,7 +133,7 @@
     },
     "Racing Bulls|HARD": {
       "intercept": NaN,
-      "degLinear": NaN,
+      "degLinear": 0.0,
       "cliffStart": 999,
       "cliffSlope": 0.0,
       "nSamples": 1,
@@ -722,6 +722,6 @@
     "redFlags": []
   },
   "pitLaneSec": 20.2,
-  "modelVersion": "mexico-city-2025-v1-df3f0882",
+  "modelVersion": "mexico-city-2025-v1-e7bfc5c2",
   "dataQuality": "rough"
 }

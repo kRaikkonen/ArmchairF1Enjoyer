@@ -152,13 +152,11 @@ describe('simulate', () => {
   // acceptance gate should be, is a pending human decision (PLAN §10: "回测不
   // 达标时改模型还是踢出赛道"). See docs/backtest-log.md.
   // ---------------------------------------------------------------------------
-  // Re-measured 2026-06-06. Worst-case has stayed 8 across two engine changes
-  // (honest median offsets §8.4, then the optimal-lap pit AI) — the value is
-  // robust even though the per-driver mix shifts. Current worst: BOR (actual
-  // P18 → sim P10, Δ8), a backmarker the model over-rates. The honest controlled
-  // replay (real strategy) is maxErr 5; the extra here is forward-sim AI
-  // strategy divergence. See backtest-log.md.
-  const REAL_MAX_POS_ERR = 8; // seed 42, honest offsets + optimal-lap pit AI
+  // Re-measured 2026-06-07. Forward-sim worst-case dropped 8 → 4 after the
+  // dirty-air fit fix (real on-track gaps revive following friction) + thin-cell
+  // tyre-deg sanitization (no more garbage slopes the sim over-extrapolated).
+  // See backtest-log.md.
+  const REAL_MAX_POS_ERR = 4; // seed 42, honest offsets + optimal-lap pit AI + real dirty air
 
   it('Bahrain 2025 no-events — characterize TS engine accuracy vs real finish', () => {
     const result = simulate(BAHRAIN_INPUT);

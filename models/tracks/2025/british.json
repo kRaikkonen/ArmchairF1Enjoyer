@@ -37,7 +37,7 @@
     },
     "Aston Martin|MEDIUM": {
       "intercept": 117.02043039063666,
-      "degLinear": -0.5036728860695113,
+      "degLinear": 0.17843791946308665,
       "cliffStart": 999,
       "cliffSlope": 0.0,
       "nSamples": 11,
@@ -61,7 +61,7 @@
     },
     "Ferrari|MEDIUM": {
       "intercept": 135.04200000000003,
-      "degLinear": -3.390016747809682,
+      "degLinear": 0.21009839618552256,
       "cliffStart": 999,
       "cliffSlope": 0.0,
       "nSamples": 2,
@@ -69,7 +69,7 @@
     },
     "Ferrari|SOFT": {
       "intercept": 112.34532339243235,
-      "degLinear": -0.15764237609899928,
+      "degLinear": 0.0,
       "cliffStart": 999,
       "cliffSlope": 0.0,
       "nSamples": 17,
@@ -77,7 +77,7 @@
     },
     "Haas F1 Team|HARD": {
       "intercept": 116.651,
-      "degLinear": -1.1810167478096787,
+      "degLinear": 0.0523222591362131,
       "cliffStart": 999,
       "cliffSlope": 0.0,
       "nSamples": 2,
@@ -133,7 +133,7 @@
     },
     "Mercedes|HARD": {
       "intercept": 116.53273952440429,
-      "degLinear": -0.6081302005361607,
+      "degLinear": 0.0,
       "cliffStart": 999,
       "cliffSlope": 0.0,
       "nSamples": 14,
@@ -149,7 +149,7 @@
     },
     "Racing Bulls|INTER": {
       "intercept": NaN,
-      "degLinear": NaN,
+      "degLinear": 0.2792614726329111,
       "cliffStart": 999,
       "cliffSlope": 0.0,
       "nSamples": 1,
@@ -157,7 +157,7 @@
     },
     "Racing Bulls|MEDIUM": {
       "intercept": 120.19100000000003,
-      "degLinear": -1.6550167478096824,
+      "degLinear": 0.0,
       "cliffStart": 999,
       "cliffSlope": 0.0,
       "nSamples": 2,
@@ -173,7 +173,7 @@
     },
     "Red Bull Racing|MEDIUM": {
       "intercept": 113.94803493071227,
-      "degLinear": -0.33191447508240446,
+      "degLinear": 0.0,
       "cliffStart": 999,
       "cliffSlope": 0.0,
       "nSamples": 16,
@@ -189,7 +189,7 @@
     },
     "Williams|MEDIUM": {
       "intercept": 112.31045575921843,
-      "degLinear": -0.18212006799133937,
+      "degLinear": 0.006531301244333266,
       "cliffStart": 999,
       "cliffSlope": 0.0,
       "nSamples": 17,
@@ -214,13 +214,13 @@
     "ALB": {
       "driverId": "ALB",
       "team": "Williams",
-      "offsetSec": 0.11274227024169647,
+      "offsetSec": 0.11240163283461868,
       "nSamples": 31
     },
     "ALO": {
       "driverId": "ALO",
       "team": "Aston Martin",
-      "offsetSec": 0.0017029142444755507,
+      "offsetSec": -0.13772325525774676,
       "nSamples": 28
     },
     "ANT": {
@@ -232,7 +232,7 @@
     "BEA": {
       "driverId": "BEA",
       "team": "Haas F1 Team",
-      "offsetSec": -0.38337680159106213,
+      "offsetSec": -0.4509779897194335,
       "nSamples": 28
     },
     "GAS": {
@@ -244,13 +244,13 @@
     "HAD": {
       "driverId": "HAD",
       "team": "Racing Bulls",
-      "offsetSec": 0.0,
+      "offsetSec": -14.0676423563823,
       "nSamples": 2
     },
     "HAM": {
       "driverId": "HAM",
       "team": "Ferrari",
-      "offsetSec": -0.25480949518089346,
+      "offsetSec": -0.5675168392237993,
       "nSamples": 27
     },
     "HUL": {
@@ -262,7 +262,7 @@
     "LEC": {
       "driverId": "LEC",
       "team": "Ferrari",
-      "offsetSec": 0.5309409632489661,
+      "offsetSec": 0.030805721464389535,
       "nSamples": 29
     },
     "NOR": {
@@ -286,13 +286,13 @@
     "RUS": {
       "driverId": "RUS",
       "team": "Mercedes",
-      "offsetSec": 0.07656489878267791,
+      "offsetSec": -0.7247612203245808,
       "nSamples": 29
     },
     "SAI": {
       "driverId": "SAI",
       "team": "Williams",
-      "offsetSec": -0.04557328639504021,
+      "offsetSec": -0.3800967471219394,
       "nSamples": 28
     },
     "STR": {
@@ -304,13 +304,13 @@
     "TSU": {
       "driverId": "TSU",
       "team": "Red Bull Racing",
-      "offsetSec": 0.6511912047912034,
+      "offsetSec": 0.5624260456847026,
       "nSamples": 28
     },
     "VER": {
       "driverId": "VER",
       "team": "Red Bull Racing",
-      "offsetSec": -0.5568167484475737,
+      "offsetSec": -1.9366414762131683,
       "nSamples": 28
     }
   },
@@ -337,7 +337,7 @@
     ],
     "backtest": {
       "top5MaxErr": 2,
-      "allMaxErr": 12,
+      "allMaxErr": 10,
       "top3TimeMaxErr": 13.07,
       "tier": "podium",
       "passes": false
@@ -753,6 +753,6 @@
     "redFlags": []
   },
   "pitLaneSec": 21.7,
-  "modelVersion": "british-2025-v1-c2f85c6f",
+  "modelVersion": "british-2025-v1-b983279a",
   "dataQuality": "podium"
 }

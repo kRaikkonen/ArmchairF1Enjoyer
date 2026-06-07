@@ -16,6 +16,15 @@ logger = logging.getLogger(__name__)
 MIN_SAMPLES_TYRE = 20
 MIN_SAMPLES_DRIVER = 5
 
+# Thin-cell tyre supplementation. A (team, compound) with < MIN_SAMPLES_TYRE race
+# laps gives an unreliable piecewise fit (n=2 → absurd slopes like −3.4 s/lap). We
+# replace its slope with one estimated from race+practice long-runs (stint-relative,
+# so fuel/evolution baselines cancel and sessions pool), clamp it to a physical
+# range, fall back to the compound's cross-team median deg, then to flat — never
+# garbage. Quality thresholds, not fitted physics.
+THIN_DEG_FLOOR, THIN_DEG_CAP = 0.0, 0.8  # s/lap: tyres don't gain pace / nothing degrades this fast
+MIN_THIN_SLOPE_PTS = 12                  # pooled stint-relative points needed to trust a slope
+
 # Gap thresholds from physics model (fixed by design, not fitted).
 # These are model architecture choices, not empirical parameters.
 DIRTY_AIR_GAP_SEC = 1.5
@@ -197,57 +206,116 @@ def fit_stint_progress(laps: pd.DataFrame) -> StintProgressModel:
     return model
 
 
-def fit_tyre_deg(laps: pd.DataFrame) -> dict:
+def _stint_relative_slope(df: pd.DataFrame):
+    """Deg slope (s/lap) from stint-relative pace: zero each stint to its first lap
+    and fit rel_sec ~ (stintLap − first). The per-stint baseline (fuel load, track
+    evolution, session) cancels, so race and practice long-runs pool cleanly.
+    Returns (slope | None, n_points). Needs `Driver, Session, Stint, StintLap, sec`.
+    """
+    parts = []
+    for _, g in df.groupby(["Driver", "Session", "Stint"]):
+        g = g.sort_values("StintLap")
+        if len(g) < 3:  # need a few laps to see a slope
+            continue
+        sec = g["sec"].to_numpy(dtype=float)
+        x = g["StintLap"].to_numpy(dtype=float) - g["StintLap"].to_numpy(dtype=float)[0]
+        parts.append(np.column_stack([x, sec - sec[0]]))
+    if not parts:
+        return None, 0
+    pts = np.vstack(parts)
+    pts = pts[np.abs(pts[:, 1]) < 5.0]  # drop traffic / mistake outliers
+    if len(pts) < MIN_THIN_SLOPE_PTS:
+        return None, len(pts)
+    return float(np.polyfit(pts[:, 0], pts[:, 1], 1)[0]), len(pts)
+
+
+# A thin-cell deg in this range is physically plausible (slight negative allowed
+# for track rubbering-in); outside it the n=2 piecewise fit is garbage and gets
+# replaced. We keep the race INTERCEPT untouched — only the impossible slope is
+# sanitized — so the backtest ranking isn't disturbed by re-anchoring pace.
+THIN_DEG_PLAUSIBLE_LO = -0.15
+
+
+def _supplement_thin_cell(team, compound, grp, orig, support, cross_deg):
+    """Sanitize a thin cell's degradation slope without touching its race pace.
+
+    Keeps the race-fitted intercept + cliff. Only replaces the slope when it's
+    physically impossible (NaN / large-negative / absurd) with: race+practice
+    stint-relative slope → compound cross-team median → flat; clamped. Plausible
+    thin slopes are left alone so good-enough fits aren't disturbed.
+    """
+    intercept, deg, cliff_start, cliff_slope = orig
+    if np.isfinite(deg) and THIN_DEG_PLAUSIBLE_LO <= deg <= THIN_DEG_CAP:
+        return intercept, deg, cliff_start, cliff_slope  # plausible — leave it
+
+    pool = [grp[["Driver", "Session", "Stint", "StintLap", "sec"]]]
+    if support is not None and len(support):
+        s = support[(support["Team"] == team) & (support["Compound"] == compound)]
+        if len(s):
+            pool.append(s[["Driver", "Session", "Stint", "StintLap", "sec"]])
+    slope, _ = _stint_relative_slope(pd.concat(pool, ignore_index=True))
+    if slope is None or not np.isfinite(slope):
+        slope = cross_deg.get(compound)
+    if slope is None or not np.isfinite(slope):
+        slope = 0.0
+    slope = float(min(THIN_DEG_CAP, max(THIN_DEG_FLOOR, slope)))
+    return intercept, slope, 999, 0.0  # keep race intercept; drop the (unreliable) cliff
+
+
+def fit_tyre_deg(laps: pd.DataFrame, support: pd.DataFrame | None = None) -> dict:
     """Fit per-(team, compound) tyre degradation from clean stints.
 
-    Returns dict keyed by (team, compound) → TyreDegEntry.
-    Groups with fewer than MIN_SAMPLES_TYRE laps are marked insufficient=True
-    and logged; they are still included in the dict but must not drive
-    simulation without a fallback decision from the human.
+    Returns dict keyed by (team, compound) → TyreDegEntry. Cells with ≥
+    MIN_SAMPLES_TYRE race laps use the normal piecewise fit. Thin cells (which the
+    piecewise fit renders as garbage, e.g. n=2 → −3.4 s/lap) are replaced with a
+    robust intercept + a slope from race+practice long-runs / cross-team median,
+    clamped to a physical range (see _supplement_thin_cell). `support` is the
+    cleaned practice/quali laps (optional) used to fill thin cells.
     """
     # First, remove global stint-progress trend so tyre deg is isolated
     sp_model = fit_stint_progress(laps)
     clean = laps[laps["IsClean"]].copy()
     clean["DetrLapTime"] = _detrend_stint_progress(clean, sp_model)
+    clean["sec"] = clean["LapTimeSec"]
+    clean["Session"] = "R"
 
-    result: dict = {}
+    # Pass 1: raw piecewise fit + remember each group for pass 2.
+    raw: dict = {}
     insufficient_log: list = []
-
     for (team, compound), grp in clean.groupby(["Team", "Compound"]):
-        x = grp["StintLap"].values.astype(float)
-        y = grp["DetrLapTime"].values.astype(float)
         n = len(grp)
         insufficient = n < MIN_SAMPLES_TYRE
-
+        ti, dl, cs, csl = _fit_piecewise_tyre(
+            grp["StintLap"].to_numpy(dtype=float), grp["DetrLapTime"].to_numpy(dtype=float))
+        raw[(team, compound)] = dict(intercept=ti, deg=dl, cs=cs, csl=csl, n=n, insuf=insufficient, grp=grp)
         if insufficient:
             insufficient_log.append((team, compound, n))
 
-        tyre_intercept, deg_linear, cliff_start, cliff_slope = _fit_piecewise_tyre(x, y)
+    # Cross-team median deg per compound from the SUFFICIENT cells (robust backstop).
+    by_comp: dict = {}
+    for (_, compound), r in raw.items():
+        if not r["insuf"] and np.isfinite(r["deg"]):
+            by_comp.setdefault(compound, []).append(r["deg"])
+    cross_deg = {c: float(np.median(v)) for c, v in by_comp.items() if v}
 
-        entry = TyreDegEntry(
-            team=team,
-            compound=compound,
-            intercept=tyre_intercept,
-            deg_linear=deg_linear,
-            cliff_start=cliff_start,
-            cliff_slope=cliff_slope,
-            n_samples=n,
-            insufficient=insufficient,
-        )
-        result[(team, compound)] = entry
-
-        logger.info(
-            "TyreDeg [%s/%s]: intercept=%.3f, deg_linear=%.4f s/lap, cliff_start=%d, n=%d%s",
-            team, compound, tyre_intercept, deg_linear, cliff_start, n,
-            " [INSUFFICIENT]" if insufficient else "",
-        )
+    # Pass 2: emit entries, supplementing thin cells.
+    result: dict = {}
+    for (team, compound), r in raw.items():
+        if r["insuf"]:
+            ti, dl, cs, csl = _supplement_thin_cell(
+                team, compound, r["grp"], (r["intercept"], r["deg"], r["cs"], r["csl"]), support, cross_deg)
+        else:
+            ti, dl, cs, csl = r["intercept"], r["deg"], r["cs"], r["csl"]
+        result[(team, compound)] = TyreDegEntry(
+            team=team, compound=compound, intercept=ti, deg_linear=dl,
+            cliff_start=cs, cliff_slope=csl, n_samples=r["n"], insufficient=r["insuf"])
+        logger.info("TyreDeg [%s/%s]: intercept=%.3f, deg_linear=%.4f s/lap, cliff_start=%d, n=%d%s",
+                    team, compound, ti, dl, cs, r["n"], " [THIN→supplemented]" if r["insuf"] else "")
 
     if insufficient_log:
         logger.warning(
-            "Insufficient tyre samples (<%d laps) for: %s",
-            MIN_SAMPLES_TYRE,
-            ", ".join(f"{t}/{c}({n})" for t, c, n in insufficient_log),
-        )
+            "Thin tyre cells (<%d race laps) supplemented from practice/cross-team: %s",
+            MIN_SAMPLES_TYRE, ", ".join(f"{t}/{c}({n})" for t, c, n in insufficient_log))
 
     return result
 

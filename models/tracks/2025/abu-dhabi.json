@@ -101,7 +101,7 @@
     },
     "Kick Sauber|SOFT": {
       "intercept": 91.98175,
-      "degLinear": -0.2510626515249257,
+      "degLinear": 0.38455496828752744,
       "cliffStart": 999,
       "cliffSlope": 0.0,
       "nSamples": 4,
@@ -189,7 +189,7 @@
     },
     "Williams|SOFT": {
       "intercept": 91.5291714285714,
-      "degLinear": -0.1659340800963528,
+      "degLinear": 0.0,
       "cliffStart": 999,
       "cliffSlope": 0.0,
       "nSamples": 6,
@@ -214,7 +214,7 @@
     "ALB": {
       "driverId": "ALB",
       "team": "Williams",
-      "offsetSec": -0.09514857790986753,
+      "offsetSec": -0.16146448671728564,
       "nSamples": 50
     },
     "ALO": {
@@ -268,7 +268,7 @@
     "HUL": {
       "driverId": "HUL",
       "team": "Kick Sauber",
-      "offsetSec": -0.3393464634154313,
+      "offsetSec": -0.4291580426697763,
       "nSamples": 50
     },
     "LAW": {
@@ -719,6 +719,6 @@
     "redFlags": []
   },
   "pitLaneSec": 20.3,
-  "modelVersion": "abu-dhabi-2025-v1-fb0952d3",
+  "modelVersion": "abu-dhabi-2025-v1-f2592187",
   "dataQuality": "rough"
 }

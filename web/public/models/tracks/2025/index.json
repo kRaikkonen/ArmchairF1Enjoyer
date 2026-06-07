@@ -7,7 +7,7 @@
     "totalLaps": 57,
     "circuitLengthKm": 5.24,
     "dataQuality": "rough",
-    "modelVersion": "australian-2025-v1-60219964"
+    "modelVersion": "australian-2025-v1-6e38784e"
   },
   {
     "slug": "chinese",
@@ -37,7 +37,7 @@
     "totalLaps": 57,
     "circuitLengthKm": 5.377,
     "dataQuality": "ok",
-    "modelVersion": "bahrain-2025-v1-3c96dac5"
+    "modelVersion": "bahrain-2025-v1-a8632d46"
   },
   {
     "slug": "saudi-arabian",
@@ -57,7 +57,7 @@
     "totalLaps": 57,
     "circuitLengthKm": 5.324,
     "dataQuality": "ok",
-    "modelVersion": "miami-2025-v1-415a5afa"
+    "modelVersion": "miami-2025-v1-ed4777ce"
   },
   {
     "slug": "emilia-romagna",
@@ -77,7 +77,7 @@
     "totalLaps": 78,
     "circuitLengthKm": 3.284,
     "dataQuality": "podium",
-    "modelVersion": "monaco-2025-v1-cd4911d3"
+    "modelVersion": "monaco-2025-v1-3987d3a3"
   },
   {
     "slug": "spanish",
@@ -117,7 +117,7 @@
     "totalLaps": 52,
     "circuitLengthKm": 5.819,
     "dataQuality": "podium",
-    "modelVersion": "british-2025-v1-c2f85c6f"
+    "modelVersion": "british-2025-v1-b983279a"
   },
   {
     "slug": "belgian",
@@ -126,8 +126,8 @@
     "season": 2025,
     "totalLaps": 44,
     "circuitLengthKm": 6.942,
-    "dataQuality": "podium",
-    "modelVersion": "belgian-2025-v1-ee396f55"
+    "dataQuality": "rough",
+    "modelVersion": "belgian-2025-v1-978d10eb"
   },
   {
     "slug": "hungarian",
@@ -137,7 +137,7 @@
     "totalLaps": 70,
     "circuitLengthKm": 4.355,
     "dataQuality": "rough",
-    "modelVersion": "hungarian-2025-v1-c1e50714"
+    "modelVersion": "hungarian-2025-v1-2c14b205"
   },
   {
     "slug": "dutch",
@@ -197,7 +197,7 @@
     "totalLaps": 71,
     "circuitLengthKm": 4.24,
     "dataQuality": "rough",
-    "modelVersion": "mexico-city-2025-v1-df3f0882"
+    "modelVersion": "mexico-city-2025-v1-e7bfc5c2"
   },
   {
     "slug": "sao-paulo",
@@ -227,7 +227,7 @@
     "totalLaps": 57,
     "circuitLengthKm": 5.395,
     "dataQuality": "rough",
-    "modelVersion": "qatar-2025-v1-6e49d7aa"
+    "modelVersion": "qatar-2025-v1-53313e8f"
   },
   {
     "slug": "abu-dhabi",
@@ -237,6 +237,6 @@
     "totalLaps": 58,
     "circuitLengthKm": 5.214,
     "dataQuality": "rough",
-    "modelVersion": "abu-dhabi-2025-v1-fb0952d3"
+    "modelVersion": "abu-dhabi-2025-v1-f2592187"
   }
 ]

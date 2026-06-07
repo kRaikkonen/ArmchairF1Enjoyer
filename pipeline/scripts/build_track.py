@@ -65,6 +65,29 @@ def grade(top5: int, all_err: int, t3_time: float) -> str:
     return "podium" if top5 <= PODIUM_TOP5_MAX else "rough"
 
 
+def load_support(slug: str, year: int) -> pd.DataFrame | None:
+    """Cleaned practice/quali laps (or None) for filling thin tyre cells.
+
+    Green, accurate, non-pit laps with a compound + stint, tagged by Session and
+    given a per-stint StintLap. Used only for the deg slope of under-sampled cells
+    (see fit._supplement_thin_cell); never re-anchors race pace."""
+    p = FIXTURES / f"{slug}-{year}-support.parquet"
+    if not p.exists():
+        return None
+    df = pd.read_parquet(p)
+    df["sec"] = pd.to_timedelta(df["LapTime"]).dt.total_seconds()
+    df = df[(df["TrackStatus"].astype(str) == "1")
+            & df["PitInTime"].isna() & df["PitOutTime"].isna()
+            & df["sec"].notna() & df["Compound"].notna() & df["Stint"].notna()].copy()
+    if "IsAccurate" in df.columns:
+        df = df[df["IsAccurate"] != False]  # noqa: E712 — keep NaN/True, drop explicit False
+    df["Compound"] = df["Compound"].replace({"INTERMEDIATE": "INTER"})
+    df["StintLap"] = df.groupby(["Driver", "Session", "Stint"])["LapNumber"].rank(method="first")
+    logger.info("Support laps for %s: %d clean laps across %d sessions",
+                slug, len(df), df["Session"].nunique() if len(df) else 0)
+    return df if len(df) else None
+
+
 def derive_pit_lane_sec(raw: pd.DataFrame) -> float | None:
     """Rough per-track pit-lane delta (s, in+out, excl. stationary) from the
     in-/out-lap time loss vs each driver's clean median. Clamped to a sane range."""
@@ -105,7 +128,8 @@ def build(slug: str, year: int) -> None:
     logger.info("=== build_track: %s %d (%s) ===", slug, year, event)
 
     laps = clean_laps(raw)
-    tyre_deg = fit_tyre_deg(laps)
+    support = load_support(slug, year)  # practice/quali laps to fill thin tyre cells (or None)
+    tyre_deg = fit_tyre_deg(laps, support)
     track_base_pace = float(laps.loc[laps["IsClean"], "LapTimeSec"].median())
     insufficient = [f"{t}/{c}({e.n_samples})" for (t, c), e in tyre_deg.items() if e.insufficient]
 

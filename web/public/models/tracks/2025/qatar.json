@@ -45,7 +45,7 @@
     },
     "Aston Martin|SOFT": {
       "intercept": 83.29976110946083,
-      "degLinear": 1.6836073695808396,
+      "degLinear": 0.4389391891891909,
       "cliffStart": 999,
       "cliffSlope": 0.0,
       "nSamples": 4,
@@ -69,7 +69,7 @@
     },
     "Ferrari|SOFT": {
       "intercept": 89.93579999999999,
-      "degLinear": -0.21489263041916473,
+      "degLinear": 0.06824352524327607,
       "cliffStart": 999,
       "cliffSlope": 0.0,
       "nSamples": 5,
@@ -254,7 +254,7 @@
     "HAM": {
       "driverId": "HAM",
       "team": "Ferrari",
-      "offsetSec": -0.0019207660164752838,
+      "offsetSec": -0.015457918093474632,
       "nSamples": 50
     },
     "HUL": {
@@ -308,7 +308,7 @@
     "STR": {
       "driverId": "STR",
       "team": "Aston Martin",
-      "offsetSec": 0.12644875372726005,
+      "offsetSec": 0.15837415452081416,
       "nSamples": 45
     },
     "TSU": {
@@ -770,6 +770,6 @@
     "redFlags": []
   },
   "pitLaneSec": 30.0,
-  "modelVersion": "qatar-2025-v1-6e49d7aa",
+  "modelVersion": "qatar-2025-v1-53313e8f",
   "dataQuality": "rough"
 }

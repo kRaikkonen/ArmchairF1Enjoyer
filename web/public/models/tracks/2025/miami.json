@@ -93,7 +93,7 @@
     },
     "McLaren|MEDIUM": {
       "intercept": 92.82861408412839,
-      "degLinear": -0.15872164134443473,
+      "degLinear": 0.0,
       "cliffStart": 999,
       "cliffSlope": 0.0,
       "nSamples": 12,
@@ -125,7 +125,7 @@
     },
     "Racing Bulls|MEDIUM": {
       "intercept": 100.64815057754994,
-      "degLinear": -1.6205435297564463,
+      "degLinear": 0.03842648020593768,
       "cliffStart": 999,
       "cliffSlope": 0.0,
       "nSamples": 2,
@@ -248,7 +248,7 @@
     "NOR": {
       "driverId": "NOR",
       "team": "McLaren",
-      "offsetSec": -0.03658695652174515,
+      "offsetSec": -0.12350000000000705,
       "nSamples": 29
     },
     "OCO": {
@@ -260,7 +260,7 @@
     "PIA": {
       "driverId": "PIA",
       "team": "McLaren",
-      "offsetSec": 0.08880434782608404,
+      "offsetSec": 0.043326086956511745,
       "nSamples": 29
     },
     "RUS": {
@@ -309,7 +309,7 @@
     "backtest": {
       "top5MaxErr": 1,
       "allMaxErr": 5,
-      "top3TimeMaxErr": 1.47,
+      "top3TimeMaxErr": 4.12,
       "tier": "ok",
       "passes": true
     }
@@ -636,6 +636,6 @@
     "redFlags": []
   },
   "pitLaneSec": 18.7,
-  "modelVersion": "miami-2025-v1-415a5afa",
+  "modelVersion": "miami-2025-v1-ed4777ce",
   "dataQuality": "ok"
 }
