@@ -10,6 +10,16 @@
     "modelVersion": "australian-2025-v1-60219964"
   },
   {
+    "slug": "chinese",
+    "name": "Chinese Grand Prix",
+    "round": 2,
+    "season": 2025,
+    "totalLaps": 56,
+    "circuitLengthKm": 5.393,
+    "dataQuality": "podium",
+    "modelVersion": "chinese-2025-v1-49cf9edd"
+  },
+  {
     "slug": "japanese",
     "name": "Japanese Grand Prix",
     "round": 3,
@@ -38,6 +48,16 @@
     "circuitLengthKm": 6.076,
     "dataQuality": "podium",
     "modelVersion": "saudi-arabian-2025-v1-0fde0e5d"
+  },
+  {
+    "slug": "miami",
+    "name": "Miami Grand Prix",
+    "round": 6,
+    "season": 2025,
+    "totalLaps": 57,
+    "circuitLengthKm": 5.324,
+    "dataQuality": "ok",
+    "modelVersion": "miami-2025-v1-415a5afa"
   },
   {
     "slug": "emilia-romagna",
@@ -100,6 +120,16 @@
     "modelVersion": "british-2025-v1-c2f85c6f"
   },
   {
+    "slug": "belgian",
+    "name": "Belgian Grand Prix",
+    "round": 13,
+    "season": 2025,
+    "totalLaps": 44,
+    "circuitLengthKm": 6.942,
+    "dataQuality": "podium",
+    "modelVersion": "belgian-2025-v1-ee396f55"
+  },
+  {
     "slug": "hungarian",
     "name": "Hungarian Grand Prix",
     "round": 14,
@@ -150,6 +180,16 @@
     "modelVersion": "singapore-2025-v1-5899be5e"
   },
   {
+    "slug": "united-states",
+    "name": "United States Grand Prix",
+    "round": 19,
+    "season": 2025,
+    "totalLaps": 56,
+    "circuitLengthKm": 5.447,
+    "dataQuality": "podium",
+    "modelVersion": "united-states-2025-v1-c4d2cbdf"
+  },
+  {
     "slug": "mexico-city",
     "name": "Mexico City Grand Prix",
     "round": 20,
@@ -160,6 +200,16 @@
     "modelVersion": "mexico-city-2025-v1-df3f0882"
   },
   {
+    "slug": "sao-paulo",
+    "name": "São Paulo Grand Prix",
+    "round": 21,
+    "season": 2025,
+    "totalLaps": 71,
+    "circuitLengthKm": 4.232,
+    "dataQuality": "podium",
+    "modelVersion": "sao-paulo-2025-v1-0877b29f"
+  },
+  {
     "slug": "las-vegas",
     "name": "Las Vegas Grand Prix",
     "round": 22,
@@ -168,6 +218,16 @@
     "circuitLengthKm": 6.139,
     "dataQuality": "podium",
     "modelVersion": "las-vegas-2025-v1-1a1a4390"
+  },
+  {
+    "slug": "qatar",
+    "name": "Qatar Grand Prix",
+    "round": 23,
+    "season": 2025,
+    "totalLaps": 57,
+    "circuitLengthKm": 5.395,
+    "dataQuality": "rough",
+    "modelVersion": "qatar-2025-v1-6e49d7aa"
   },
   {
     "slug": "abu-dhabi",

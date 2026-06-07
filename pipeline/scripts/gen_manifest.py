@@ -16,11 +16,11 @@ ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(ROOT / "pipeline"))
 import fastf1
 fastf1.Cache.enable_cache(str(ROOT / "pipeline" / "cache"))
-from src.schedule import conventional_races  # noqa: E402
+from src.schedule import all_races  # noqa: E402
 
 
 def main(year: int) -> None:
-    rounds = {r["slug"]: r for r in conventional_races(year)}
+    rounds = {r["slug"]: r for r in all_races(year)}
     src_dir = ROOT / "models" / "tracks" / str(year)
     entries = []
     for f in sorted(src_dir.glob("*.json")):

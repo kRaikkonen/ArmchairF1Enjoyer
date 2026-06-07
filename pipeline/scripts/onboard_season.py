@@ -13,15 +13,15 @@ ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(ROOT / "pipeline"))
 import fastf1
 fastf1.Cache.enable_cache(str(ROOT / "pipeline" / "cache"))
-from src.schedule import conventional_races  # noqa: E402
+from src.schedule import all_races  # noqa: E402
 
 SCRIPTS = ROOT / "pipeline" / "scripts"
 FIXTURES = ROOT / "pipeline" / "tests" / "fixtures"
 
 
 def main(year: int) -> None:
-    races = conventional_races(year)
-    print(f"[onboard] {len(races)} conventional races in {year}: {[r['slug'] for r in races]}", flush=True)
+    races = all_races(year)
+    print(f"[onboard] {len(races)} races in {year} (incl. sprint weekends): {[r['slug'] for r in races]}", flush=True)
     for i, r in enumerate(races, 1):
         slug = r["slug"]
         print(f"\n[onboard {i}/{len(races)}] {slug} (round {r['round']})", flush=True)

@@ -28,6 +28,22 @@ def conventional_races(year: int) -> list[dict]:
     return out
 
 
+def all_races(year: int) -> list[dict]:
+    """Every points-paying round of a season, each {slug, event, round, format}.
+
+    Includes sprint weekends (we still model the Sunday Grand Prix; the Saturday
+    sprint just changes parc-fermé/practice structure, not the race we replay).
+    """
+    sched = fastf1.get_event_schedule(year)
+    out: list[dict] = []
+    for _, r in sched.iterrows():
+        if int(r["RoundNumber"]) == 0:
+            continue
+        out.append({"slug": slugify(r["EventName"]), "event": r["EventName"],
+                    "round": int(r["RoundNumber"]), "format": r["EventFormat"]})
+    return out
+
+
 def resolve_event(slug: str, year: int) -> str:
     """Map a slug back to its FastF1 event name (raises if unknown)."""
     sched = fastf1.get_event_schedule(year)

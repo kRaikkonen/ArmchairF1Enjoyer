@@ -52,6 +52,14 @@ def clean_laps(session: Union[fastf1.core.Session, pd.DataFrame]) -> pd.DataFram
     laps = laps.dropna(subset=["LapTimeSec"]).copy()
     logger.info("Dropped %d laps with unrecoverable LapTime", before - len(laps))
 
+    # Some sessions carry laps with a missing Stint (FastF1 stint-data glitches,
+    # e.g. Miami 2025 driver 5). They can't be placed in a stint — drop them
+    # (report, don't fill — pipeline rule 4).
+    before_stint = len(laps)
+    laps = laps.dropna(subset=["Stint"]).copy()
+    if before_stint - len(laps):
+        logger.warning("Dropped %d laps with missing Stint data", before_stint - len(laps))
+
     # StintLap: position within current stint (1-indexed)
     laps["StintLap"] = (
         laps.groupby(["Driver", "Stint"])["LapNumber"].rank(method="first").astype(int)
