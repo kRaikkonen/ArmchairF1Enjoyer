@@ -143,6 +143,7 @@ lapTime = trackBasePace
 - **单一真实来源（§8.1）** → 完赛结果 / 各车策略 / 安全车/VSC 时段 / 车号全从 FastF1 派生，修掉了之前手填且错误的 `results`（曾把 HAM 误标 DNF）。
 - **雨胎契约错配（审计发现，high）** → FastF1 的 `INTERMEDIATE` 与引擎契约 `INTER` 不一致，导致两场雨战（Australian/British）湿胎被错当光头胎吃 ~11s/圈 罚时、AI 误换胎、徽章显示 `?`。已在管道统一归一化。
 - **对手博弈分享不可复现（审计发现，high）** → "对手博弈"链接缺 `reactiveStrategies`，恢复时退化成通用 1 停 AI。现加 `rr`/`ov` 参数并走 `runScenario` 重建反应式策略，附往返单测。
+- **薄弱胎拟合格垃圾 deg** → 某队某胎只跑 2 圈时分段拟合给出 −3.39s/圈、甚至 NaN，引擎照用。现拉全 24 场练习/排位圈（`fetch_support.py`）补齐：保留赛中 pace 截距，只把物理不可能的 deg 换成「赛+练长跑斜率→跨队中位→0」并 clamp。24 场 0 个垃圾 deg；巴林前向模拟 maxErr 8→4。
 
 ### 🟢 建模层面（本轮大幅修复）
 
