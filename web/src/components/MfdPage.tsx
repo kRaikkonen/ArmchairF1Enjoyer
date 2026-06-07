@@ -318,7 +318,7 @@ export function MfdPage() {
       {/* ── Honest-trust banner (§8.6) ── */}
       <div className="flex items-center gap-2 px-4 h-6 bg-f1-dark border-b border-f1-border shrink-0 text-[10px] text-f1-muted">
         <span className="text-yellow-500">⚠ 可信度</span>
-        <span>领奖台(前3)较可信 · 中下游仅供娱乐（真实复现误差约 ±6 位）· 单 seed 确定性 · 对手不博弈 · 退赛/DSQ 车手已剔除（不参与推演）</span>
+        <span>领奖台(前3)较可信 · 中下游仅供娱乐（真实复现误差约 ±4 位）· 单 seed 确定性 · 对手不博弈 · 退赛/DSQ 车手已剔除（不参与推演）</span>
       </div>
 
       {/* ── Body: three side-by-side columns (no deep stacking) ── */}

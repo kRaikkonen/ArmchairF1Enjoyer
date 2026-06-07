@@ -210,6 +210,7 @@ describe('simulate', () => {
       lapsSinceStart: 1,
       gapToCarAheadSec: 0.5, // within DRS threshold
       inDrsZone: false,       // NOT in zone
+      isOutLap: false,
       ersState: { pool: 4 },
       ersMode: 'neutral' as ErsMode,
       trackTempC: 32,

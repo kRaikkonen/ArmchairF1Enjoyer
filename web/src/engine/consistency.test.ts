@@ -57,6 +57,7 @@ function tsControlledLapTime(c: GoldenCase): number {
       lapsSinceStart: c.lapsSinceStart,
       gapToCarAheadSec: Infinity, // no dirty air
       inDrsZone: false,           // no DRS
+      isOutLap: false,            // no cold-tyre penalty (matches Python core)
       ersState: { pool: 0 },
       ersMode: 'neutral',         // no ERS delta
       trackTempC: 32,             // reference temp → 0 weather delta

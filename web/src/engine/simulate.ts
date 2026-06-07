@@ -48,14 +48,21 @@ const SC_BUNCH_GAP_SEC = 1.0;
 const SC_PIT_LOSS_FACTOR = 0.5;
 
 /**
- * Re-space the field behind the Safety Car: keep current order (by total time)
- * but set every gap to SC_BUNCH_GAP_SEC. Retired cars stay at the back.
+ * Re-space the field behind the Safety Car: cars on the SAME lap bunch up to
+ * SC_BUNCH_GAP_SEC, but lapped cars stay a lap (or more) down — they do NOT get
+ * gifted onto the lead lap. Retired cars stay at the back.
  */
-function bunchFieldBehindSC(drivers: DriverState[]): DriverState[] {
+function bunchFieldBehindSC(drivers: DriverState[], lapRefSec: number): DriverState[] {
   const active = drivers.filter((d) => !d.isRetired).sort((a, b) => a.totalTimeSec - b.totalTimeSec);
   const retired = drivers.filter((d) => d.isRetired);
   const leaderTime = active[0]?.totalTimeSec ?? 0;
-  const bunched = active.map((d, i) => ({ ...d, totalTimeSec: leaderTime + i * SC_BUNCH_GAP_SEC }));
+  const groupCount: Record<number, number> = {};
+  const bunched = active.map((d) => {
+    const lapsDown = Math.max(0, Math.floor((d.totalTimeSec - leaderTime) / lapRefSec));
+    const idx = groupCount[lapsDown] ?? 0;
+    groupCount[lapsDown] = idx + 1;
+    return { ...d, totalTimeSec: leaderTime + lapsDown * lapRefSec + idx * SC_BUNCH_GAP_SEC };
+  });
   return [...bunched, ...retired];
 }
 
@@ -226,6 +233,7 @@ export function simulate(input: SimulationInput): SimulationResult {
           lapsSinceStart: driver.lapsSinceStart + 1,
           gapToCarAheadSec: driver.gapToCarAheadSec,
           inDrsZone: isInDrsZone(driver.position),
+          isOutLap: driver.stintLap === 1, // first lap of a stint = cold tyres
           ersState: { pool: driver.ersPool },
           ersMode: driver.ersMode,
           trackTempC: raceState.trackTempC,
@@ -264,7 +272,7 @@ export function simulate(input: SimulationInput): SimulationResult {
 
     // 4b. On the SC restart lap, bunch the field up behind the Safety Car.
     if (scRestartLaps.has(lap)) {
-      drivers = recomputePositions(bunchFieldBehindSC(drivers));
+      drivers = recomputePositions(bunchFieldBehindSC(drivers, trackModel.trackBasePace || 96));
     }
 
     // 5. Store snapshots with updated positions + gaps (reflect this lap's

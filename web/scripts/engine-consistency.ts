@@ -70,6 +70,7 @@ function tsControlledLapTime(row: LapRow): number {
       lapsSinceStart: row.lapsSinceStart,
       gapToCarAheadSec: Infinity, // no dirty air
       inDrsZone: false,           // no DRS
+      isOutLap: false,
       ersState: { pool: 0 },
       ersMode: 'neutral',         // no ERS delta
       trackTempC: 32,             // reference temp -> 0 weather delta

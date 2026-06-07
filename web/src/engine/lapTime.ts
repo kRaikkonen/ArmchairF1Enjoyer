@@ -119,6 +119,12 @@ export function stepErs(state: ErsState, mode: ErsMode): ErsResult {
 // Tyre degradation
 // ---------------------------------------------------------------------------
 
+/** Synthetic wet-tyre baseline (s) when the model has no INTER/WET fit (Phase 0
+ * is a dry race). Used as the tyre intercept so wet compounds aren't priced at
+ * the raw dry median with zero degradation. Schema constants, not fits. */
+const WET_TYRE_INTERCEPT_OFFSET_SEC = 2.0;
+const WET_TYRE_DEG_LINEAR_SEC = 0.04;
+
 function tyreDegSec(
   team: string,
   compound: Compound,
@@ -127,7 +133,15 @@ function tyreDegSec(
 ): number {
   const key = `${team}|${compound}`;
   const entry = model.tyreDeg[key];
-  if (!entry) return model.trackBasePace; // fallback: use median — shouldn't occur in practice
+  if (!entry) {
+    // INTER/WET have no fit on a dry race — give them a sane synthetic pace
+    // (the wet-vs-dry differential lives in weatherDelta). Other missing dry
+    // combos fall back to the median.
+    if (compound === 'INTER' || compound === 'WET') {
+      return model.trackBasePace + WET_TYRE_INTERCEPT_OFFSET_SEC + WET_TYRE_DEG_LINEAR_SEC * stintLap;
+    }
+    return model.trackBasePace;
+  }
   let t = entry.intercept + entry.degLinear * stintLap;
   if (stintLap > entry.cliffStart) {
     t += entry.cliffSlope * (stintLap - entry.cliffStart);
@@ -147,6 +161,7 @@ export interface LapTimeInput {
   lapsSinceStart: number;
   gapToCarAheadSec: number; // Infinity if leading
   inDrsZone: boolean;
+  isOutLap: boolean;        // first flying lap of a stint (cold-tyre penalty)
   ersState: ErsState;
   ersMode: ErsMode;
   trackTempC: number;
@@ -164,6 +179,17 @@ export interface LapTimeResult {
 // minimum lap times, not driver physics.  Not fittable from dry-lap data.
 const SC_LAP_TIME_SEC = 120.0;  // Safety Car: ~2 min laps
 const VSC_LAP_TIME_SEC = 110.0; // Virtual SC: slightly faster
+
+// Overtaking-tension armchair FLOORS. dirtyAir/DRS fit to ~0 on Bahrain because
+// gap is estimated from cumulative time (the effect is below that noise floor),
+// which silently kills the "can I follow / pass?" layer. We floor them to a
+// believable armchair value — the real fit (when a track resolves it) still
+// wins via max/min. Schema constants with this justification, not fits.
+const DIRTY_AIR_FLOOR_SEC = 0.4;  // ≥ this lap-time cost when within the gap threshold
+const DRS_FLOOR_SEC = -0.3;       // ≤ this lap-time gain when DRS is active (negative)
+/** Cold-tyre out-lap penalty (first flying lap of a stint) — makes the undercut
+ * a gamble, not a free lunch. Schema constant. */
+const OUT_LAP_PENALTY_SEC = 1.3;
 
 export function computeLapTime(
   input: LapTimeInput,
@@ -188,17 +214,21 @@ export function computeLapTime(
   const driverEntry = model.driverOffsets[input.driverId];
   const driverOffset = driverEntry ? driverEntry.offsetSec : 0;
 
-  // 4. Dirty air penalty
+  // 4. Dirty air penalty (floored — see DIRTY_AIR_FLOOR_SEC)
   const dirty =
     input.gapToCarAheadSec < model.dirtyAir.gapThresholdSec
-      ? model.dirtyAir.penaltySec
+      ? Math.max(model.dirtyAir.penaltySec, DIRTY_AIR_FLOOR_SEC)
       : 0;
 
-  // 5. DRS boost (negative = faster)
+  // 5. DRS boost (negative = faster; floored — see DRS_FLOOR_SEC). DRS only
+  //    works when you're close enough to the car ahead (i.e. in dirty air).
   const drs =
     input.inDrsZone && input.gapToCarAheadSec < model.drsBoost.gapThresholdSec
-      ? model.drsBoost.boostSec
+      ? Math.min(model.drsBoost.boostSec, DRS_FLOOR_SEC)
       : 0;
+
+  // 5b. Cold-tyre out-lap penalty
+  const outLap = input.isOutLap ? OUT_LAP_PENALTY_SEC : 0;
 
   // 6. ERS
   const ersResult = stepErs(input.ersState, input.ersMode);
@@ -214,7 +244,7 @@ export function computeLapTime(
   // 8. Seeded noise: uniform in [-amplitude, +amplitude]
   const noise = (rng() - 0.5) * 2 * NOISE_AMPLITUDE_SEC;
 
-  const lapTimeSec = spContrib + tyreContrib + driverOffset + dirty + drs + ersDelta + weatherDelta + noise;
+  const lapTimeSec = spContrib + tyreContrib + driverOffset + dirty + drs + outLap + ersDelta + weatherDelta + noise;
 
   return { lapTimeSec, ersResult };
 }

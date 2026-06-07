@@ -42,13 +42,17 @@ cliff 函数：stintLap 超过 cliffStart 后额外加速衰减。
 ### drsBoost
 gap < 1.0s 且车辆进入 DRS zone 时，给一个固定负值（圈速变快）。
 从 sector 时间对比拟合：DRS 可用 vs 不可用的直道 sector delta 均值。
-典型值 -0.3 ~ -0.6 s/lap（赛道相关）。
+**armchair 下限 −0.3s**：gap 由累积时间估算精度不足时拟合会塌到 0（巴林即如此），
+此时用引擎层的 armchair 占位下限 `min(拟合值, −0.3)`，注释标注非拟合（硬规则 1 例外）。
 
 ### dirtyAirPenalty
-粗分两档：
-- gap < 1.5s：有脏气流损失（正值，圈速变慢）
-- gap >= 1.5s：无惩罚
-不做赛道细分（高速弯 vs 低速弯），armchair 精度够用。
+粗分两档：gap < 1.5s 有脏气流损失（正值），gap ≥ 1.5s 无。
+**armchair 下限 +0.4s**：同 DRS，拟合塌到 0 时用 `max(拟合值, 0.4)`，否则"能不能跟车/超车"
+这一层物理是死的。配合 DRS：跟车 +0.4、有 DRS 时 −0.3 抵掉大半，呈现"卡在 DRS 区超不过去"。
+
+### 出站冷胎 + 雨胎
+- **出站冷胎**：每段第一圈 +1.3s（armchair 常数），让 undercut 是赌注不是免费午餐。
+- **INTER/WET 无拟合**（干赛）：用 `trackBasePace + 2.0 + 0.04*stintLap` 当合成胎况，干湿差异在 weatherDelta。
 
 ### ERS 电池模型（armchair，按 2025 真实规则）
 电池（Energy Store）容量 4 MJ；每圈最多回收 2 MJ；MGU-K 每圈最多部署 4 MJ。
