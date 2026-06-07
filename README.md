@@ -201,7 +201,7 @@ lapTime = trackBasePace
 - [ ] 「赛道位置」用真实物理坐标（替代时间差估算）
 - [ ] 轮胎衰减升级到分段模型
 - [ ] 移动端优化
-- [ ] 微信小程序移植
+- [x] 微信小程序（MVP）：复用同一引擎（tsc→CommonJS + vendored seedrandom），赛事清单 + MFD（实时名次/间距图/进站 What-If/分享），24 场无头验证通过。见 `miniprogram/README.md`。多事件 What-If / 赛道图 / ERS 待移植
 
 ---
 

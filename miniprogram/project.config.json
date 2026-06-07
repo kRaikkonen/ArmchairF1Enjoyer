@@ -1,0 +1,15 @@
+{
+  "description": "F1 Armchair Pitwall — open this folder in WeChat DevTools",
+  "appid": "touristappid",
+  "projectname": "armchair-pitwall",
+  "compileType": "miniprogram",
+  "libVersion": "latest",
+  "setting": {
+    "es6": true,
+    "enhance": true,
+    "minified": false,
+    "postcss": true,
+    "urlCheck": false,
+    "ignoreDevUnusedFiles": false
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "desc": "F1 Armchair Pitwall sitemap",
+  "rules": [{ "action": "allow", "page": "*" }]
+}

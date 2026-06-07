@@ -1,0 +1,60 @@
+<view class="mfd">
+  <!-- header -->
+  <view class="head">
+    <text class="ev">{{eventName}}</text>
+    <text class="badge {{tierClass}}">{{tierShort}}</text>
+  </view>
+  <view class="trust muted">{{tierLong}} · 退赛/DSQ 车手不参与推演</view>
+
+  <!-- gap chart -->
+  <view class="chart card">
+    <text class="chart-title muted">间距图（相对冠军）· 前 6 名</text>
+    <canvas type="2d" id="gap" class="gap-canvas"></canvas>
+  </view>
+
+  <!-- lap scrubber -->
+  <view class="scrub">
+    <text class="mono muted">L{{lap}}/{{totalLaps}}</text>
+    <slider class="slider" min="1" max="{{totalLaps}}" value="{{lap}}" block-size="18"
+            activeColor="#e10600" bindchanging="onScrub" bindchange="onScrub" />
+  </view>
+
+  <!-- standings -->
+  <view class="standings card">
+    <view wx:for="{{standings}}" wx:key="driverId" class="srow">
+      <text class="pos mono">{{item.pos}}</text>
+      <text class="drv">{{item.driverId}}</text>
+      <text class="cmp">{{item.compound}}</text>
+      <view class="barwrap"><view class="bar" style="width:{{item.barPct}}%"></view></view>
+      <text class="gap mono muted">{{item.gap}}</text>
+    </view>
+  </view>
+
+  <!-- what-if -->
+  <view class="whatif card">
+    <text class="wt-title">接管车手 · 改一次进站</text>
+    <view class="ctrl">
+      <text class="lbl muted">车手</text>
+      <picker class="picker" mode="selector" range="{{driverOptions}}" value="{{playerIndex}}" bindchange="onPickPlayer">
+        <view class="picker-val">{{playerId}} ▾</view>
+      </picker>
+    </view>
+    <view class="ctrl">
+      <text class="lbl muted">进站圈</text>
+      <slider class="slider" min="1" max="{{totalLaps}}" value="{{pitLap}}" show-value
+              block-size="18" activeColor="#facc15" bindchange="onPitLap" />
+    </view>
+    <view class="actions">
+      <button class="btn run" bindtap="runWhatIf">推演 ▶</button>
+      <button class="btn ghost" bindtap="reset" wx:if="{{isWhatIf}}">重置真实</button>
+      <button class="btn ghost" open-type="share">分享</button>
+    </view>
+
+    <view wx:if="{{verdict}}" class="verdict">
+      <text class="vd">{{playerId}}：真实 P{{verdict.realPos}} → 推演 P{{verdict.simPos}}</text>
+      <text wx:if="{{verdict.delta > 0}}" class="up">▲ {{verdict.delta}} 位</text>
+      <text wx:elif="{{verdict.delta < 0}}" class="down">▼ {{-verdict.delta}} 位</text>
+      <text wx:else class="flat">持平</text>
+    </view>
+  </view>
+</view>

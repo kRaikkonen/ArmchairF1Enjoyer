@@ -1,0 +1,12 @@
+{
+  "pages": ["pages/home/home", "pages/mfd/mfd"],
+  "window": {
+    "navigationBarBackgroundColor": "#15151e",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "Armchair Pitwall",
+    "backgroundColor": "#15151e",
+    "backgroundTextStyle": "dark"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

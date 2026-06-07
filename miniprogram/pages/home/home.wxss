@@ -1,0 +1,12 @@
+.home { padding: 24rpx; }
+.hero { text-align: center; margin: 16rpx 0 28rpx; display: flex; flex-direction: column; }
+.title { font-size: 44rpx; font-weight: 700; letter-spacing: 2rpx; }
+.sub { font-size: 24rpx; margin-top: 6rpx; }
+.grid { display: flex; flex-direction: column; gap: 16rpx; }
+.race { padding: 22rpx 24rpx; }
+.race-hover { border-color: #e10600; }
+.row { display: flex; justify-content: space-between; align-items: center; }
+.rnd { font-size: 20rpx; }
+.name { display: block; font-weight: 600; font-size: 30rpx; margin-top: 6rpx; }
+.meta { display: block; font-size: 22rpx; margin-top: 4rpx; }
+.footer { text-align: center; font-size: 20rpx; margin: 36rpx 0 16rpx; }

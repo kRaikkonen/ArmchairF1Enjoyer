@@ -1,0 +1,24 @@
+{
+  "comment": "Compiles the pure-TS engine + the two pure utils to CommonJS JS for the WeChat mini-program (miniprogram/lib/). No DOM, no React — the engine was designed portable. seedrandom is vendored locally and the emitted require is rewritten by scripts/build-miniprogram-engine.mjs.",
+  "compilerOptions": {
+    "target": "ES2019",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "ignoreDeprecations": "6.0",
+    "esModuleInterop": true,
+    "strict": true,
+    "declaration": false,
+    "sourceMap": false,
+    "removeComments": false,
+    "skipLibCheck": true,
+    "rootDir": "src",
+    "outDir": "../miniprogram/lib"
+  },
+  "include": [
+    "src/engine/**/*.ts",
+    "src/utils/buildDrivers.ts",
+    "src/utils/raceFactsEvents.ts",
+    "src/utils/qualityTier.ts"
+  ],
+  "exclude": ["src/engine/**/*.test.ts"]
+}

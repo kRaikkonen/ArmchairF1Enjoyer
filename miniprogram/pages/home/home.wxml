@@ -1,0 +1,27 @@
+<view class="home">
+  <view class="hero">
+    <text class="title f1-red">ARMCHAIR PITWALL</text>
+    <text class="sub muted">复现真实比赛，接管车手改写结局</text>
+    <text class="sub muted">2025 赛季 · {{races.length}} 场</text>
+  </view>
+
+  <view class="grid">
+    <view
+      wx:for="{{races}}"
+      wx:key="slug"
+      class="card race"
+      hover-class="race-hover"
+      data-slug="{{item.slug}}"
+      bindtap="selectRace"
+    >
+      <view class="row">
+        <text class="mono muted rnd">R{{item.round}}</text>
+        <text class="badge {{item.badgeClass}}">{{item.badgeShort}}</text>
+      </view>
+      <text class="name">{{item.name}}</text>
+      <text class="meta muted">{{item.km}}{{item.km ? 'km · ' : ''}}{{item.totalLaps}} 圈</text>
+    </view>
+  </view>
+
+  <view class="footer muted">Model v1 · 数据来自 FastF1 · 与 F1/FIA/车队无关</view>
+</view>

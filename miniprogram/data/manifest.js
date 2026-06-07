@@ -1,0 +1,242 @@
+module.exports = [
+  {
+    "slug": "australian",
+    "name": "Australian Grand Prix",
+    "round": 1,
+    "season": 2025,
+    "totalLaps": 57,
+    "circuitLengthKm": 5.24,
+    "dataQuality": "rough",
+    "modelVersion": "australian-2025-v1-6e38784e"
+  },
+  {
+    "slug": "chinese",
+    "name": "Chinese Grand Prix",
+    "round": 2,
+    "season": 2025,
+    "totalLaps": 56,
+    "circuitLengthKm": 5.393,
+    "dataQuality": "rough",
+    "modelVersion": "chinese-2025-v1-49cf9edd"
+  },
+  {
+    "slug": "japanese",
+    "name": "Japanese Grand Prix",
+    "round": 3,
+    "season": 2025,
+    "totalLaps": 53,
+    "circuitLengthKm": 5.766,
+    "dataQuality": "rough",
+    "modelVersion": "japanese-2025-v1-ba71d0b2"
+  },
+  {
+    "slug": "bahrain",
+    "name": "Bahrain Grand Prix",
+    "round": 4,
+    "season": 2025,
+    "totalLaps": 57,
+    "circuitLengthKm": 5.377,
+    "dataQuality": "ok",
+    "modelVersion": "bahrain-2025-v1-a8632d46"
+  },
+  {
+    "slug": "saudi-arabian",
+    "name": "Saudi Arabian Grand Prix",
+    "round": 5,
+    "season": 2025,
+    "totalLaps": 50,
+    "circuitLengthKm": 6.076,
+    "dataQuality": "podium",
+    "modelVersion": "saudi-arabian-2025-v1-0fde0e5d"
+  },
+  {
+    "slug": "miami",
+    "name": "Miami Grand Prix",
+    "round": 6,
+    "season": 2025,
+    "totalLaps": 57,
+    "circuitLengthKm": 5.324,
+    "dataQuality": "ok",
+    "modelVersion": "miami-2025-v1-ed4777ce"
+  },
+  {
+    "slug": "emilia-romagna",
+    "name": "Emilia Romagna Grand Prix",
+    "round": 7,
+    "season": 2025,
+    "totalLaps": 63,
+    "circuitLengthKm": 4.881,
+    "dataQuality": "rough",
+    "modelVersion": "emilia-romagna-2025-v1-385a8cb0"
+  },
+  {
+    "slug": "monaco",
+    "name": "Monaco Grand Prix",
+    "round": 8,
+    "season": 2025,
+    "totalLaps": 78,
+    "circuitLengthKm": 3.284,
+    "dataQuality": "rough",
+    "modelVersion": "monaco-2025-v1-3987d3a3"
+  },
+  {
+    "slug": "spanish",
+    "name": "Spanish Grand Prix",
+    "round": 9,
+    "season": 2025,
+    "totalLaps": 66,
+    "circuitLengthKm": 4.633,
+    "dataQuality": "ok",
+    "modelVersion": "spanish-2025-v1-a74804c2"
+  },
+  {
+    "slug": "canadian",
+    "name": "Canadian Grand Prix",
+    "round": 10,
+    "season": 2025,
+    "totalLaps": 70,
+    "circuitLengthKm": 4.298,
+    "dataQuality": "rough",
+    "modelVersion": "canadian-2025-v1-e1358c6a"
+  },
+  {
+    "slug": "austrian",
+    "name": "Austrian Grand Prix",
+    "round": 11,
+    "season": 2025,
+    "totalLaps": 70,
+    "circuitLengthKm": 4.295,
+    "dataQuality": "rough",
+    "modelVersion": "austrian-2025-v1-808a0ea6"
+  },
+  {
+    "slug": "british",
+    "name": "British Grand Prix",
+    "round": 12,
+    "season": 2025,
+    "totalLaps": 52,
+    "circuitLengthKm": 5.819,
+    "dataQuality": "podium",
+    "modelVersion": "british-2025-v1-a4f93785"
+  },
+  {
+    "slug": "belgian",
+    "name": "Belgian Grand Prix",
+    "round": 13,
+    "season": 2025,
+    "totalLaps": 44,
+    "circuitLengthKm": 6.942,
+    "dataQuality": "rough",
+    "modelVersion": "belgian-2025-v1-978d10eb"
+  },
+  {
+    "slug": "hungarian",
+    "name": "Hungarian Grand Prix",
+    "round": 14,
+    "season": 2025,
+    "totalLaps": 70,
+    "circuitLengthKm": 4.355,
+    "dataQuality": "rough",
+    "modelVersion": "hungarian-2025-v1-2c14b205"
+  },
+  {
+    "slug": "dutch",
+    "name": "Dutch Grand Prix",
+    "round": 15,
+    "season": 2025,
+    "totalLaps": 72,
+    "circuitLengthKm": 4.239,
+    "dataQuality": "podium",
+    "modelVersion": "dutch-2025-v1-fe204a8f"
+  },
+  {
+    "slug": "italian",
+    "name": "Italian Grand Prix",
+    "round": 16,
+    "season": 2025,
+    "totalLaps": 53,
+    "circuitLengthKm": 5.74,
+    "dataQuality": "rough",
+    "modelVersion": "italian-2025-v1-1558f20f"
+  },
+  {
+    "slug": "azerbaijan",
+    "name": "Azerbaijan Grand Prix",
+    "round": 17,
+    "season": 2025,
+    "totalLaps": 51,
+    "circuitLengthKm": 5.932,
+    "dataQuality": "rough",
+    "modelVersion": "azerbaijan-2025-v1-a3ac51c6"
+  },
+  {
+    "slug": "singapore",
+    "name": "Singapore Grand Prix",
+    "round": 18,
+    "season": 2025,
+    "totalLaps": 62,
+    "circuitLengthKm": 4.893,
+    "dataQuality": "rough",
+    "modelVersion": "singapore-2025-v1-5899be5e"
+  },
+  {
+    "slug": "united-states",
+    "name": "United States Grand Prix",
+    "round": 19,
+    "season": 2025,
+    "totalLaps": 56,
+    "circuitLengthKm": 5.447,
+    "dataQuality": "rough",
+    "modelVersion": "united-states-2025-v1-c4d2cbdf"
+  },
+  {
+    "slug": "mexico-city",
+    "name": "Mexico City Grand Prix",
+    "round": 20,
+    "season": 2025,
+    "totalLaps": 71,
+    "circuitLengthKm": 4.24,
+    "dataQuality": "rough",
+    "modelVersion": "mexico-city-2025-v1-9cc771be"
+  },
+  {
+    "slug": "sao-paulo",
+    "name": "São Paulo Grand Prix",
+    "round": 21,
+    "season": 2025,
+    "totalLaps": 71,
+    "circuitLengthKm": 4.232,
+    "dataQuality": "podium",
+    "modelVersion": "sao-paulo-2025-v1-0877b29f"
+  },
+  {
+    "slug": "las-vegas",
+    "name": "Las Vegas Grand Prix",
+    "round": 22,
+    "season": 2025,
+    "totalLaps": 50,
+    "circuitLengthKm": 6.139,
+    "dataQuality": "podium",
+    "modelVersion": "las-vegas-2025-v1-1a1a4390"
+  },
+  {
+    "slug": "qatar",
+    "name": "Qatar Grand Prix",
+    "round": 23,
+    "season": 2025,
+    "totalLaps": 57,
+    "circuitLengthKm": 5.395,
+    "dataQuality": "rough",
+    "modelVersion": "qatar-2025-v1-53313e8f"
+  },
+  {
+    "slug": "abu-dhabi",
+    "name": "Abu Dhabi Grand Prix",
+    "round": 24,
+    "season": 2025,
+    "totalLaps": 58,
+    "circuitLengthKm": 5.214,
+    "dataQuality": "rough",
+    "modelVersion": "abu-dhabi-2025-v1-f2592187"
+  }
+];

@@ -1,0 +1,734 @@
+module.exports = {
+  "schemaVersion": "v1",
+  "season": 2025,
+  "slug": "hungarian",
+  "event": "Hungarian Grand Prix",
+  "trackBasePace": 82.257,
+  "stintProgress": {
+    "slope": -0.03855151915302926,
+    "intercept": 83.66722437531796,
+    "rSquared": 0.39051094140792736,
+    "nSamples": 1275
+  },
+  "tyreDeg": {
+    "Alpine|HARD": {
+      "intercept": 83.18793584887291,
+      "degLinear": 0.05473204492557639,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 80,
+      "insufficient": false
+    },
+    "Alpine|MEDIUM": {
+      "intercept": 83.43655661495515,
+      "degLinear": 0.058415103039851354,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 46,
+      "insufficient": false
+    },
+    "Aston Martin|HARD": {
+      "intercept": 83.87355492861157,
+      "degLinear": -0.08510932000781003,
+      "cliffStart": 13,
+      "cliffSlope": 0.14336722107020744,
+      "nSamples": 63,
+      "insufficient": false
+    },
+    "Aston Martin|MEDIUM": {
+      "intercept": 84.77610555555556,
+      "degLinear": -0.13904014751363705,
+      "cliffStart": 10,
+      "cliffSlope": 0.19484121539773416,
+      "nSamples": 71,
+      "insufficient": false
+    },
+    "Ferrari|HARD": {
+      "intercept": 82.74295654767059,
+      "degLinear": 0.05441896661607223,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 87,
+      "insufficient": false
+    },
+    "Ferrari|MEDIUM": {
+      "intercept": 82.85497281130452,
+      "degLinear": -0.050848480846970814,
+      "cliffStart": 12,
+      "cliffSlope": 0.2662888898132622,
+      "nSamples": 43,
+      "insufficient": false
+    },
+    "Haas F1 Team|HARD": {
+      "intercept": 83.53833444670533,
+      "degLinear": 0.038420984796890975,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 70,
+      "insufficient": false
+    },
+    "Haas F1 Team|MEDIUM": {
+      "intercept": 85.19508928571427,
+      "degLinear": -0.20475205227554127,
+      "cliffStart": 8,
+      "cliffSlope": 0.2741762894813092,
+      "nSamples": 39,
+      "insufficient": false
+    },
+    "Kick Sauber|HARD": {
+      "intercept": 83.01168331514079,
+      "degLinear": -0.001681323984225957,
+      "cliffStart": 18,
+      "cliffSlope": 0.10407550047991218,
+      "nSamples": 29,
+      "insufficient": false
+    },
+    "Kick Sauber|MEDIUM": {
+      "intercept": 83.1020163411221,
+      "degLinear": 0.03956624789382152,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 97,
+      "insufficient": false
+    },
+    "Kick Sauber|SOFT": {
+      "intercept": 86.61500000000004,
+      "degLinear": 0.0,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 2,
+      "insufficient": true
+    },
+    "McLaren|HARD": {
+      "intercept": 81.78129231547109,
+      "degLinear": 0.039237742429298415,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 87,
+      "insufficient": false
+    },
+    "McLaren|MEDIUM": {
+      "intercept": 83.99755357142857,
+      "degLinear": -0.22650205227554132,
+      "cliffStart": 8,
+      "cliffSlope": 0.27349412504898946,
+      "nSamples": 44,
+      "insufficient": false
+    },
+    "Mercedes|HARD": {
+      "intercept": 82.50249090858,
+      "degLinear": 0.03824404162023704,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 93,
+      "insufficient": false
+    },
+    "Mercedes|MEDIUM": {
+      "intercept": 83.53496377810927,
+      "degLinear": 0.0005470441875064332,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 36,
+      "insufficient": false
+    },
+    "Racing Bulls|HARD": {
+      "intercept": 83.0527321806873,
+      "degLinear": -0.001204974353464262,
+      "cliffStart": 22,
+      "cliffSlope": 0.15157944679351604,
+      "nSamples": 64,
+      "insufficient": false
+    },
+    "Racing Bulls|MEDIUM": {
+      "intercept": 83.92030180135212,
+      "degLinear": 0.018128223369495003,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 69,
+      "insufficient": false
+    },
+    "Red Bull Racing|HARD": {
+      "intercept": 82.87340391430729,
+      "degLinear": 0.05479746095377865,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 81,
+      "insufficient": false
+    },
+    "Red Bull Racing|MEDIUM": {
+      "intercept": 84.68885119047619,
+      "degLinear": -0.1089782427517324,
+      "cliffStart": 9,
+      "cliffSlope": 0.17665058705210915,
+      "nSamples": 33,
+      "insufficient": false
+    },
+    "Red Bull Racing|SOFT": {
+      "intercept": 81.91140300210823,
+      "degLinear": 0.1953693762958859,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 15,
+      "insufficient": true
+    },
+    "Williams|HARD": {
+      "intercept": 83.11793597233368,
+      "degLinear": 0.058530259698529236,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 64,
+      "insufficient": false
+    },
+    "Williams|MEDIUM": {
+      "intercept": 82.37982506489229,
+      "degLinear": 0.11765333027199795,
+      "cliffStart": 999,
+      "cliffSlope": 0.0,
+      "nSamples": 37,
+      "insufficient": false
+    },
+    "Williams|SOFT": {
+      "intercept": 85.1695,
+      "degLinear": -0.18937705227554094,
+      "cliffStart": 8,
+      "cliffSlope": 0.2809995391705082,
+      "nSamples": 25,
+      "insufficient": false
+    }
+  },
+  "dirtyAir": {
+    "penaltySec": 0.5319999999999965,
+    "gapThresholdSec": 1.5,
+    "nSamplesDirty": 452,
+    "nSamplesClean": 696,
+    "insufficient": false
+  },
+  "drsBoost": {
+    "boostSec": 0.0,
+    "gapThresholdSec": 1.0,
+    "nSamplesDrs": 337,
+    "nSamplesNoDrs": 411,
+    "insufficient": false
+  },
+  "driverOffsets": {
+    "ALB": {
+      "driverId": "ALB",
+      "team": "Williams",
+      "offsetSec": -0.0013074189878210518,
+      "nSamples": 63
+    },
+    "ALO": {
+      "driverId": "ALO",
+      "team": "Aston Martin",
+      "offsetSec": -0.28317625335878915,
+      "nSamples": 67
+    },
+    "ANT": {
+      "driverId": "ANT",
+      "team": "Mercedes",
+      "offsetSec": 0.43062838129758063,
+      "nSamples": 65
+    },
+    "BEA": {
+      "driverId": "BEA",
+      "team": "Haas F1 Team",
+      "offsetSec": 0.13786379966623485,
+      "nSamples": 43
+    },
+    "BOR": {
+      "driverId": "BOR",
+      "team": "Kick Sauber",
+      "offsetSec": -0.06606127450982058,
+      "nSamples": 67
+    },
+    "COL": {
+      "driverId": "COL",
+      "team": "Alpine",
+      "offsetSec": -0.33045596135703903,
+      "nSamples": 62
+    },
+    "GAS": {
+      "driverId": "GAS",
+      "team": "Alpine",
+      "offsetSec": 0.033766001652601574,
+      "nSamples": 64
+    },
+    "HAD": {
+      "driverId": "HAD",
+      "team": "Racing Bulls",
+      "offsetSec": 0.02959782149253698,
+      "nSamples": 66
+    },
+    "HAM": {
+      "driverId": "HAM",
+      "team": "Ferrari",
+      "offsetSec": 0.14795960814245745,
+      "nSamples": 65
+    },
+    "HUL": {
+      "driverId": "HUL",
+      "team": "Kick Sauber",
+      "offsetSec": -0.22759552947819373,
+      "nSamples": 61
+    },
+    "LAW": {
+      "driverId": "LAW",
+      "team": "Racing Bulls",
+      "offsetSec": -0.22952906881558022,
+      "nSamples": 67
+    },
+    "LEC": {
+      "driverId": "LEC",
+      "team": "Ferrari",
+      "offsetSec": -0.23283948074431748,
+      "nSamples": 65
+    },
+    "NOR": {
+      "driverId": "NOR",
+      "team": "McLaren",
+      "offsetSec": 0.019167718315856064,
+      "nSamples": 66
+    },
+    "OCO": {
+      "driverId": "OCO",
+      "team": "Haas F1 Team",
+      "offsetSec": -0.12241900746555245,
+      "nSamples": 66
+    },
+    "PIA": {
+      "driverId": "PIA",
+      "team": "McLaren",
+      "offsetSec": 0.03620391290208147,
+      "nSamples": 65
+    },
+    "RUS": {
+      "driverId": "RUS",
+      "team": "Mercedes",
+      "offsetSec": -0.45662791307782413,
+      "nSamples": 64
+    },
+    "SAI": {
+      "driverId": "SAI",
+      "team": "Williams",
+      "offsetSec": -0.1334262672811377,
+      "nSamples": 63
+    },
+    "STR": {
+      "driverId": "STR",
+      "team": "Aston Martin",
+      "offsetSec": -0.062179863510252176,
+      "nSamples": 67
+    },
+    "TSU": {
+      "driverId": "TSU",
+      "team": "Red Bull Racing",
+      "offsetSec": 0.13779019903639522,
+      "nSamples": 64
+    },
+    "VER": {
+      "driverId": "VER",
+      "team": "Red Bull Racing",
+      "offsetSec": -0.40767261904761654,
+      "nSamples": 65
+    }
+  },
+  "fitMeta": {
+    "nCleanLaps": 1275,
+    "nTotalLaps": 1368,
+    "insufficientTyreGroups": [
+      "Kick Sauber/SOFT(2)",
+      "Red Bull Racing/SOFT(15)"
+    ],
+    "backtest": {
+      "top5MaxErr": 12,
+      "allMaxErr": 12,
+      "top3TimeMaxErr": 10.66,
+      "gridTop5": 4,
+      "gridAll": 4,
+      "beatsGrid": false,
+      "tier": "rough",
+      "passes": false
+    }
+  },
+  "results": [
+    {
+      "position": 1,
+      "driverId": "NOR",
+      "driverNumber": 4,
+      "team": "McLaren",
+      "classifiedPosition": "1",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 2,
+      "driverId": "PIA",
+      "driverNumber": 81,
+      "team": "McLaren",
+      "classifiedPosition": "2",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 3,
+      "driverId": "RUS",
+      "driverNumber": 63,
+      "team": "Mercedes",
+      "classifiedPosition": "3",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 4,
+      "driverId": "LEC",
+      "driverNumber": 16,
+      "team": "Ferrari",
+      "classifiedPosition": "4",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 5,
+      "driverId": "ALO",
+      "driverNumber": 14,
+      "team": "Aston Martin",
+      "classifiedPosition": "5",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 6,
+      "driverId": "BOR",
+      "driverNumber": 5,
+      "team": "Kick Sauber",
+      "classifiedPosition": "6",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 7,
+      "driverId": "STR",
+      "driverNumber": 18,
+      "team": "Aston Martin",
+      "classifiedPosition": "7",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 8,
+      "driverId": "LAW",
+      "driverNumber": 30,
+      "team": "Racing Bulls",
+      "classifiedPosition": "8",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 9,
+      "driverId": "VER",
+      "driverNumber": 1,
+      "team": "Red Bull Racing",
+      "classifiedPosition": "9",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 10,
+      "driverId": "ANT",
+      "driverNumber": 12,
+      "team": "Mercedes",
+      "classifiedPosition": "10",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 11,
+      "driverId": "HAD",
+      "driverNumber": 6,
+      "team": "Racing Bulls",
+      "classifiedPosition": "11",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 12,
+      "driverId": "HAM",
+      "driverNumber": 44,
+      "team": "Ferrari",
+      "classifiedPosition": "12",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 13,
+      "driverId": "HUL",
+      "driverNumber": 27,
+      "team": "Kick Sauber",
+      "classifiedPosition": "13",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 14,
+      "driverId": "SAI",
+      "driverNumber": 55,
+      "team": "Williams",
+      "classifiedPosition": "14",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 15,
+      "driverId": "ALB",
+      "driverNumber": 23,
+      "team": "Williams",
+      "classifiedPosition": "15",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 16,
+      "driverId": "OCO",
+      "driverNumber": 31,
+      "team": "Haas F1 Team",
+      "classifiedPosition": "16",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 17,
+      "driverId": "TSU",
+      "driverNumber": 22,
+      "team": "Red Bull Racing",
+      "classifiedPosition": "17",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 18,
+      "driverId": "COL",
+      "driverNumber": 43,
+      "team": "Alpine",
+      "classifiedPosition": "18",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 19,
+      "driverId": "GAS",
+      "driverNumber": 10,
+      "team": "Alpine",
+      "classifiedPosition": "19",
+      "status": "finished",
+      "dnf": false
+    },
+    {
+      "position": 20,
+      "driverId": "BEA",
+      "driverNumber": 87,
+      "team": "Haas F1 Team",
+      "classifiedPosition": "R",
+      "status": "dnf",
+      "dnf": true
+    }
+  ],
+  "totalLaps": 70,
+  "circuitLengthKm": 4.355,
+  "trackOutline": {
+    "viewBox": "0 0 1000 1000",
+    "path": "M 391.0,854.3 L 389.4,853.0 L 384.3,848.9 L 383.0,847.9 L 376.5,842.6 L 365.9,833.9 L 362.6,831.1 L 355.9,825.6 L 351.6,822.1 L 350.3,821.1 L 336.1,809.4 L 334.6,808.1 L 329.4,803.8 L 327.2,802.0 L 318.4,794.8 L 309.1,787.2 L 302.8,781.9 L 295.7,776.1 L 295.4,775.9 L 286.2,768.4 L 281.7,764.7 L 268.6,753.9 L 263.1,749.3 L 261.2,747.8 L 256.5,743.9 L 244.4,734.0 L 231.8,723.7 L 230.1,722.3 L 224.7,717.8 L 222.6,716.1 L 212.2,707.6 L 200.9,698.4 L 193.3,692.3 L 191.1,690.6 L 184.7,685.6 L 178.8,681.0 L 170.7,674.7 L 168.4,672.8 L 161.1,667.1 L 159.9,666.1 L 147.6,656.4 L 145.1,654.4 L 131.5,643.8 L 127.5,640.7 L 121.0,635.7 L 120.0,635.0 L 115.3,631.3 L 106.8,624.7 L 97.2,617.2 L 92.1,613.2 L 89.1,610.8 L 86.7,608.9 L 84.0,606.7 L 73.1,597.6 L 72.8,597.3 L 67.1,592.3 L 66.1,591.5 L 56.3,581.9 L 55.4,581.0 L 48.5,572.6 L 47.2,570.5 L 42.4,561.6 L 42.2,561.1 L 41.6,559.5 L 41.3,558.4 L 40.7,556.1 L 40.3,554.0 L 40.0,550.7 L 40.0,548.9 L 40.4,545.8 L 41.2,543.0 L 41.3,542.7 L 42.8,539.8 L 43.1,539.3 L 44.7,537.1 L 46.2,535.7 L 50.9,532.4 L 51.5,532.1 L 54.8,530.7 L 55.3,530.6 L 59.0,529.7 L 63.6,528.7 L 66.1,528.4 L 70.2,528.1 L 74.1,528.0 L 74.3,528.0 L 78.4,528.2 L 82.2,528.4 L 83.7,528.5 L 94.6,529.6 L 96.6,529.9 L 101.0,530.6 L 103.1,531.0 L 107.8,531.9 L 113.5,533.1 L 121.8,535.0 L 125.5,536.0 L 129.4,537.2 L 131.3,537.8 L 134.7,538.8 L 137.7,539.8 L 144.9,542.3 L 153.3,545.6 L 156.1,546.8 L 167.0,551.9 L 172.6,554.8 L 174.5,555.8 L 178.2,558.0 L 178.4,558.1 L 185.1,562.2 L 192.5,567.2 L 203.7,575.3 L 208.2,578.6 L 214.5,583.6 L 214.8,583.8 L 222.6,590.2 L 222.9,590.5 L 230.9,597.2 L 234.4,600.2 L 239.1,604.2 L 241.1,605.9 L 250.8,614.3 L 251.1,614.6 L 259.5,622.0 L 263.0,625.1 L 275.5,636.0 L 276.8,637.2 L 284.9,644.2 L 286.2,645.3 L 295.0,652.7 L 297.1,654.4 L 303.9,659.7 L 304.1,659.9 L 309.6,664.0 L 311.7,665.4 L 319.3,670.4 L 321.2,671.6 L 328.7,675.4 L 335.2,678.0 L 337.3,678.7 L 339.9,679.4 L 340.4,679.5 L 345.5,680.4 L 346.4,680.5 L 352.2,680.4 L 352.4,680.4 L 360.5,678.5 L 363.1,677.7 L 367.7,675.3 L 368.9,674.4 L 372.6,671.1 L 377.3,665.0 L 380.0,659.6 L 380.2,658.9 L 381.8,653.4 L 382.0,652.5 L 382.4,650.2 L 382.3,639.3 L 382.3,639.0 L 380.5,630.0 L 379.2,626.3 L 378.2,623.9 L 374.4,615.0 L 374.4,614.9 L 372.8,611.8 L 372.2,610.7 L 369.7,606.4 L 364.4,597.1 L 361.4,592.1 L 360.8,591.0 L 357.3,584.6 L 355.9,581.7 L 353.1,574.8 L 350.0,566.7 L 349.4,565.1 L 347.5,557.3 L 347.4,556.9 L 345.5,544.0 L 345.0,539.5 L 345.0,533.8 L 345.9,528.7 L 346.4,525.4 L 347.2,521.1 L 349.1,514.0 L 349.3,513.6 L 352.9,504.6 L 354.4,501.5 L 358.7,493.2 L 359.5,491.7 L 366.2,479.5 L 366.5,479.0 L 370.8,471.8 L 371.0,471.5 L 375.2,464.5 L 377.7,460.6 L 379.3,457.9 L 382.9,452.0 L 385.9,446.7 L 389.1,441.0 L 397.0,426.3 L 397.3,425.6 L 401.2,418.5 L 404.5,412.5 L 407.8,406.6 L 410.7,401.3 L 413.3,396.6 L 416.0,391.7 L 423.3,378.4 L 424.8,375.7 L 428.3,369.2 L 433.4,360.0 L 437.0,353.4 L 442.5,343.6 L 446.3,336.7 L 447.7,334.3 L 450.5,329.1 L 457.0,317.7 L 457.5,316.7 L 467.6,300.3 L 468.9,298.2 L 478.6,284.6 L 480.0,282.7 L 493.1,265.6 L 494.5,263.7 L 495.0,263.1 L 500.6,255.6 L 501.5,254.4 L 507.7,244.6 L 509.9,240.7 L 511.5,237.4 L 513.3,233.4 L 516.0,225.7 L 518.4,214.5 L 519.0,204.8 L 517.9,191.2 L 517.3,187.9 L 514.5,177.5 L 512.5,171.5 L 509.7,163.7 L 508.2,159.8 L 503.9,148.7 L 501.9,143.4 L 498.0,132.7 L 496.2,127.3 L 493.5,118.4 L 493.1,117.0 L 490.2,104.1 L 489.3,96.4 L 489.2,94.4 L 489.2,86.5 L 489.5,83.0 L 490.9,75.3 L 491.6,72.6 L 491.7,72.4 L 495.4,63.4 L 495.6,63.1 L 501.9,54.3 L 503.9,51.9 L 506.7,49.5 L 508.1,48.5 L 510.8,46.6 L 517.0,43.5 L 527.7,40.6 L 534.3,40.0 L 538.3,40.0 L 544.5,40.7 L 546.7,41.1 L 555.0,43.3 L 555.4,43.4 L 562.5,46.2 L 565.6,47.4 L 569.3,49.4 L 578.9,55.0 L 583.2,57.7 L 587.2,61.0 L 588.3,61.9 L 595.5,67.9 L 597.3,69.5 L 602.6,74.3 L 603.5,75.0 L 608.9,80.4 L 610.0,81.5 L 619.8,91.6 L 623.2,95.2 L 625.6,97.9 L 625.9,98.2 L 636.2,109.5 L 644.8,119.1 L 647.6,122.2 L 651.5,126.6 L 657.3,133.0 L 666.1,142.6 L 667.3,144.0 L 674.6,152.5 L 677.7,156.5 L 678.8,157.9 L 680.0,159.6 L 682.8,164.0 L 682.8,164.1 L 684.7,167.9 L 685.3,169.1 L 687.5,176.6 L 687.7,182.3 L 687.7,184.8 L 686.6,189.6 L 686.0,190.9 L 683.1,196.9 L 683.0,197.1 L 681.2,200.5 L 680.5,201.9 L 678.8,205.7 L 677.2,210.1 L 677.0,210.8 L 676.4,213.7 L 676.3,215.1 L 676.0,219.6 L 675.9,223.9 L 676.1,227.8 L 676.1,228.5 L 676.5,233.8 L 676.7,234.8 L 677.4,238.6 L 677.6,239.6 L 678.9,245.1 L 682.2,255.9 L 683.3,259.5 L 684.2,262.3 L 686.3,269.6 L 686.7,271.0 L 688.1,276.3 L 688.7,278.8 L 690.2,284.8 L 691.3,289.5 L 693.1,296.8 L 693.8,299.5 L 694.9,303.1 L 696.7,307.9 L 700.4,315.5 L 701.7,317.9 L 705.2,322.9 L 707.0,325.2 L 713.1,331.5 L 714.4,332.4 L 726.1,339.3 L 726.6,339.5 L 732.7,341.3 L 732.9,341.4 L 738.6,342.4 L 752.8,343.5 L 753.3,343.5 L 761.7,344.3 L 765.7,344.8 L 773.0,346.0 L 773.2,346.0 L 783.4,349.5 L 784.4,349.9 L 790.3,353.6 L 791.5,354.5 L 801.2,363.2 L 803.0,364.9 L 806.8,371.0 L 807.0,371.2 L 811.3,381.4 L 813.0,386.3 L 813.2,390.9 L 813.2,392.6 L 813.2,401.4 L 813.2,401.7 L 812.4,409.6 L 812.1,410.9 L 810.0,420.8 L 808.9,425.5 L 808.2,428.6 L 806.0,436.1 L 805.0,439.8 L 802.2,449.8 L 801.0,454.0 L 799.4,460.6 L 799.3,460.8 L 797.6,471.1 L 797.2,474.5 L 796.2,490.7 L 796.4,498.1 L 797.9,510.8 L 798.3,513.4 L 800.4,522.5 L 800.6,523.2 L 802.6,530.4 L 804.3,536.0 L 807.9,543.8 L 812.3,551.4 L 815.4,556.5 L 822.5,566.3 L 823.7,567.8 L 828.7,574.3 L 831.7,578.2 L 837.4,586.4 L 838.9,589.1 L 845.9,603.3 L 848.9,610.4 L 850.6,618.6 L 851.5,625.3 L 851.7,628.6 L 851.8,632.5 L 851.8,635.9 L 850.7,646.6 L 848.7,654.5 L 847.7,657.4 L 844.7,664.5 L 843.2,667.1 L 837.5,676.1 L 834.9,679.9 L 831.2,683.8 L 827.0,688.4 L 823.1,692.6 L 815.3,700.5 L 814.1,701.8 L 808.0,707.9 L 803.4,712.5 L 797.0,719.0 L 792.5,723.7 L 788.7,727.5 L 783.9,732.4 L 779.3,737.1 L 777.1,739.4 L 762.5,754.4 L 760.0,757.0 L 757.8,759.3 L 756.4,760.8 L 746.5,771.0 L 743.0,774.7 L 741.5,776.3 L 738.6,779.3 L 732.8,785.3 L 730.9,787.4 L 723.8,794.8 L 719.5,799.5 L 704.5,816.0 L 703.3,817.3 L 699.5,821.5 L 699.2,821.9 L 690.8,831.6 L 690.3,832.1 L 685.6,837.8 L 679.4,845.3 L 679.2,845.6 L 674.1,851.3 L 673.5,852.1 L 668.4,857.1 L 667.6,857.8 L 658.8,864.2 L 656.9,865.4 L 653.1,867.3 L 651.5,867.7 L 647.0,868.8 L 644.0,869.0 L 643.7,869.0 L 639.8,868.8 L 638.0,868.3 L 635.2,867.3 L 628.9,864.4 L 628.2,864.0 L 625.6,862.1 L 624.4,861.0 L 622.2,859.1 L 618.9,856.2 L 618.8,856.0 L 613.8,850.6 L 612.0,848.6 L 607.4,843.1 L 603.5,838.3 L 601.8,836.2 L 601.3,835.5 L 596.4,829.5 L 593.4,825.8 L 590.6,822.4 L 586.3,817.4 L 583.7,814.3 L 578.6,808.6 L 577.7,807.5 L 572.3,801.6 L 565.3,793.9 L 562.2,790.6 L 555.1,783.5 L 553.3,781.7 L 547.8,776.5 L 546.1,775.2 L 540.8,771.1 L 537.0,768.8 L 527.5,764.3 L 523.6,762.9 L 518.7,762.3 L 516.4,762.3 L 514.1,762.3 L 509.1,762.6 L 506.3,763.4 L 503.4,764.4 L 499.1,766.1 L 495.9,767.7 L 493.3,770.3 L 493.2,770.4 L 490.5,773.3 L 489.1,775.3 L 486.8,779.7 L 486.4,780.5 L 484.8,786.5 L 484.6,788.3 L 484.5,788.8 L 484.4,792.5 L 485.2,797.7 L 485.2,798.0 L 487.8,805.7 L 489.3,808.0 L 489.4,808.2 L 491.3,811.1 L 492.9,813.2 L 494.9,815.6 L 495.5,816.2 L 497.8,818.7 L 503.9,824.2 L 507.8,827.5 L 508.6,828.2 L 512.1,830.9 L 516.0,833.7 L 516.4,833.9 L 518.3,835.3 L 524.4,839.7 L 529.3,843.3 L 533.6,846.3 L 536.0,848.0 L 539.5,850.5 L 543.0,853.0 L 548.0,856.8 L 551.3,859.4 L 552.4,860.3 L 559.3,866.8 L 574.6,884.8 L 580.7,893.5 L 581.6,895.2 L 582.6,898.9 L 582.6,899.1 L 583.9,906.1 L 584.3,910.1 L 584.1,917.0 L 583.9,919.4 L 583.8,920.3 L 581.5,929.7 L 580.2,932.8 L 579.6,934.1 L 577.2,938.2 L 576.7,938.9 L 574.7,941.8 L 572.8,944.0 L 567.1,949.0 L 564.8,950.9 L 560.5,953.8 L 558.0,954.7 L 557.7,954.8 L 551.9,957.1 L 549.9,957.7 L 544.8,958.9 L 542.5,959.2 L 534.4,959.8 L 532.1,960.0 L 529.8,959.8 L 526.8,959.2 L 523.5,958.7 L 520.9,958.1 L 514.3,955.9 L 513.3,955.6 L 503.8,950.8 L 502.2,949.7 L 491.7,942.4 L 491.1,942.0 L 486.0,938.2 L 482.4,934.9 L 480.6,933.4 L 474.9,928.5 L 471.6,925.6 L 469.3,923.7 L 462.4,917.5 L 459.3,914.7 L 448.7,905.0 L 448.4,904.7 L 444.4,901.1 L 442.5,899.3 L 428.6,886.7 L 423.4,882.0 L 418.5,877.7 L 412.2,872.2 L 410.5,870.7 L 405.0,865.9 L 396.9,859.2 L 390.7,854.1 L 386.2,850.5 Z",
+    "startFinish": {
+      "x": 391.0,
+      "y": 854.3
+    },
+    "source": "FastF1 2025 Hungarian Grand Prix fastest-lap telemetry"
+  },
+  "raceFacts": {
+    "startCompounds": {
+      "ALB": "SOFT",
+      "ALO": "MEDIUM",
+      "ANT": "MEDIUM",
+      "BEA": "MEDIUM",
+      "BOR": "MEDIUM",
+      "COL": "MEDIUM",
+      "GAS": "HARD",
+      "HAD": "MEDIUM",
+      "HAM": "HARD",
+      "HUL": "SOFT",
+      "LAW": "MEDIUM",
+      "LEC": "MEDIUM",
+      "NOR": "MEDIUM",
+      "OCO": "MEDIUM",
+      "PIA": "MEDIUM",
+      "RUS": "MEDIUM",
+      "SAI": "SOFT",
+      "STR": "MEDIUM",
+      "TSU": "MEDIUM",
+      "VER": "MEDIUM"
+    },
+    "strategies": {
+      "ALB": [
+        {
+          "lap": 15,
+          "compound": "MEDIUM"
+        },
+        {
+          "lap": 39,
+          "compound": "HARD"
+        }
+      ],
+      "ALO": [
+        {
+          "lap": 40,
+          "compound": "HARD"
+        }
+      ],
+      "ANT": [
+        {
+          "lap": 22,
+          "compound": "HARD"
+        }
+      ],
+      "BEA": [
+        {
+          "lap": 31,
+          "compound": "HARD"
+        }
+      ],
+      "BOR": [
+        {
+          "lap": 41,
+          "compound": "HARD"
+        }
+      ],
+      "COL": [
+        {
+          "lap": 14,
+          "compound": "HARD"
+        },
+        {
+          "lap": 36,
+          "compound": "HARD"
+        }
+      ],
+      "GAS": [
+        {
+          "lap": 33,
+          "compound": "MEDIUM"
+        }
+      ],
+      "HAD": [
+        {
+          "lap": 34,
+          "compound": "HARD"
+        }
+      ],
+      "HAM": [
+        {
+          "lap": 43,
+          "compound": "MEDIUM"
+        }
+      ],
+      "HUL": [
+        {
+          "lap": 6,
+          "compound": "MEDIUM"
+        },
+        {
+          "lap": 42,
+          "compound": "MEDIUM"
+        }
+      ],
+      "LAW": [
+        {
+          "lap": 41,
+          "compound": "HARD"
+        }
+      ],
+      "LEC": [
+        {
+          "lap": 20,
+          "compound": "HARD"
+        },
+        {
+          "lap": 41,
+          "compound": "HARD"
+        }
+      ],
+      "NOR": [
+        {
+          "lap": 32,
+          "compound": "HARD"
+        }
+      ],
+      "OCO": [
+        {
+          "lap": 15,
+          "compound": "HARD"
+        }
+      ],
+      "PIA": [
+        {
+          "lap": 19,
+          "compound": "HARD"
+        },
+        {
+          "lap": 46,
+          "compound": "HARD"
+        }
+      ],
+      "RUS": [
+        {
+          "lap": 20,
+          "compound": "HARD"
+        },
+        {
+          "lap": 44,
+          "compound": "HARD"
+        }
+      ],
+      "SAI": [
+        {
+          "lap": 16,
+          "compound": "HARD"
+        },
+        {
+          "lap": 52,
+          "compound": "MEDIUM"
+        }
+      ],
+      "STR": [
+        {
+          "lap": 37,
+          "compound": "HARD"
+        }
+      ],
+      "TSU": [
+        {
+          "lap": 21,
+          "compound": "SOFT"
+        },
+        {
+          "lap": 38,
+          "compound": "HARD"
+        }
+      ],
+      "VER": [
+        {
+          "lap": 18,
+          "compound": "HARD"
+        },
+        {
+          "lap": 49,
+          "compound": "HARD"
+        }
+      ]
+    },
+    "safetyCars": [],
+    "virtualSafetyCars": [],
+    "redFlags": []
+  },
+  "pitLaneSec": 18.4,
+  "modelVersion": "hungarian-2025-v1-2c14b205",
+  "dataQuality": "rough"
+};
