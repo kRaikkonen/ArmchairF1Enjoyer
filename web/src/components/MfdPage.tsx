@@ -25,7 +25,7 @@ import { PositionChart } from './mfd/PositionChart';
 import type { PosSeries } from './mfd/PositionChart';
 import { TrackPositionView } from './mfd/TrackPositionView';
 import type { TrackDriver } from './mfd/TrackPositionView';
-import { EventFeed } from './mfd/EventFeed';
+import { EventFeed, type FeedItem } from './mfd/EventFeed';
 import { ShareCard } from './mfd/ShareCard';
 import { StrategyPanel } from './mfd/StrategyPanel';
 import { buildShareUrl, slugifyTrack } from '../utils/shareUrl';
@@ -322,6 +322,39 @@ export function MfdPage() {
   // accumulated scenario (and the result/feed) is untouched.
   const handleSelectDriver = (id: string) => setPlayerId(id);
 
+  // ── Feed interactions: edit/remove an event right from the timeline ──────────
+  const editableDrivers = useMemo(() => new Set(storeDrivers.map((d) => d.driverId)), [storeDrivers]);
+
+  /** Click a feed row → take over that driver so the panel edits their strategy. */
+  const editDriverFromFeed = (driverId: string) => setPlayerId(driverId);
+
+  /** × on a feed row → remove that event. A pit/ers of a not-yet-overridden driver
+   *  promotes them (loads their real strategy) before dropping the event, so any
+   *  driver's stop is removable directly from the timeline; a race event drops from
+   *  the race-event list. Re-run to see the effect. */
+  const removeEventFromFeed = (item: FeedItem) => {
+    const e = item.e;
+    const d = e.driverId;
+    if ((e.type === 'pit' || e.type === 'ers_mode') && d) {
+      setDriverStrats((prev) => {
+        const cur = prev[d] ?? defaultStrat(facts?.strategies[d]);
+        const next = e.type === 'pit'
+          ? { ...cur, pits: cur.pits.filter((pp) => pp.lap !== e.lap) }
+          : { ...cur, ers: cur.ers.filter((x) => x.lap !== e.lap) };
+        return { ...prev, [d]: next };
+      });
+    } else {
+      setRaceEvts((prev) => {
+        const idx = prev.findIndex((r) =>
+          r.kind === e.type && r.lap === e.lap &&
+          (e.type === 'penalty' ? (r.driverId || '') === (e.driverId || '')
+            : e.type === 'rain' ? r.isWet === !!e.isWet
+            : r.duration === e.duration));
+        return idx >= 0 ? prev.filter((_, i) => i !== idx) : prev;
+      });
+    }
+  };
+
   if (!trackModel) {
     return (
       <div className="h-screen flex flex-col items-center justify-center gap-3 bg-f1-dark text-f1-text">
@@ -440,7 +473,8 @@ export function MfdPage() {
         </main>
 
         {/* Event feed — the player's accumulated What-If modifications */}
-        <EventFeed events={feedScenario} playerId={playerId} isWhatIf={isWhatIf} />
+        <EventFeed events={feedScenario} playerId={playerId} editableDrivers={editableDrivers}
+          onEditDriver={editDriverFromFeed} onRemove={removeEventFromFeed} isWhatIf={isWhatIf} />
 
         {/* Right: strategy panel (track map is now the 赛道位置 tab) */}
         <aside className="w-[290px] shrink-0 flex flex-col border-l border-f1-border bg-f1-surface overflow-y-auto">
